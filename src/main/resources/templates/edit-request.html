@@ -13,7 +13,7 @@
     <h1 align="center">Редактирвоание заявки</h1>
     <div th:each="el:${request}">
         <form th:action="'/all-request/'+${el.id}+'/edit'" method="post">
-
+<h1>Название </h1>
             <input type="text" name="shop" th:value="*{el.shop}" placeholder="Магазин" class="form-control"><br>
             <input type="text" name="name" th:value="*{el.name}" placeholder="Укажите Фамилию и Имя"
                    class="form-control"><br>
