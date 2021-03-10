@@ -18,7 +18,11 @@
         <a href="/current-applications" class="btn btn-success">Обновить</a>
         <a href="/completed-requests" class="btn btn-success">Выполненые заявки</a>
         <a href="/" class="btn btn-success">Отправить заявку</a>
-        <a href="/login" class="btn btn-success">Выход</a>
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Sign Out" class="btn btn-success"/>
+        </form>
+
+        <!--        <a href="/login" class="btn btn-success">Выход</a>-->
     </h1>
     <div th:each="el:${requests}" class="alert alert-info ">
         <h5 th:text="'Магазин: '+ ${el.shop}"></h5>

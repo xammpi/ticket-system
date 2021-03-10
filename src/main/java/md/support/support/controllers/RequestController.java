@@ -22,8 +22,8 @@ public class RequestController {
 
     @GetMapping(value = "/completed-requests")
     public String greetingForm(Request request, Model model) {
-       //List<Request> requests = null;
-       // model.addAttribute("requests", requests);
+        //List<Request> requests = null;
+        // model.addAttribute("requests", requests);
         return "completed-requests";
     }
 
@@ -65,7 +65,6 @@ public class RequestController {
             model.addAttribute("requests", requests);
             return "completed-requests";
         }
-
         List<Request> requests = requestRepository.findByShopAndDateSort(request.getShop(), request.getDateSort());
         model.addAttribute("requests", requests);
         return "completed-requests";
@@ -83,7 +82,4 @@ public class RequestController {
         requestRepository.save(request);
         return "redirect:/completed-requests";
     }
-
-
-
 }

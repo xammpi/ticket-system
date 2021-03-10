@@ -34,11 +34,11 @@ public class MainController {
         return "redirect:/";
     }
 
-    @GetMapping(value = "/login")
+    /*@GetMapping(value = "/login")
     public String loginMain(Model model) {
         return "login";
     }
-
+*/
     @GetMapping(value = "/")
     public String home(Model model) {
         Request request = new Request();

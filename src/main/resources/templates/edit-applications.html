@@ -24,9 +24,11 @@
             <textarea rows="10" name="message" class="form-control" th:text="*{el.message}"/><br>
 
             <button type="submit" class="btn btn-success">Ввод</button>
+            <a th:href="'/completed-requests/'+${el.id}" class="btn btn-success">Назад</a>
         </form>
+
     </div>
-    <a href="/current-applications" class="btn btn-success">Назад</a>
+
 </div>
 </body>
 </html>
