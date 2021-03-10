@@ -20,40 +20,40 @@ public class ApplicationRequest {
     @Autowired
     private RequestRepository requestRepository;
 
-    @GetMapping("/applications")
+    @GetMapping("/current-applications")
     public String applicationsMain(Model model) {
         List<Request> requests = requestRepository.findByState();
         model.addAttribute("requests", requests);
-        return "applications";
+        return "current-applications";
     }
 
-    @GetMapping("/applications/{id}")
+    @GetMapping("/current-applications/{id}")
     public String applicationDetails(@PathVariable(value = "id") long id, Model model) {
         Optional<Request> requests = requestRepository.findById(id);
         ArrayList<Request> res = new ArrayList<>();
         requests.ifPresent(res::add);
         model.addAttribute("requests", res);
-        return "details";
+        return "details-applications";
     }
 
 
-    @PostMapping("/applications/{id}/state1")
+    @PostMapping("/current-applications/{id}/state1")
     public String applicationStateOne(@PathVariable(value = "id") long id, Model model) {
         Request request = requestRepository.findById(id).orElseThrow();
         request.setState(1);
         requestRepository.save(request);
-        return "redirect:/applications";
+        return "redirect:/current-applications";
     }
 
-    @PostMapping("/applications/{id}/state3")
+    @PostMapping("/current-applications/{id}/state3")
     public String applicationStateThree(@PathVariable(value = "id") long id, Model model) {
         Request request = requestRepository.findById(id).orElseThrow();
         request.setState(3);
         requestRepository.save(request);
-        return "redirect:/applications";
+        return "redirect:/current-applications";
     }
 
-    @GetMapping("/applications/{id}/edit")
+    @GetMapping("/current-applications/{id}/edit")
     public String applicationDetailsEditGet(@PathVariable(value = "id") long id, Model model) {
         Optional<Request> request = requestRepository.findById(id);
         ArrayList<Request> res = new ArrayList<>();
@@ -62,7 +62,7 @@ public class ApplicationRequest {
         return "edit-applications";
     }
 
-    @PostMapping("applications/{id}/edit")
+    @PostMapping("current-applications/{id}/edit")
     public String applicationEditPost(@PathVariable(value = "id") long id, @RequestParam String shop, @RequestParam String name,
                                       @RequestParam String phone, @RequestParam String problem, @RequestParam String message, Model model) {
         Request request = requestRepository.findById(id).orElseThrow();
@@ -72,7 +72,7 @@ public class ApplicationRequest {
         request.setProblem(problem);
         request.setMessage(message);
         requestRepository.save(request);
-        return "redirect:/applications";
+        return "redirect:/current-applications";
     }
 
 }

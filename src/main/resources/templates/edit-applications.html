@@ -12,7 +12,7 @@
 <div class="container">
     <h1 align="center">Редактирвоание заявки</h1>
     <div th:each="el:${request}">
-        <form th:action="'/applications/'+${el.id}+'/edit'" method="post">
+        <form th:action="'/current-applications/'+${el.id}+'/edit'" method="post">
 
             <input type="text" name="shop" th:value="*{el.shop}" placeholder="Магазин" class="form-control"><br>
             <input type="text" name="name" th:value="*{el.name}" placeholder="Укажите Фамилию и Имя"
@@ -26,7 +26,7 @@
             <button type="submit" class="btn btn-success">Ввод</button>
         </form>
     </div>
-    <a href="/applications" class="btn btn-success">Назад</a>
+    <a href="/current-applications" class="btn btn-success">Назад</a>
 </div>
 </body>
 </html>
