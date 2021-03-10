@@ -1,0 +1,19 @@
+.nav {
+  display: inline-block;
+}
+
+.twolines
+  {
+     font-size: 18px;
+     height: 30px;
+     overflow: hidden;
+  }
+  .lines
+    {
+       font-size: 18px;
+       height: 30px;
+    }
+
+.padding-block{
+padding-top: 50px;
+}

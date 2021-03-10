@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title> Заявки </title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Обратная связь</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/detail.css/}">
+</head>
+<body>
+<div class="container ">
+    <h1 align="center">Полное описание заявки</h1>
+    <div th:each="el:${requests}" class="alert alert-info ">
+        <h5 th:text="'Магазин: '+ ${el.shop}"></h5>
+        <div th:text="'Дата заявки: '+${el.dateCreated}"/>
+        <div th:switch="${el.state}">
+            <div th:case="'0'">Состояние: Новая заявка</div>
+            <div th:case="'1'">Состояние: Выполненая заявка</div>
+            <div th:case="'3'">Состояние: Отложенная заявка</div>
+        </div>
+        <div th:text="'Имя: '+${el.name}"/>
+        <div th:text="'Номер телефона: '+${el.phone}"/>
+        <div th:text="'Проблема: '+${el.problem}"/>
+        <div th:text="'Описание проблемы: '+${el.message}"/>
+        <a th:href="'/all-request/' +${el.id}+'/edit'" class="btn btn-success">Редактирование</a>
+        <div class="nav">
+            <form th:action="'/all-request/'+${el.id}+'/state0'" method="post">
+                <button type="submit" class="btn btn-success">Вернуть</button>
+            </form>
+        </div>
+    </div>
+        <a href="/all-request/" class="btn btn-success">Назад</a>
+
+
+</div>
+</body>
+</html>

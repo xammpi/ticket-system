@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title> Текущие заявки </title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Обратная связь</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/detail.css/}">
+</head>
+<body>
+<div class="container ">
+    <h1 align="center">Выполненые заявки </h1>
+    <!--    <form action="#" th:action="@{filter}" th:object="${request}" method="post">-->
+    <form th:action="'/all-request'" th:object="${request}" method="post">
+        <div class="form-row">
+            <div class="col">
+                <p><select th:field="*{shop}" class="form-control"><br>
+                    <option value="">Выберите магазин из списка</option>
+                    <option th:value="'Дечебал 139'">Дечебал 139</option>
+                    <option th:value="'Зелинский 7'">Зелинский 7</option>
+                    <option th:value="'Дачия 10'">Дачия 10</option>
+                    <option th:value="'Тестемицану 23'">Тестемицану 23</option>
+                    <option th:value="'Докучаев 6'">Докучаев 6</option>
+                    <option th:value="'Лев Толстой 24/1'">Лев Толстой 24/1</option>
+                    <option th:value="'Штефа чел Маре 132'">Штефа чел Маре 132</option>
+                    <option th:value="'Штефа чел Маре 135'">Штефае чел Маре 135</option>
+                    <option th:value="'Пушкин 32'">Пушкин 32</option>
+                    <option th:value="'Щусев 55'">Щусев 55</option>
+                    <option th:value="'Каля Ешилор 16/6'">Каля Ешилор 16/6</option>
+                    <option th:value="'Алеку Русо 15'">Алеку Русо 15</option>
+                    <option th:value="'Мирча чел Бэтрын 24/6'">Мирча чел Бэтрын 24/6</option>
+                    <option th:value="'Игорь Виеру 6/3'">Игорь Виеру 6/3</option>
+                    <option th:value="'Индутриальная 59с'">Индутриальная 59с</option>
+                    <option th:value="'Московский проспект 9/5'">Московский проспект 9/5</option>
+                    <option th:value="'Мирча чел Бэтрын 2'">Мирча чел Бэтрын 2</option>
+                    <option th:value="'Дачия 47/7'">Дачия 47/7</option>
+                </select></p>
+            </div>
+            <div class="col">
+                <input type="date" class="form-control" th:field="*{dateSort}" id="start" name="trip-start"
+                       value="2021-03-04"
+                       min="2021-03-04" max="2030-12-31">
+            </div>
+            <div class="col">
+                <button type="submit" class="btn btn-success">Найти</button>
+                <a href="/all-request" class="btn btn-success">Сбросить фильтр</a>
+            </div>
+        </div>
+    </form>
+
+    <div th:each="el:${requests}" class="alert alert-info ">
+        <h5 th:text="'Магазин: '+ ${el.shop}"></h5>
+        <div th:text="'Дата заявки: '+${el.dateCreated}"/>
+        <div th:switch="${el.state}">
+            <div th:case="'0'">Состояние: Новая заявка</div>
+            <div th:case="'1'">Состояние: Выполненая заявка</div>
+            <div th:case="'3'">Состояние: Отложенная заявка</div>
+        </div>
+        <div th:text="'Проблема: '+${el.problem}"/>
+        <div class="twolines" th:text="'Описание проблемы: '+${el.message}"/>
+        <a th:href="'/all-request/' +${el.id}" class="btn btn-success">Полное описание</a>
+        <div class="nav">
+            <form th:action="'/all-request/'+${el.id}+'/state0'" method="post">
+                <button type="submit" class="btn btn-success">Вернуть</button>
+            </form>
+        </div>
+    </div>
+    <h1>
+        <a href="/applications" class="btn btn-success">Назад</a>
+    </h1>
+</div>
+</div>
+</body>
+</html>
