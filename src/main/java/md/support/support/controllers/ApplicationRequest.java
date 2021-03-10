@@ -23,7 +23,6 @@ public class ApplicationRequest {
     @GetMapping("/applications")
     public String applicationsMain(Model model) {
         List<Request> requests = requestRepository.findByState();
-        
         model.addAttribute("requests", requests);
         return "applications";
     }
