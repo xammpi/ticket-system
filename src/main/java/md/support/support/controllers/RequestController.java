@@ -20,14 +20,14 @@ public class RequestController {
     @Autowired
     private RequestRepository requestRepository;
 
-    @GetMapping(value = "/all-request")
+    @GetMapping(value = "/completed-requests")
     public String greetingForm(Request request, Model model) {
        //List<Request> requests = null;
        // model.addAttribute("requests", requests);
-        return "all-request";
+        return "completed-requests";
     }
 
-    @GetMapping("/all-request/{id}")
+    @GetMapping("/completed-requests/{id}")
     public String allRequestDetail(@PathVariable(value = "id") long id, Model model) {
         Optional<Request> requests = requestRepository.findById(id);
         ArrayList<Request> res = new ArrayList<>();
@@ -36,7 +36,7 @@ public class RequestController {
         return "all-request-detail";
     }
 
-    @GetMapping("/all-request/{id}/edit")
+    @GetMapping("/completed-requests/{id}/edit")
     public String applicationDetailsEditGet(@PathVariable(value = "id") long id, Model model) {
         Optional<Request> request = requestRepository.findById(id);
         ArrayList<Request> res = new ArrayList<>();
@@ -45,33 +45,33 @@ public class RequestController {
         return "edit-request";
     }
 
-    @PostMapping("/all-request/{id}/state0")
+    @PostMapping("/completed-requests/{id}/state0")
     public String applicationStateZero(@PathVariable(value = "id") long id, Model model) {
         Request request = requestRepository.findById(id).orElseThrow();
         request.setState(0);
         requestRepository.save(request);
-        return "redirect:/all-request";
+        return "redirect:/completed-requests";
     }
 
-    @PostMapping(value = "/all-request")
+    @PostMapping(value = "/completed-requests")
     public String filter(Request request, Model model) {
         if (request.getDateSort().length() == 0) {
             List<Request> requests = requestRepository.findByShop(request.getShop());
             model.addAttribute("requests", requests);
-            return "all-request";
+            return "completed-requests";
         }
         if (request.getShop().length() == 0) {
             List<Request> requests = requestRepository.findByDateSort(request.getDateSort());
             model.addAttribute("requests", requests);
-            return "all-request";
+            return "completed-requests";
         }
 
         List<Request> requests = requestRepository.findByShopAndDateSort(request.getShop(), request.getDateSort());
         model.addAttribute("requests", requests);
-        return "all-request";
+        return "completed-requests";
     }
 
-    @PostMapping("/all-request/{id}/edit")
+    @PostMapping("/completed-requests/{id}/edit")
     public String applicationEditPost(@PathVariable(value = "id") long id, @RequestParam String shop, @RequestParam String name,
                                       @RequestParam String phone, @RequestParam String problem, @RequestParam String message, Model model) {
         Request request = requestRepository.findById(id).orElseThrow();
@@ -81,7 +81,7 @@ public class RequestController {
         request.setProblem(problem);
         request.setMessage(message);
         requestRepository.save(request);
-        return "redirect:/all-request";
+        return "redirect:/completed-requests";
     }
 
 

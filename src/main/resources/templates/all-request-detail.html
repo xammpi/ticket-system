@@ -24,14 +24,14 @@
         <div th:text="'Номер телефона: '+${el.phone}"/>
         <div th:text="'Проблема: '+${el.problem}"/>
         <div th:text="'Описание проблемы: '+${el.message}"/>
-        <a th:href="'/all-request/' +${el.id}+'/edit'" class="btn btn-success">Редактирование</a>
+        <a th:href="'/completed-requests/' +${el.id}+'/edit'" class="btn btn-success">Редактирование</a>
         <div class="nav">
-            <form th:action="'/all-request/'+${el.id}+'/state0'" method="post">
+            <form th:action="'/completed-requests/'+${el.id}+'/state0'" method="post">
                 <button type="submit" class="btn btn-success">Вернуть</button>
             </form>
         </div>
     </div>
-        <a href="/all-request/" class="btn btn-success">Назад</a>
+        <a href="/completed-requests/" class="btn btn-success">Назад</a>
 
 
 </div>

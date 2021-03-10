@@ -13,7 +13,7 @@
 <div class="container ">
     <h1 align="center">Выполненые заявки </h1>
     <!--    <form action="#" th:action="@{filter}" th:object="${request}" method="post">-->
-    <form th:action="'/all-request'" th:object="${request}" method="post">
+    <form th:action="'/completed-requests'" th:object="${request}" method="post">
         <div class="form-row">
             <div class="col">
                 <p><select th:field="*{shop}" class="form-control"><br>
@@ -45,7 +45,7 @@
             </div>
             <div class="col">
                 <button type="submit" class="btn btn-success">Найти</button>
-                <a href="/all-request" class="btn btn-success">Сбросить фильтр</a>
+                <a href="/completed-requests" class="btn btn-success">Сбросить фильтр</a>
             </div>
         </div>
     </form>
@@ -60,15 +60,15 @@
         </div>
         <div th:text="'Проблема: '+${el.problem}"/>
         <div class="twolines" th:text="'Описание проблемы: '+${el.message}"/>
-        <a th:href="'/all-request/' +${el.id}" class="btn btn-success">Полное описание</a>
+        <a th:href="'/completed-requests/' +${el.id}" class="btn btn-success">Полное описание</a>
         <div class="nav">
-            <form th:action="'/all-request/'+${el.id}+'/state0'" method="post">
+            <form th:action="'/completed-requests/'+${el.id}+'/state0'" method="post">
                 <button type="submit" class="btn btn-success">Вернуть</button>
             </form>
         </div>
     </div>
     <h1>
-        <a href="/applications" class="btn btn-success">Назад</a>
+        <a href="/current-applications" class="btn btn-success">Назад</a>
     </h1>
 </div>
 </div>

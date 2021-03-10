@@ -20,7 +20,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().fullyAuthenticated()
                  .and()
                 .formLogin()
-                .loginPage("/login-nr1.html")
+                .loginPage("/login.html")
                 .loginProcessingUrl("/login")
                 .failureUrl("/login?error")
                 .defaultSuccessUrl("/current-applications", true)

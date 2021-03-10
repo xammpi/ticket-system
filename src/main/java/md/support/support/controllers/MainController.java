@@ -36,7 +36,7 @@ public class MainController {
 
     @GetMapping(value = "/login")
     public String loginMain(Model model) {
-        return "login-nr1";
+        return "login";
     }
 
     @GetMapping(value = "/")

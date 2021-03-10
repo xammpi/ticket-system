@@ -12,8 +12,8 @@
 <div class="container">
     <h1 align="center">Редактирвоание заявки</h1>
     <div th:each="el:${request}">
-        <form th:action="'/all-request/'+${el.id}+'/edit'" method="post">
-<h1>Название </h1>
+        <form th:action="'/completed-requests/'+${el.id}+'/edit'" method="post">
+
             <input type="text" name="shop" th:value="*{el.shop}" placeholder="Магазин" class="form-control"><br>
             <input type="text" name="name" th:value="*{el.name}" placeholder="Укажите Фамилию и Имя"
                    class="form-control"><br>
@@ -24,7 +24,7 @@
             <textarea rows="10" name="message" class="form-control" th:text="*{el.message}"/><br>
 
             <button type="submit" class="btn btn-success">Ввод</button>
-          <a th:href="'/all-request/'+${el.id}" class="btn btn-success">Назад</a>
+          <a th:href="'/completed-requests/'+${el.id}" class="btn btn-success">Назад</a>
         </form>
 
     </div>
