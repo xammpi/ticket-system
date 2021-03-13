@@ -1,47 +1,77 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <title> Текущие заявки </title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta http-equiv="refresh" content="60">
-    <title>Обратная связь</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" th:href="@{/css/detail.css/}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+body{
+    	margin-top:20px;
+    	background: #708090
+    	}
+    </style>
 </head>
 <body>
-<div class="container ">
-
-    <h1 align="center"> Текущие заявки </h1>
-    <h1>
-        <a href="/current-applications" class="btn btn-success">Обновить</a>
-        <a href="/completed-requests" class="btn btn-success">Выполненые заявки</a>
-        <a href="/" class="btn btn-success">Отправить заявку</a>
-        <form th:action="@{/logout}" method="post">
-            <input type="submit" value="Sign Out" class="btn btn-success"/>
-        </form>
-
-        <!--        <a href="/login" class="btn btn-success">Выход</a>-->
-    </h1>
-    <div th:each="el:${requests}" class="alert alert-info ">
-        <h5 th:text="'Магазин: '+ ${el.shop}"></h5>
-        <div th:text="'Дата заявки: '+${el.dateCreated}"/>
-        <div th:switch="${el.state}">
-            <div th:case="'0'">Состояние: Новая заявка</div>
-            <div th:case="'3'">Состояние: Отложенная заявка</div>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="container padding-bottom-3x mb-2">
+    <div class="row">
+        <div class="col-lg-4">
+            <aside class="user-info-wrapper">
+                <div class="user-cover" style="background-image: url(https://bootdey.com/img/Content/bg1.jpg);">
+                </div>
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <img th:src="@{images/avatar.png}" alt="User"/></div>
+                    <div class="user-data">
+                    </div>
+                </div>
+            </aside>
+            <nav class="list-group"><a class="list-group-item with-badge" href="/current-applications"><i
+                    class="fa fa-refresh" aria-hidden="true"></i>Обновить</a>
+                <a class="list-group-item" href="/completed-requests"><i class="fa fa-check-circle"
+                                                                         aria-hidden="true"></i>Выполненые заявки</a>
+                <a class="list-group-item" href="/"><i class="fa fa-paper-plane" aria-hidden="true"></i>Отправить заявку</a>
+                <form th:action="@{/logout}" method="post">
+                    <a class="list-group-item with-badge active"><i class="fa fa-sign-out" aria-hidden="true"></i>
+                        <input type="submit" class="btn btn-primary" value="Выход"/> </a>
+                </form>
+            </nav>
         </div>
-        <div th:text="'Проблема: '+${el.problem}"/>
-        <div class="twolines" th:text="'Описание проблемы: '+${el.message}"/>
-        <a th:href="'/current-applications/' +${el.id}" class="btn btn-success">Полное описание</a>
-        <div class="nav">
-            <form th:action="'/current-applications/'+${el.id}+'/state1'" method="post">
-                <button type="submit" class="btn btn-success">Выполнить</button>
-            </form>
+        <div class="col-lg-8">
+            <div class="padding-top-2x mt-2 hidden-lg-up"></div>
+            <div th:each="el:${requests}" class="comment">
+                <div class="comment-body">
+                    <p class="comment-text">
+                    <h4 th:text="'Магазин: '+ ${el.shop}"></h4>
+                    <div th:text="'Дата заявки: '+${el.dateCreated}"/>
+                    <div th:switch="${el.state}">
+                        <div th:case="'0'">Состояние: Новая заявка</div>
+                        <div th:case="'3'">Состояние: Отложенная заявка</div>
+                    </div>
+                    <div th:text="'Проблема: '+${el.problem}"/>
+                    <div class="twolines" th:text="'Описание проблемы: '+${el.message}"/>
+                    <div class="flex-container">
+                        <div class="flex-item">
+                            <a th:href="'/current-applications/' +${el.id}" class="btn btn-primary">Подробнее</a>
+                        </div>
+                        <div class="flex-item">
+                            <form th:action="'/current-applications/'+${el.id}+'/state1'" method="post">
+                                <button type="submit" class="btn btn-primary">Выполнить</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                </p>
+            </div>
         </div>
     </div>
-    <!--    <a href="/main" class="btn btn-success">Назад</a>-->
 </div>
 </div>
+<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 </body>
 </html>

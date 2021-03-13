@@ -22,6 +22,7 @@ public class RequestController {
 
     @GetMapping(value = "/completed-requests")
     public String greetingForm(Request request, Model model) {
+
         //List<Request> requests = null;
         // model.addAttribute("requests", requests);
         return "completed-requests";

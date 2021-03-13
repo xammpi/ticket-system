@@ -1,41 +1,92 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title> Заявки </title>
+    <title> Подробное описание </title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Обратная связь</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <meta http-equiv="refresh" content="60">
     <link rel="stylesheet" th:href="@{/css/detail.css/}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+body{
+    	margin-top:20px;
+    	background: #708090
+    	}
+
+    </style>
 </head>
 <body>
-<div class="container ">
-    <h1 align="center">Полное описание заявки</h1>
-    <div th:each="el:${requests}" class="alert alert-info ">
-        <h5 th:text="'Магазин: '+ ${el.shop}"></h5>
-        <div th:text="'Дата заявки: '+${el.dateCreated}"/>
-        <div th:switch="${el.state}">
-            <div th:case="'0'">Состояние: Новая заявка</div>
-            <div th:case="'3'">Состояние: Отложенная заявка</div>
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="container padding-bottom-3x mb-2">
+    <div class="row">
+        <div class="col-lg-4">
+            <aside class="user-info-wrapper">
+                <div class="user-cover" style="background-image: url(https://bootdey.com/img/Content/bg1.jpg);">
+                </div>
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <img th:src="@{/images/avatar.png}" alt="User"/></div>
+                    <div class="user-data">
+                    </div>
+                </div>
+            </aside>
+            <nav class="list-group"><a class="list-group-item with-badge" href="/current-applications"><i
+                    class="fa fa-reply-all" aria-hidden="true"></i></i>Назад</a>
+                <form th:action="@{/logout}" method="post">
+                    <a class="list-group-item with-badge active"><i class="fa fa-sign-out" aria-hidden="true"></i>
+                        <input type="submit" class="btn btn-primary" value="Выход"/> </a>
+                </form>
+            </nav>
         </div>
-        <div th:text="'Имя: '+${el.name}"/>
-        <div th:text="'Номер телефона: '+${el.phone}"/>
-        <div th:text="'Проблема: '+${el.problem}"/>
-        <div  th:text="'Описание проблемы: '+${el.message}"/>
-        <a th:href="'/current-applications/' +${el.id}+'/edit'" class="btn btn-success">Редактирование</a>
-        <div class="nav">
-            <form th:action="'/current-applications/'+${el.id}+'/state1'" method="post">
-                <button type="submit" class="btn btn-success">Выполнить</button>
-            </form>
-        </div>
-        <div class="nav">
-            <form th:action="'/current-applications/'+${el.id}+'/state3'" method="post">
-                <button type="submit" class="btn btn-success">Отложить</button>
-            </form>
+
+        <div class="col-lg-8">
+            <div class="padding-top-2x mt-2 hidden-lg-up"></div>
+            <div th:each="el:${requests}" class="comment">
+                <div class="comment-body">
+                    <p class="comment-text">
+                    <h5 th:text="'Магазин: '+ ${el.shop}"></h5>
+                    <div th:text="'Дата заявки: '+${el.dateCreated}"/>
+                    <div th:switch="${el.state}">
+                        <div th:case="'0'">Состояние: Новая заявка</div>
+                        <div th:case="'3'">Состояние: Отложенная заявка</div>
+                    </div>
+                    <div th:text="'Имя: '+${el.name}"/>
+                    <div th:text="'Номер телефона: '+${el.phone}"/>
+                    <div th:text="'Проблема: '+${el.problem}"/>
+                    <h4></h4>
+                    <h6>
+                        <div th:text="'Описание проблемы: '+${el.message}"/>
+                    </h6>
+
+
+                    <div class="flex-container">
+                        <div class="flex-item">
+                            <a th:href="'/current-applications/' +${el.id}+'/edit'" class="btn btn-primary">Редактирование</a>
+                        </div>
+                        <div class="flex-item">
+                            <form th:action="'/current-applications/'+${el.id}+'/state1'" method="post">
+                                <button type="submit" class="btn btn-primary">Выполнить</button>
+                            </form>
+                        </div>
+                        <div class="flex-item">
+                            <form th:action="'/current-applications/'+${el.id}+'/state3'" method="post">
+                                <button type="submit" class="btn btn-primary">Отложить</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
-    <a href="/current-applications" class="btn btn-success">Назад</a>
 </div>
+</div>
+<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+</script>
 </body>
 </html>

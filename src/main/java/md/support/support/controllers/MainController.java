@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
+
 public class MainController {
 
     @Autowired
@@ -29,20 +30,17 @@ public class MainController {
             return "home";
         }
         requestRepository.save(request);
-        Mail mail = new Mail();
-        mail.sendMail(request.getShop(), request.getMessage(), request.getProblem(), request.getPhone(), request.getName());
+        //Mail mail = new Mail();
+       // mail.sendMail(request.getShop(), request.getMessage(), request.getProblem(), request.getPhone(), request.getName());
         return "redirect:/";
     }
-
-    /*@GetMapping(value = "/login")
-    public String loginMain(Model model) {
-        return "login";
-    }
-*/
     @GetMapping(value = "/")
     public String home(Model model) {
         Request request = new Request();
         model.addAttribute("request", request);
         return "home";
     }
+
+
+
 }
