@@ -22,9 +22,9 @@
             <input type="text" name="problem" th:value="*{el.problem}" placeholder="Выберите проблему"
                    class="form-control"><br>
             <textarea rows="10" name="message" class="form-control" th:text="*{el.message}"/><br>
-
+            <textarea rows="10" name="comment" class="form-control" th:text="*{el.comment}"/><br>
             <button type="submit" class="btn btn-success">Ввод</button>
-            <a th:href="'/completed-requests/'+${el.id}" class="btn btn-success">Назад</a>
+            <a th:href="'/current-applications/'+${el.id}" class="btn btn-success">Назад</a>
         </form>
 
     </div>

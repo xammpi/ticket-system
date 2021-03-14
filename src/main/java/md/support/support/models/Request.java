@@ -48,6 +48,17 @@ public class Request {
     @NotBlank(message = "Выберите проблему из списка")
     private String problem;
 
+    @JoinColumn(name = "comment")
+    private String comment;
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
     public Date getDateCreated() {
         return dateCreated;
     }
@@ -120,7 +131,7 @@ public class Request {
         this.shop = shop;
     }
 
-    public Request(String name, String phone, String message, String shop, String problem, Date date) {
+    public Request(String name, String phone, String message, String shop, String problem, Date date, String comment) {
         this.name = name;
         this.phone = phone;
         this.message = message;
@@ -128,5 +139,6 @@ public class Request {
         this.problem = problem;
         this.state = 0;
         this.dateCreated = date;
+        this.comment = comment;
     }
 }

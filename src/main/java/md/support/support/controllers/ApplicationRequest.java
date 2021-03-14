@@ -19,8 +19,17 @@ public class ApplicationRequest {
 
     @GetMapping("/current-applications")
     public String applicationsMain(Model model) {
+        int requestsCountByZero = requestRepository.findByCountRequestStateZero();
+        int requestsCountByThree = requestRepository.findByCountRequestStateThree();
+        int requestsCountTotal = requestRepository.findByCountRequest();
+
+        model.addAttribute("requestsCountByZero", requestsCountByZero);
+        model.addAttribute("requestsCountByThree", requestsCountByThree);
+        model.addAttribute("requestsCountTotal", requestsCountTotal);
+
         List<Request> requests = requestRepository.findByState();
         model.addAttribute("requests", requests);
+
         return "current-applications";
     }
 
@@ -31,6 +40,14 @@ public class ApplicationRequest {
         requests.ifPresent(res::add);
         model.addAttribute("requests", res);
         return "details-applications";
+    }
+
+    @PostMapping("/change-comment")
+    public String applicationComment(@RequestParam("id") long id, @RequestParam("comment") String comment) {
+        Request request = requestRepository.findById(id).orElseThrow();
+        request.setComment(comment);
+        requestRepository.save(request);
+        return "redirect:/current-applications";
     }
 
 
@@ -61,13 +78,15 @@ public class ApplicationRequest {
 
     @PostMapping("current-applications/{id}/edit")
     public String applicationEditPost(@PathVariable(value = "id") long id, @RequestParam String shop, @RequestParam String name,
-                                      @RequestParam String phone, @RequestParam String problem, @RequestParam String message, Model model) {
+                                      @RequestParam String phone, @RequestParam String problem, @RequestParam String message,
+                                      @RequestParam String comment, Model model) {
         Request request = requestRepository.findById(id).orElseThrow();
         request.setShop(shop);
         request.setName(name);
         request.setPhone(phone);
         request.setProblem(problem);
         request.setMessage(message);
+        request.setComment(comment);
         requestRepository.save(request);
         return "redirect:/current-applications";
     }

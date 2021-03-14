@@ -21,47 +21,125 @@ body{
     <div class="row">
         <div class="col-lg-4">
             <aside class="user-info-wrapper">
+
                 <div class="user-cover" style="background-image: url(https://bootdey.com/img/Content/bg1.jpg);">
-                </div>
-                <div class="user-info">
                     <div class="user-avatar">
                         <img th:src="@{images/avatar.png}" alt="User"/></div>
+                </div>
+
+                <div class="user-info">
                     <div class="user-data">
+                        <table class="table">
+                            <tbody>
+                            <tr>
+                                <th scope="row">Новые заявки:</th>
+                                <td><span class="badge badge-primary badge-pill"
+                                          th:utext="${requestsCountByZero}"/></td>
+
+                            </tr>
+                            <tr>
+                                <th scope="row">Отложенные заявки:</th>
+                                <td><span class="badge badge-primary badge-pill"
+                                          th:utext="${requestsCountByThree}"/></td>
+
+                            </tr>
+                            <tr>
+                                <th scope="row">Выполненые заявки:</th>
+                                <td><span class="badge badge-primary badge-pill"
+                                          th:utext="${requestsCountTotal}"/></td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
+
             </aside>
-            <nav class="list-group"><a class="list-group-item with-badge" href="/current-applications"><i
+
+            <nav class=" list-group"><a class="list-group-item with-badge" href="/current-applications"><i
                     class="fa fa-refresh" aria-hidden="true"></i>Обновить</a>
                 <a class="list-group-item" href="/completed-requests"><i class="fa fa-check-circle"
-                                                                         aria-hidden="true"></i>Выполненые заявки</a>
-                <a class="list-group-item" href="/"><i class="fa fa-paper-plane" aria-hidden="true"></i>Отправить заявку</a>
+                                                                         aria-hidden="true"></i>Выполненые
+                    заявки</a>
+                <a class="list-group-item" href="/"><i class="fa fa-paper-plane" aria-hidden="true"></i>Отправить
+                    заявку</a>
                 <form th:action="@{/logout}" method="post">
-                    <a class="list-group-item with-badge active"><i class="fa fa-sign-out" aria-hidden="true"></i>
+                    <a class="list-group-item with-badge active"><i class="fa fa-sign-out"
+                                                                    aria-hidden="true"></i>
                         <input type="submit" class="btn btn-primary" value="Выход"/> </a>
                 </form>
             </nav>
+
         </div>
         <div class="col-lg-8">
             <div class="padding-top-2x mt-2 hidden-lg-up"></div>
+
             <div th:each="el:${requests}" class="comment">
                 <div class="comment-body">
                     <p class="comment-text">
-                    <h4 th:text="'Магазин: '+ ${el.shop}"></h4>
+                    <h3 th:text="'Магазин: '+ ${el.shop}"/>
                     <div th:text="'Дата заявки: '+${el.dateCreated}"/>
+
                     <div th:switch="${el.state}">
                         <div th:case="'0'">Состояние: Новая заявка</div>
                         <div th:case="'3'">Состояние: Отложенная заявка</div>
                     </div>
+
                     <div th:text="'Проблема: '+${el.problem}"/>
                     <div class="twolines" th:text="'Описание проблемы: '+${el.message}"/>
+
                     <div class="flex-container">
+
                         <div class="flex-item">
                             <a th:href="'/current-applications/' +${el.id}" class="btn btn-primary">Подробнее</a>
                         </div>
+
                         <div class="flex-item">
+
                             <form th:action="'/current-applications/'+${el.id}+'/state1'" method="post">
                                 <button type="submit" class="btn btn-primary">Выполнить</button>
                             </form>
+
+                        </div>
+                        <div class="flex-item">
+
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                                    th:attr="data-target='#exampleModalCenter'+${el.id}">
+                                Просмотреть коментарий
+                            </button>
+
+                            <!-- Modal -->
+                            <div class="modal fade"
+                                 th:id="${'exampleModalCenter'+{el.id}}" tabindex="-1"
+                                 role="dialog"
+                                 aria-labelledby="exampleModalCenterTitle"
+                                 aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLongTitle">Коментарий</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form th:action="@{/change-comment}" method="post">
+                                                <div class="form-group">
+                                                    <label>Добавить коментарий</label>
+                                                    <input type="hidden" name="id" th:value="*{el.id}">
+                                                    <textarea rows="5" name="comment" class="form-control"
+                                                              th:text="*{el.comment}"/><br>
+                                                    <button type="submit" class="btn btn-primary">Добавить</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

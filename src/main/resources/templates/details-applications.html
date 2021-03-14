@@ -4,7 +4,6 @@
     <title> Подробное описание </title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta http-equiv="refresh" content="60">
     <link rel="stylesheet" th:href="@{/css/detail.css/}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="http://netdna.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
@@ -13,7 +12,6 @@ body{
     	margin-top:20px;
     	background: #708090
     	}
-
     </style>
 </head>
 <body>
@@ -24,10 +22,10 @@ body{
         <div class="col-lg-4">
             <aside class="user-info-wrapper">
                 <div class="user-cover" style="background-image: url(https://bootdey.com/img/Content/bg1.jpg);">
-                </div>
-                <div class="user-info">
                     <div class="user-avatar">
                         <img th:src="@{/images/avatar.png}" alt="User"/></div>
+                </div>
+                <div class="user-info">
                     <div class="user-data">
                     </div>
                 </div>
@@ -46,21 +44,39 @@ body{
             <div th:each="el:${requests}" class="comment">
                 <div class="comment-body">
                     <p class="comment-text">
-                    <h5 th:text="'Магазин: '+ ${el.shop}"></h5>
-                    <div th:text="'Дата заявки: '+${el.dateCreated}"/>
-                    <div th:switch="${el.state}">
-                        <div th:case="'0'">Состояние: Новая заявка</div>
-                        <div th:case="'3'">Состояние: Отложенная заявка</div>
-                    </div>
-                    <div th:text="'Имя: '+${el.name}"/>
-                    <div th:text="'Номер телефона: '+${el.phone}"/>
-                    <div th:text="'Проблема: '+${el.problem}"/>
-                    <h4></h4>
-                    <h6>
-                        <div th:text="'Описание проблемы: '+${el.message}"/>
-                    </h6>
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <th scope="row"></th>
+                            <td>
 
-
+                                <h5 th:text="'Магазин: '+ ${el.shop}"></h5>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row"></th>
+                            <td>
+                                <div th:text="'Дата заявки: '+${el.dateCreated}"/>
+                                <div th:switch="${el.state}">
+                                    <div th:case="'0'">Состояние: Новая заявка</div>
+                                    <div th:case="'3'">Состояние: Отложенная заявка</div>
+                                </div>
+                                <div th:text="'Имя: '+${el.name}"/>
+                                <div th:text="'Номер телефона: '+${el.phone}"/>
+                                <div th:text="'Проблема: '+${el.problem}"/>
+                            </td>
+                            <!--                        <h4></h4>-->
+                        </tr>
+                        <tr>
+                            <th scope="row"></th>
+                            <td>
+                                <h6>
+                                    <div th:text="'Описание проблемы: '+${el.message}"/>
+                                </h6>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
                     <div class="flex-container">
                         <div class="flex-item">
                             <a th:href="'/current-applications/' +${el.id}+'/edit'" class="btn btn-primary">Редактирование</a>
