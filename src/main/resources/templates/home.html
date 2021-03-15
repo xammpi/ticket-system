@@ -5,79 +5,76 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta http-equiv="refresh" content="60">
-    <link rel="stylesheet" th:href="@{/css/detail.css/}">
+    <link rel="stylesheet" th:href="@{/css/detail.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="http://netdna.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
     <style type="text/css">
 body{
     	margin-top:20px;
     	background: #708090
     	}
 
-
-
     </style>
 </head>
 <body>
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <h1 align="center">Заявка в ИТ-отдел</h1>
-<div class="container padding-bottom-3x mb-2">
-    <div class="row">
 
-        <div class="col-lg-8">
-            <div class="padding-top-2x mt-2 hidden-lg-up"></div>
-            <div class="comment">
-                <div class="comment-body">
-                    <p class="comment-text">
-                        <form action="/" th:action="@{/}" th:object="${request}" method="post">
-                            <h6 th:errors="*{shop}" class="error"/>
-                    <p><select th:field="*{shop}" class="form-control"><br>
-                        <option value="">Выберите магазин из списка</option>
-                        <option th:value="'Дечебал 139'">Дечебал 139</option>
-                        <option th:value="'Зелинский 7'">Зелинский 7</option>
-                        <option th:value="'Дачия 10'">Дачия 10</option>
-                        <option th:value="'Тестемицану 23'">Тестемицану 23</option>
-                        <option th:value="'Докучаев 6'">Докучаев 6</option>
-                        <option th:value="'Лев Толстой 24/1'">Лев Толстой 24/1</option>
-                        <option th:value="'Штефа чел Маре 132'">Штефа чел Маре 132</option>
-                        <option th:value="'Штефа чел Маре 135'">Штефае чел Маре 135</option>
-                        <option th:value="'Пушкин 32'">Пушкин 32</option>
-                        <option th:value="'Щусев 55'">Щусев 55</option>
-                        <option th:value="'Каля Ешилор 16/6'">Каля Ешилор 16/6</option>
-                        <option th:value="'Алеку Русо 15'">Алеку Русо 15</option>
-                        <option th:value="'Мирча чел Бэтрын 24/6'">Мирча чел Бэтрын 24/6</option>
-                        <option th:value="'Игорь Виеру 6/3'">Игорь Виеру 6/3</option>
-                        <option th:value="'Индутриальная 59с'">Индутриальная 59с</option>
-                        <option th:value="'Московский проспект 9/5'">Московский проспект 9/5</option>
-                        <option th:value="'Мирча чел Бэтрын 2'">Мирча чел Бэтрын 2</option>
-                        <option th:value="'Дачия 47/7'">Дачия 47/7</option>
-                    </select></p>
-                    <h6 th:errors="*{name}" class="error"/>
-                    <input type="text" th:field="*{name}" placeholder="Укажите Фамилию и Имя" class="form-control"><br>
-                    <h6 th:errors="*{phone}" class="error"/>
-                    <input type="text" th:field="*{phone}" placeholder="Укажите контактный телефон"
-                           class="form-control"><br>
-                    <h6 th:errors="*{problem}" class="error"/>
-                    <p><select th:field="*{problem}" class="form-control"><br>
-                        <option value="">Выберите проблему из списка</option>
-                        <option th:value="'Компьютер'">Компьютер</option>
-                        <option th:value="'Весы'">Весы</option>
-                        <option th:value="'Касса'">Касса</option>
-                        <option th:value="'Музыка'">Музыка</option>
-                        <option th:value="'Ценники'">Ценники</option>
-                    </select></p>
-                    <textarea rows="10" th:field="*{message}" placeholder="Описание проблемы"
-                              class="form-control"></textarea><br>
-                    <button type="submit" class="btn btn-primary">Отправить</button>
-                    <a href="/current-applications" class="btn btn-primary">Заявки</a>
-                    </form>
-                    <div id="errorMess"></div>
-                    </p>
-                </div>
+<div class="parent">
+
+    <div class="col-lg-8">
+        <div class="padding-top-2x mt-2 hidden-lg-up"></div>
+        <div class="comment">
+            <div class="comment-body">
+                <p class="comment-text">
+                    <form action="/" th:action="@{/}" th:object="${request}" method="post">
+                        <h6 th:errors="*{shop}" class="error"/>
+                <p><select th:field="*{shop}" class="form-control"><br>
+                    <option value="">Выберите магазин из списка</option>
+                    <option th:value="'Дечебал 139'">Дечебал 139</option>
+                    <option th:value="'Зелинский 7'">Зелинский 7</option>
+                    <option th:value="'Дачия 10'">Дачия 10</option>
+                    <option th:value="'Тестемицану 23'">Тестемицану 23</option>
+                    <option th:value="'Докучаев 6'">Докучаев 6</option>
+                    <option th:value="'Лев Толстой 24/1'">Лев Толстой 24/1</option>
+                    <option th:value="'Штефан чел Маре 132'">Штефа чел Маре 132</option>
+                    <option th:value="'Штефан чел Маре 135'">Штефае чел Маре 135</option>
+                    <option th:value="'Пушкин 32'">Пушкин 32</option>
+                    <option th:value="'Щусев 55'">Щусев 55</option>
+                    <option th:value="'Каля Ешилор 16/6'">Каля Ешилор 16/6</option>
+                    <option th:value="'Алеку Русо 15'">Алеку Русо 15</option>
+                    <option th:value="'Мирча чел Бэтрын 24/6'">Мирча чел Бэтрын 24/6</option>
+                    <option th:value="'Игорь Виеру 6/3'">Игорь Виеру 6/3</option>
+                    <option th:value="'Индутриальная 59с'">Индутриальная 59с</option>
+                    <option th:value="'Московский проспект 9/5'">Московский проспект 9/5</option>
+                    <option th:value="'Мирча чел Бэтрын 2'">Мирча чел Бэтрын 2</option>
+                    <option th:value="'Дачия 47/7'">Дачия 47/7</option>
+                </select></p>
+                <h6 th:errors="*{name}" class="error"/>
+                <input type="text" th:field="*{name}" placeholder="Укажите Фамилию и Имя" class="form-control"><br>
+                <h6 th:errors="*{phone}" class="error"/>
+                <input type="text" th:field="*{phone}" placeholder="Укажите контактный телефон"
+                       class="form-control"><br>
+                <h6 th:errors="*{problem}" class="error"/>
+                <p><select th:field="*{problem}" class="form-control"><br>
+                    <option value="">Выберите проблему из списка</option>
+                    <option th:value="'Компьютер'">Компьютер</option>
+                    <option th:value="'Весы'">Весы</option>
+                    <option th:value="'Касса'">Касса</option>
+                    <option th:value="'Музыка'">Музыка</option>
+                    <option th:value="'Ценники'">Ценники</option>
+                </select></p>
+                <textarea rows="10" th:field="*{message}" placeholder="Описание проблемы"
+                          class="form-control"></textarea><br>
+                <button type="submit" class="btn btn-primary">Отправить</button>
+                <a href="/current-applications" class="btn btn-primary">Заявки</a>
+                </form>
+                <div id="errorMess"></div>
+                </p>
             </div>
         </div>
     </div>
+
 </div>
-</div>
+
 </body>
 </html>

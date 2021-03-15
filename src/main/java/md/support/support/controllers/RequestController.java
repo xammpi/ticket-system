@@ -20,30 +20,38 @@ public class RequestController {
     @Autowired
     private RequestRepository requestRepository;
 
+    public void viewRequest(Model model){
+        int requestsCountByZero = requestRepository.findByCountRequestStateZero();
+        int requestsCountByThree = requestRepository.findByCountRequestStateThree();
+        int requestsCountTotal = requestRepository.findByCountRequest();
+
+        model.addAttribute("requestsCountByZero", requestsCountByZero);
+        model.addAttribute("requestsCountByThree", requestsCountByThree);
+        model.addAttribute("requestsCountTotal", requestsCountTotal);
+    }
+
     @GetMapping(value = "/completed-requests")
     public String greetingForm(Request request, Model model) {
+        viewRequest(model);
 
-        //List<Request> requests = null;
-        // model.addAttribute("requests", requests);
+
+
         return "completed-requests";
     }
 
-    @GetMapping("/completed-requests/{id}")
-    public String allRequestDetail(@PathVariable(value = "id") long id, Model model) {
-        Optional<Request> requests = requestRepository.findById(id);
-        ArrayList<Request> res = new ArrayList<>();
-        requests.ifPresent(res::add);
-        model.addAttribute("requests", res);
-        return "all-request-detail";
-    }
-
-    @GetMapping("/completed-requests/{id}/edit")
-    public String applicationDetailsEditGet(@PathVariable(value = "id") long id, Model model) {
-        Optional<Request> request = requestRepository.findById(id);
-        ArrayList<Request> res = new ArrayList<>();
-        request.ifPresent(res::add);
-        model.addAttribute("request", res);
-        return "edit-request";
+    @PostMapping("/edit-request-completed")
+    public String editRequest(@RequestParam("id") long id, @RequestParam String shop, @RequestParam String name,
+                              @RequestParam String phone, @RequestParam String problem, @RequestParam String message,
+                              @RequestParam String comment) {
+        Request request = requestRepository.findById(id).orElseThrow();
+        request.setShop(shop);
+        request.setName(name);
+        request.setPhone(phone);
+        request.setProblem(problem);
+        request.setMessage(message);
+        request.setComment(comment);
+        requestRepository.save(request);
+        return "redirect:/completed-requests";
     }
 
     @PostMapping("/completed-requests/{id}/state0")
@@ -56,31 +64,26 @@ public class RequestController {
 
     @PostMapping(value = "/completed-requests")
     public String filter(Request request, Model model) {
+        viewRequest(model);
+
         if (request.getDateSort().length() == 0) {
+            viewRequest(model);
             List<Request> requests = requestRepository.findByShop(request.getShop());
             model.addAttribute("requests", requests);
             return "completed-requests";
         }
+
         if (request.getShop().length() == 0) {
+            viewRequest(model);
             List<Request> requests = requestRepository.findByDateSort(request.getDateSort());
             model.addAttribute("requests", requests);
             return "completed-requests";
         }
+
+        viewRequest(model);
         List<Request> requests = requestRepository.findByShopAndDateSort(request.getShop(), request.getDateSort());
         model.addAttribute("requests", requests);
         return "completed-requests";
     }
 
-    @PostMapping("/completed-requests/{id}/edit")
-    public String applicationEditPost(@PathVariable(value = "id") long id, @RequestParam String shop, @RequestParam String name,
-                                      @RequestParam String phone, @RequestParam String problem, @RequestParam String message, Model model) {
-        Request request = requestRepository.findById(id).orElseThrow();
-        request.setShop(shop);
-        request.setName(name);
-        request.setPhone(phone);
-        request.setProblem(problem);
-        request.setMessage(message);
-        requestRepository.save(request);
-        return "redirect:/completed-requests";
-    }
 }

@@ -42,8 +42,31 @@ public class ApplicationRequest {
         return "details-applications";
     }
 
+    @PostMapping("/edit-request")
+    public String editRequest(@RequestParam("id") long id, @RequestParam String shop, @RequestParam String name,
+                              @RequestParam String phone, @RequestParam String problem, @RequestParam String message,
+                              @RequestParam String comment) {
+        Request request = requestRepository.findById(id).orElseThrow();
+        request.setShop(shop);
+        request.setName(name);
+        request.setPhone(phone);
+        request.setProblem(problem);
+        request.setMessage(message);
+        request.setComment(comment);
+        requestRepository.save(request);
+        return "redirect:/current-applications";
+    }
+
+    @PostMapping("/edit-state-three")
+    public String editStateThree(@RequestParam("id") long id, @RequestParam String state) {
+        Request request = requestRepository.findById(id).orElseThrow();
+        request.setState(Integer.parseInt(state));
+        requestRepository.save(request);
+        return "redirect:/current-applications";
+    }
+
     @PostMapping("/change-comment")
-    public String applicationComment(@RequestParam("id") long id, @RequestParam("comment") String comment) {
+    public String changeComment(@RequestParam("id") long id, @RequestParam String comment) {
         Request request = requestRepository.findById(id).orElseThrow();
         request.setComment(comment);
         requestRepository.save(request);
@@ -55,38 +78,6 @@ public class ApplicationRequest {
     public String applicationStateOne(@PathVariable(value = "id") long id, Model model) {
         Request request = requestRepository.findById(id).orElseThrow();
         request.setState(1);
-        requestRepository.save(request);
-        return "redirect:/current-applications";
-    }
-
-    @PostMapping("/current-applications/{id}/state3")
-    public String applicationStateThree(@PathVariable(value = "id") long id, Model model) {
-        Request request = requestRepository.findById(id).orElseThrow();
-        request.setState(3);
-        requestRepository.save(request);
-        return "redirect:/current-applications";
-    }
-
-    @GetMapping("/current-applications/{id}/edit")
-    public String applicationDetailsEditGet(@PathVariable(value = "id") long id, Model model) {
-        Optional<Request> request = requestRepository.findById(id);
-        ArrayList<Request> res = new ArrayList<>();
-        request.ifPresent(res::add);
-        model.addAttribute("request", res);
-        return "edit-applications";
-    }
-
-    @PostMapping("current-applications/{id}/edit")
-    public String applicationEditPost(@PathVariable(value = "id") long id, @RequestParam String shop, @RequestParam String name,
-                                      @RequestParam String phone, @RequestParam String problem, @RequestParam String message,
-                                      @RequestParam String comment, Model model) {
-        Request request = requestRepository.findById(id).orElseThrow();
-        request.setShop(shop);
-        request.setName(name);
-        request.setPhone(phone);
-        request.setProblem(problem);
-        request.setMessage(message);
-        request.setComment(comment);
         requestRepository.save(request);
         return "redirect:/current-applications";
     }

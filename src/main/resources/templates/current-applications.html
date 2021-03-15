@@ -1,20 +1,27 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+
 <head>
     <title> Текущие заявки </title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta http-equiv="refresh" content="60">
-    <link rel="stylesheet" th:href="@{/css/detail.css/}">
+    <link rel="stylesheet" th:href="@{/css/detail.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="http://netdna.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <!--    <link href="http://netdna.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">-->
     <style type="text/css">
-body{
-    	margin-top:20px;
-    	background: #708090
-    	}
+    body {
+      margin-top: 20px;
+      background: #708090
+    }
+
     </style>
 </head>
+
 <body>
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <div class="container padding-bottom-3x mb-2">
@@ -33,20 +40,19 @@ body{
                             <tbody>
                             <tr>
                                 <th scope="row">Новые заявки:</th>
-                                <td><span class="badge badge-primary badge-pill"
-                                          th:utext="${requestsCountByZero}"/></td>
+                                <td><span class="badge badge-primary badge-pill" th:utext="${requestsCountByZero}"/>
+                                </td>
 
                             </tr>
                             <tr>
                                 <th scope="row">Отложенные заявки:</th>
-                                <td><span class="badge badge-primary badge-pill"
-                                          th:utext="${requestsCountByThree}"/></td>
+                                <td><span class="badge badge-primary badge-pill" th:utext="${requestsCountByThree}"/>
+                                </td>
 
                             </tr>
                             <tr>
                                 <th scope="row">Выполненые заявки:</th>
-                                <td><span class="badge badge-primary badge-pill"
-                                          th:utext="${requestsCountTotal}"/></td>
+                                <td><span class="badge badge-primary badge-pill" th:utext="${requestsCountTotal}"/></td>
                             </tr>
                             </tbody>
                         </table>
@@ -90,7 +96,70 @@ body{
                     <div class="flex-container">
 
                         <div class="flex-item">
-                            <a th:href="'/current-applications/' +${el.id}" class="btn btn-primary">Подробнее</a>
+
+                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                                    th:attr="data-target='#bd-example-modal-lg'+${el.id}">
+                                Подробнее
+                            </button>
+
+
+                            <div class="modal fade bd-example-modal-lg" th:id="${'bd-example-modal-lg'+{el.id}}"
+                                 tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLongTitle1">Подробнее</h5>
+
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            <div class="form-group">
+                                                <form th:action="@{/edit-request}" method="post">
+                                                    <h6>
+                                                        <div th:text="'Дата заявки: '+${el.dateCreated}"/>
+                                                    </h6>
+                                                    <h6>
+                                                        <div th:switch="${el.state}">
+                                                            <div th:case="'0'">Состояние: Новая заявка</div>
+                                                            <div th:case="'3'">Состояние: Отложенная заявка</div>
+                                                        </div>
+                                                    </h6>
+                                                    <input type="hidden" name="id" th:value="*{el.id}">
+                                                    <label>Магазин</label>
+                                                    <input type="text" name="shop" th:value="*{el.shop}"
+                                                           placeholder="Магазин" class="form-control"><br>
+                                                    <label>Имя</label>
+                                                    <input type="text" name="name" th:value="*{el.name}"
+                                                           placeholder="Укажите Фамилию и Имя"
+                                                           class="form-control"><br>
+                                                    <label>Телефон</label>
+                                                    <input type="text" name="phone" th:value="*{el.phone}"
+                                                           placeholder="Укажите контактный телефон"
+                                                           class="form-control"><br>
+                                                    <label>Проблема</label>
+                                                    <input type="text" name="problem" th:value="*{el.problem}"
+                                                           placeholder="Выберите проблему"
+                                                           class="form-control"><br>
+                                                    <label>Описание проблемы</label>
+                                                    <textarea rows="5" name="message" class="form-control"
+                                                              th:text="*{el.message}"/><br>
+                                                    <label>Коментарии</label>
+                                                    <textarea rows="2" name="comment" class="form-control"
+                                                              th:text="*{el.comment}"/><br>
+                                                    <button type="submit" class="btn btn-primary">Ввод</button>
+                                                </form>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
                         </div>
 
                         <div class="flex-item">
@@ -101,19 +170,26 @@ body{
 
                         </div>
                         <div class="flex-item">
+                            <form th:action="@{/edit-state-three}"
+                                  method="post">
+                                <input type="hidden" name="id" th:value="*{el.id}">
+                                <input type="hidden" name="state" th:value="*{el.state=3}">
+                                <button type="submit" class="btn btn-primary">Отложить</button>
+                            </form>
+
+                        </div>
+
+                        <div class="flex-item">
 
                             <!-- Button trigger modal -->
                             <button type="button" class="btn btn-primary" data-toggle="modal"
                                     th:attr="data-target='#exampleModalCenter'+${el.id}">
-                                Просмотреть коментарий
+                                Коментарии
                             </button>
 
                             <!-- Modal -->
-                            <div class="modal fade"
-                                 th:id="${'exampleModalCenter'+{el.id}}" tabindex="-1"
-                                 role="dialog"
-                                 aria-labelledby="exampleModalCenterTitle"
-                                 aria-hidden="true">
+                            <div class="modal fade" th:id="${'exampleModalCenter'+{el.id}}" tabindex="-1" role="dialog"
+                                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -127,8 +203,9 @@ body{
                                                 <div class="form-group">
                                                     <label>Добавить коментарий</label>
                                                     <input type="hidden" name="id" th:value="*{el.id}">
-                                                    <textarea rows="5" name="comment" class="form-control"
-                                                              th:text="*{el.comment}"/><br>
+                                                    <textarea rows="3" name="comment" class="form-control"
+                                                              th:text="*{el.comment}"/>
+                                                    <br>
                                                     <button type="submit" class="btn btn-primary">Добавить</button>
                                                 </div>
                                             </form>
@@ -149,7 +226,9 @@ body{
     </div>
 </div>
 </div>
-<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-<script src="http://netdna.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script th:src="@{/js/jquery-1.10.2.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<!--<script src="http://netdna.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>-->
 </body>
+
 </html>
