@@ -19,6 +19,9 @@
       background: #708090
     }
 
+
+
+
     </style>
 </head>
 
@@ -29,7 +32,7 @@
         <div class="col-lg-4">
             <aside class="user-info-wrapper">
 
-                <div class="user-cover" style="background-image: url(https://bootdey.com/img/Content/bg1.jpg);">
+                <div class="user-cover" th:style="'background-image: url('+@{/images/bg1.jpg}+');'">
                     <div class="user-avatar">
                         <img th:src="@{images/avatar.png}" alt="User"/></div>
                 </div>
@@ -102,7 +105,6 @@
                                 Подробнее
                             </button>
 
-
                             <div class="modal fade bd-example-modal-lg" th:id="${'bd-example-modal-lg'+{el.id}}"
                                  tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-lg" role="document">
@@ -150,6 +152,7 @@
                                                     <textarea rows="2" name="comment" class="form-control"
                                                               th:text="*{el.comment}"/><br>
                                                     <button type="submit" class="btn btn-primary">Ввод</button>
+
                                                 </form>
                                             </div>
 
@@ -217,6 +220,12 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="flex-item">
+                            <form th:action="@{/export/pdf}" method="post">
+                                <input type="hidden" name="id" th:value="*{el.id}">
+                                <button type="submit" class="btn btn-primary">Распечатать</button>
+                            </form>
                         </div>
                     </div>
                 </div>

@@ -24,7 +24,7 @@
             <div class="col-lg-4">
                 <aside class="user-info-wrapper">
 
-                    <div class="user-cover" style="background-image: url(https://bootdey.com/img/Content/bg1.jpg);">
+                    <div class="user-cover" th:style="'background-image: url('+@{/images/bg1.jpg}+');'">
                         <div class="user-avatar">
                             <img th:src="@{images/avatar.png}" alt="User"/></div>
                     </div>

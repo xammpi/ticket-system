@@ -2,6 +2,7 @@ package md.support.support.controllers;
 
 import md.support.support.models.Request;
 import md.support.support.repo.RequestRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,7 @@ public class ApplicationRequest {
 
     @Autowired
     private RequestRepository requestRepository;
+
 
     @GetMapping("/current-applications")
     public String applicationsMain(Model model) {
@@ -33,7 +35,7 @@ public class ApplicationRequest {
         return "current-applications";
     }
 
-    @GetMapping("/current-applications/{id}")
+  /*  @GetMapping("/current-applications/{id}")
     public String applicationDetails(@PathVariable(value = "id") long id, Model model) {
         Optional<Request> requests = requestRepository.findById(id);
         ArrayList<Request> res = new ArrayList<>();
@@ -42,6 +44,8 @@ public class ApplicationRequest {
         return "details-applications";
     }
 
+
+   */
     @PostMapping("/edit-request")
     public String editRequest(@RequestParam("id") long id, @RequestParam String shop, @RequestParam String name,
                               @RequestParam String phone, @RequestParam String problem, @RequestParam String message,
