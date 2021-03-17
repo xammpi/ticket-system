@@ -24,13 +24,17 @@ public interface RequestRepository extends CrudRepository<Request, Long> {
     @Query(value = "SELECT u FROM Request u WHERE date_created = :dateSort and state = 1 order by id desc")
     List<Request> findByDateSort(@Param("dateSort") String dateSort);
 
-    @Query( "SELECT Count(state) FROM Request u where state=0")
+    @Query("SELECT Count(state) FROM Request u where state=0")
     Integer findByCountRequestStateZero();
 
-    @Query( "SELECT Count(state) FROM Request u where state=3")
+    @Query("SELECT Count(state) FROM Request u where state=3")
     Integer findByCountRequestStateThree();
-    @Query( "SELECT Count(state) FROM Request ")
-    Integer findByCountRequest();
+
+    @Query("SELECT Count(state) FROM Request u where state=1")
+    Integer findByCountRequestStateOne();
+
+    @Query("SELECT Count(state) FROM Request")
+    Integer findByCountRequestTotal();
 
     @Query(value = "SELECT u FROM Request u WHERE id = :id")
     List<Request> findByIdAll(@Param("id") Long id);

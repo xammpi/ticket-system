@@ -55,7 +55,12 @@
                             </tr>
                             <tr>
                                 <th scope="row">Выполненые заявки:</th>
-                                <td><span class="badge badge-primary badge-pill" th:utext="${requestsCountTotal}"/></td>
+                                <td><span class="badge badge-primary badge-pill" th:utext="${requestsCountByOne}"/></td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">Всего:</th>
+                                <td><span class="badge badge-primary badge-pill" th:utext="${requestCountTotal}"/></td>
                             </tr>
                             </tbody>
                         </table>

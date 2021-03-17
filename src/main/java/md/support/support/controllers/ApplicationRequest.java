@@ -23,11 +23,13 @@ public class ApplicationRequest {
     public String applicationsMain(Model model) {
         int requestsCountByZero = requestRepository.findByCountRequestStateZero();
         int requestsCountByThree = requestRepository.findByCountRequestStateThree();
-        int requestsCountTotal = requestRepository.findByCountRequest();
+        int requestsCountByOne = requestRepository.findByCountRequestStateOne();
+        int requestCountTotal = requestRepository.findByCountRequestTotal();
 
         model.addAttribute("requestsCountByZero", requestsCountByZero);
         model.addAttribute("requestsCountByThree", requestsCountByThree);
-        model.addAttribute("requestsCountTotal", requestsCountTotal);
+        model.addAttribute("requestsCountByOne", requestsCountByOne);
+        model.addAttribute("requestCountTotal", requestCountTotal);
 
         List<Request> requests = requestRepository.findByState();
         model.addAttribute("requests", requests);
@@ -35,17 +37,17 @@ public class ApplicationRequest {
         return "current-applications";
     }
 
-  /*  @GetMapping("/current-applications/{id}")
-    public String applicationDetails(@PathVariable(value = "id") long id, Model model) {
-        Optional<Request> requests = requestRepository.findById(id);
-        ArrayList<Request> res = new ArrayList<>();
-        requests.ifPresent(res::add);
-        model.addAttribute("requests", res);
-        return "details-applications";
-    }
+    /*  @GetMapping("/current-applications/{id}")
+      public String applicationDetails(@PathVariable(value = "id") long id, Model model) {
+          Optional<Request> requests = requestRepository.findById(id);
+          ArrayList<Request> res = new ArrayList<>();
+          requests.ifPresent(res::add);
+          model.addAttribute("requests", res);
+          return "details-applications";
+      }
 
 
-   */
+     */
     @PostMapping("/edit-request")
     public String editRequest(@RequestParam("id") long id, @RequestParam String shop, @RequestParam String name,
                               @RequestParam String phone, @RequestParam String problem, @RequestParam String message,

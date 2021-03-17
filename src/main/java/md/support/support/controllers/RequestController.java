@@ -20,20 +20,21 @@ public class RequestController {
     @Autowired
     private RequestRepository requestRepository;
 
-    public void viewRequest(Model model){
+    public void viewRequest(Model model) {
         int requestsCountByZero = requestRepository.findByCountRequestStateZero();
         int requestsCountByThree = requestRepository.findByCountRequestStateThree();
-        int requestsCountTotal = requestRepository.findByCountRequest();
+        int requestsCountByOne = requestRepository.findByCountRequestStateOne();
+        int requestCountTotal = requestRepository.findByCountRequestTotal();
 
         model.addAttribute("requestsCountByZero", requestsCountByZero);
         model.addAttribute("requestsCountByThree", requestsCountByThree);
-        model.addAttribute("requestsCountTotal", requestsCountTotal);
+        model.addAttribute("requestsCountByOne", requestsCountByOne);
+        model.addAttribute("requestCountTotal", requestCountTotal);
     }
 
     @GetMapping(value = "/completed-requests")
     public String greetingForm(Request request, Model model) {
         viewRequest(model);
-
 
 
         return "completed-requests";
