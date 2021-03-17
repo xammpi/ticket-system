@@ -12,8 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-import static com.itextpdf.text.html.HtmlTags.FONT;
-
 public class PDFExporter {
 
     private List<Request> listRequest;
@@ -38,7 +36,6 @@ public class PDFExporter {
         Font fontBd = new Font(bd);
         font.setSize(14);
         Paragraph newLine = new Paragraph("\n\n");
-        // Paragraph newLine1 = new Paragraph("\n\n");
         document.add(newLine);
         for (Request request : listRequest) {
             Paragraph shop = new Paragraph("Магазин: " + String.valueOf(request.getShop()), fontBd);
