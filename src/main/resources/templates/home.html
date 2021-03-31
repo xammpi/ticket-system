@@ -1,34 +1,25 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <title th:text="${title}"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta http-equiv="refresh" content="60">
     <link rel="stylesheet" th:href="@{/css/detail.css}">
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style type="text/css">
-body{
-    	margin-top:20px;
-    	background: #708090
-    	}
-
-    </style>
 </head>
 <body>
 <h1 align="center">Заявка в ИТ-отдел</h1>
-
 <div class="parent">
-
     <div class="col-lg-8">
         <div class="padding-top-2x mt-2 hidden-lg-up"></div>
         <div class="comment">
             <div class="comment-body">
                 <p class="comment-text">
-                    <form action="/" th:action="@{/}" th:object="${request}" method="post">
-                        <h6 th:errors="*{shop}" class="error"/>
-                <p><select th:field="*{shop}" class="form-control"><br>
+                    <form class="was-validated" action="/" th:action="@{/}" th:object="${request}" method="post">
+                        <!--                        <h6 th:errors="*{shop}" class="error"/>-->
+                <p><select th:field="*{shop}" class="custom-select" required><br>
                     <option value="">Выберите магазин из списка</option>
                     <option th:value="'Дечебал 139'">Дечебал 139</option>
                     <option th:value="'Зелинский 7'">Зелинский 7</option>
@@ -49,13 +40,23 @@ body{
                     <option th:value="'Мирча чел Бэтрын 2'">Мирча чел Бэтрын 2</option>
                     <option th:value="'Дачия 47/7'">Дачия 47/7</option>
                 </select></p>
-                <h6 th:errors="*{name}" class="error"/>
-                <input type="text" th:field="*{name}" placeholder="Укажите Фамилию и Имя" class="form-control"><br>
-                <h6 th:errors="*{phone}" class="error"/>
-                <input type="text" th:field="*{phone}" placeholder="Укажите контактный телефон"
-                       class="form-control"><br>
-                <h6 th:errors="*{problem}" class="error"/>
-                <p><select th:field="*{problem}" class="form-control"><br>
+
+                <div class="input-group">
+                    <input type="text" th:field="*{name}" placeholder="Укажите Фамилию и Имя" class="form-control"
+                           id="validationCustom03" aria-describedby="inputGroupPrepend" required><br>
+                    <div class="invalid-feedback">
+                        Укажите Фамилию и Имя
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <input type="text" th:field="*{phone}" placeholder="Укажите контактный телефон" class="form-control"
+                           id="validationCustom04" aria-describedby="inputGroupPrepend" required><br>
+                    <div class="invalid-feedback">
+                        Укажите контактный телефон
+                    </div>
+                </div>
+                <p><select th:field="*{problem}" class="custom-select" required><br>
                     <option value="">Выберите проблему из списка</option>
                     <option th:value="'Компьютер'">Компьютер</option>
                     <option th:value="'Весы'">Весы</option>
@@ -63,9 +64,15 @@ body{
                     <option th:value="'Музыка'">Музыка</option>
                     <option th:value="'Ценники'">Ценники</option>
                 </select></p>
-                <textarea rows="10" th:field="*{message}" placeholder="Описание проблемы"
-                          class="form-control"></textarea><br>
-                <button type="submit" class="btn btn-primary">Отправить</button>
+
+                <div class="input-group">
+                <textarea rows="8" th:field="*{message}" placeholder="Описание проблемы" class="form-control"
+                          id="validationCustom05" aria-describedby="inputGroupPrepend" required></textarea><br>
+                    <div class="invalid-feedback">
+                        Описание проблемы
+                    </div>
+                </div>
+                <button type="submit" id="sendMail" class="btn btn-primary">Отправить</button>
                 <a href="/current-applications" class="btn btn-primary">Заявки</a>
                 </form>
                 <div id="errorMess"></div>
@@ -75,6 +82,33 @@ body{
     </div>
 
 </div>
+<script th:src="@{/js/jquery-1.10.2.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script>
+(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.getElementsByClassName('needs-validation');
+    // Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
+
+
+
+
+
+
+</script>
 
 </body>
 </html>

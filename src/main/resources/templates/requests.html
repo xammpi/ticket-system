@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title> Выпоненые заявки </title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" th:href="@{/css/detail.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<div class="container ">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <div class="container padding-bottom-3x mb-2">
+        <div class="row">
+            <div class="col-lg-4">
+                <aside class="user-info-wrapper">
+
+                    <div class="user-cover" th:style="'background-image: url('+@{/images/bg1.jpg}+');'">
+                        <div class="user-avatar">
+                            <img th:src="@{/images/avatar.png}" alt="User"/></div>
+                    </div>
+
+                    <div class="user-info">
+                        <div class="user-data">
+                            <table class="table">
+                                <tbody>
+                                <tr>
+                                    <th scope="row">Новые заявки:</th>
+                                    <td><span class="badge badge-primary badge-pill" th:utext="${requestsCountByZero}"/>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <th scope="row">Отложенные заявки:</th>
+                                    <td><span class="badge badge-primary badge-pill"
+                                              th:utext="${requestsCountByThree}"/>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <th scope="row">Выполненые заявки:</th>
+                                    <td><span class="badge badge-primary badge-pill" th:utext="${requestsCountTotal}"/>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </aside>
+
+                <nav class=" list-group">
+                    <a class="list-group-item" href="/current-applications"><i class="fa fa-cogs"
+                                                                               aria-hidden="true"></i>Текущие заявки</a>
+                    <a class="list-group-item" href="/"><i class="fa fa-paper-plane" aria-hidden="true"></i>Отправить
+                        заявку</a>
+                    <form th:action="@{/logout}" method="post">
+                        <a class="list-group-item with-badge active"><i class="fa fa-sign-out"
+                                                                        aria-hidden="true"></i>
+                            <input type="submit" class="btn btn-primary" value="Выход"/> </a>
+                    </form>
+                </nav>
+            </div>
+
+            <div class="col-lg-8">
+
+                <form th:action="@{/completed/requests}" method="get">
+                    <div class="form-row">
+                        <div class="col">
+                            <p><select class="form-control" name="shop" id="shop"><br>
+                                <option value="">Выберите магазин</option>
+                                <option value="Дечебал 139">Дечебал 139</option>
+                                <option value="Зелинский 7">Зелинский 7</option>
+                                <option value="Дачия 10">Дачия 10</option>
+                                <option value="Тестемицану 23">Тестемицану 23</option>
+                                <option value="Докучаев 6">Докучаев 6</option>
+                                <option value="Лев Толстой 24/1">Лев Толстой 24/1</option>
+                                <option value="Штефа чел Маре 132">Штефа чел Маре 132</option>
+                                <option value="Штефа чел Маре 135">Штефае чел Маре 135</option>
+                                <option value="Пушкин 32">Пушкин 32</option>
+                                <option value="Щусев 55">Щусев 55</option>
+                                <option value="Каля Ешилор 16/6">Каля Ешилор 16/6</option>
+                                <option value="Алеку Русо 15">Алеку Русо 15</option>
+                                <option value="Мирча чел Бэтрын 24/6">Мирча чел Бэтрын 24/6</option>
+                                <option value="Игорь Виеру 6/3">Игорь Виеру 6/3</option>
+                                <option value="Индутриальная 59с">Индутриальная 59с</option>
+                                <option value="Московский проспект 9/5">Московский проспект 9/5</option>
+                                <option value="Мирча чел Бэтрын 2">Мирча чел Бэтрын 2</option>
+                                <option value="Дачия 47/7">Дачия 47/7</option>
+                            </select></p>
+                        </div>
+                        <div class="col">
+                            <input type="date" class="form-control" id="start" name="trip-start"
+                                   min="2021-03-04" max="2030-12-31">
+                        </div>
+                        <div class="col">
+                            <button type="submit" class="btn btn-primary">Найти</button>
+                            <a href="/completed/requests" class="btn btn-primary">Сбросить фильтр</a>
+                        </div>
+                    </div>
+                </form>
+
+                <form th:action="@{/completed/edit}" th:method="post">
+
+                    <input class="btn btn-primary" type="submit" th:value="Вернуть" th:name="action"/>
+                    <input class="btn btn-primary" type="submit" th:value="Сохранить" th:name="action"/>
+
+                    <div th:each="el:${requests}" class="comment">
+                        <div class="comment-body">
+                            <input type="checkbox" th:value="*{el.id}" name="id"/>
+                            <h5 th:text="'Магазин: '+ ${el.shop}"></h5>
+                            <div th:text="'Дата заявки: '+${el.dateCreated}"/>
+                            <div th:switch="${el.state}">
+                                <div th:case="'0'">Состояние: Новая заявка</div>
+                                <div th:case="'1'">Состояние: Выполненая заявка</div>
+                                <div th:case="'3'">Состояние: Отложенная заявка</div>
+                            </div>
+                            <div th:text="'Проблема: '+${el.problem}"/>
+                            <div class="twolines" th:text="'Описание проблемы: '+${el.message}"/>
+
+                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                                    th:attr="data-target='#bd-example-modal-lg'+${el.id}">
+                                Подробнее
+                            </button>
+                            <div th:insert="parts/edit-request :: edit-request"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/js/jquery-1.10.2.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script>
+<!--document.getElementById("optionsRadios1").setAttribute("checked","checked")-->
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+<!--<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>-->
+<!--<script src="http://netdna.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>-->
+</body>
+</html>

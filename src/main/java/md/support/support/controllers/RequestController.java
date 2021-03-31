@@ -1,24 +1,36 @@
 package md.support.support.controllers;
 
+import com.itextpdf.text.DocumentException;
+import md.support.support.models.PDFExporter;
 import md.support.support.models.Request;
 import md.support.support.repo.RequestRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
 @Controller
+@RequestMapping("/completed")
 public class RequestController {
 
-    @Autowired
-    private RequestRepository requestRepository;
+    private final RequestRepository requestRepository;
+
+    public RequestController(RequestRepository requestRepository) {
+        this.requestRepository = requestRepository;
+    }
 
     public void viewRequest(Model model) {
         int requestsCountByZero = requestRepository.findByCountRequestStateZero();
@@ -31,60 +43,72 @@ public class RequestController {
         model.addAttribute("requestsCountByOne", requestsCountByOne);
         model.addAttribute("requestCountTotal", requestCountTotal);
     }
-
-    @GetMapping(value = "/completed-requests")
-    public String greetingForm(Request request, Model model) {
-        viewRequest(model);
-
-
-        return "completed-requests";
-    }
-
-    @PostMapping("/edit-request-completed")
-    public String editRequest(@RequestParam("id") long id, @RequestParam String shop, @RequestParam String name,
-                              @RequestParam String phone, @RequestParam String problem, @RequestParam String message,
-                              @RequestParam String comment) {
-        Request request = requestRepository.findById(id).orElseThrow();
-        request.setShop(shop);
-        request.setName(name);
-        request.setPhone(phone);
-        request.setProblem(problem);
-        request.setMessage(message);
-        request.setComment(comment);
-        requestRepository.save(request);
-        return "redirect:/completed-requests";
-    }
-
-    @PostMapping("/completed-requests/{id}/state0")
-    public String applicationStateZero(@PathVariable(value = "id") long id, Model model) {
-        Request request = requestRepository.findById(id).orElseThrow();
-        request.setState(0);
-        requestRepository.save(request);
-        return "redirect:/completed-requests";
-    }
-
-    @PostMapping(value = "/completed-requests")
-    public String filter(Request request, Model model) {
-        viewRequest(model);
-
-        if (request.getDateSort().length() == 0) {
-            viewRequest(model);
-            List<Request> requests = requestRepository.findByShop(request.getShop());
-            model.addAttribute("requests", requests);
-            return "completed-requests";
+    @PostMapping("/edit")
+    public String edit(HttpServletResponse response
+            , @RequestParam(value = "id", required = false) List<Long> s
+            , @RequestParam String action, Model model) {
+        if (action.equals("Вернуть")) {
+            for (Long q : s) {
+                Request r = requestRepository.findById(q).orElseThrow();
+                r.setState(0);
+                requestRepository.save(r);
+            }
+            return "requests";
         }
+        if (action.equals("Сохранить")) {
+            response.setContentType("application/pdf; charset=UTF-8");
+            DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+            String currentDateTime = dateFormatter.format(new Date());
 
-        if (request.getShop().length() == 0) {
-            viewRequest(model);
-            List<Request> requests = requestRepository.findByDateSort(request.getDateSort());
-            model.addAttribute("requests", requests);
-            return "completed-requests";
+            String headerKey = "Content-Disposition";
+            String headerValue = "attachment; filename=Request_" + currentDateTime + ".pdf";
+            response.setHeader(headerKey, headerValue);
+
+            List<Request> res = new ArrayList<Request>();
+            for (Long q : s) {
+                List<Request> requests = requestRepository.findByIdAll(q);
+                res.add(requests.get(0));
+            }
+            PDFExporter exporter = new PDFExporter(res);
+            try {
+                exporter.export(response);
+                return "requests";
+            } catch (DocumentException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+        return "requests";
+    }
 
+    /*
+        @PostMapping("/requests/{id}/state0")
+        public String applicationStateZero(@PathVariable(value = "id") long id, Model model) {
+            Request request = requestRepository.findById(id).orElseThrow();
+            request.setState(0);
+            requestRepository.save(request);
+            return "redirect:/requests";
+        }
+     */
+    @GetMapping("/requests")
+    public String filter(@RequestParam(value = "shop", required = false) String shop,
+                         @RequestParam(value = "trip-start", required = false) String dateSort,
+                         Model model) {
         viewRequest(model);
-        List<Request> requests = requestRepository.findByShopAndDateSort(request.getShop(), request.getDateSort());
+        if (StringUtils.isEmpty(dateSort)) {
+            List<Request> requests = requestRepository.findByShop(shop);
+            model.addAttribute("requests", requests);
+            return "requests";
+        }
+        if (StringUtils.isEmpty(shop)) {
+            List<Request> requests = requestRepository.findByDateSort(dateSort);
+            model.addAttribute("requests", requests);
+            return "requests";
+        }
+        List<Request> requests = requestRepository.findByShopAndDateSort(shop, dateSort);
         model.addAttribute("requests", requests);
-        return "completed-requests";
+        return "requests";
     }
 
 }

@@ -3,9 +3,9 @@ package md.support.support.models;
 import com.itextpdf.text.*;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.pdf.BaseFont;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import md.support.support.models.Request;
+import org.springframework.stereotype.Service;
 
 
 import javax.servlet.http.HttpServletResponse;
@@ -37,6 +37,7 @@ public class PDFExporter {
         font.setSize(14);
         Paragraph newLine = new Paragraph("\n\n");
         document.add(newLine);
+
         for (Request request : listRequest) {
             Paragraph shop = new Paragraph("Магазин: " + String.valueOf(request.getShop()), fontBd);
             document.add(shop);
@@ -59,12 +60,11 @@ public class PDFExporter {
             document.add(newLineAfterNameMessage);
             document.add(newLineAfterNameMessage);
             document.add(newLineAfterNameMessage);
-            Paragraph completed = new Paragraph("Выполнил:                                                                          "+"Принял:", font);
+            Paragraph completed = new Paragraph("Выполнил:                                                                          " + "Принял:", font);
             document.add(completed);
+            document.newPage();
         }
-
         document.close();
-
     }
 
 }

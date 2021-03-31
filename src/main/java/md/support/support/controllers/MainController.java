@@ -30,13 +30,11 @@ public class MainController {
         requestRepository.save(request);
         //Mail mail = new Mail();
         // mail.sendMail(request.getShop(), request.getMessage(), request.getProblem(), request.getPhone(), request.getName());
-        return "redirect:/";
+        return "modal";
     }
 
     @GetMapping(value = "/")
-    public String home(Model model) {
-        Request request = new Request();
-        model.addAttribute("request", request);
+    public String home(@ModelAttribute Request request, Model model) {
         return "home";
     }
 
