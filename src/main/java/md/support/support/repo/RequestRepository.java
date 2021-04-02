@@ -33,6 +33,9 @@ public interface RequestRepository extends CrudRepository<Request, Long> {
     @Query("SELECT Count(state) FROM Request u where state=1")
     Integer findByCountRequestStateOne();
 
+    @Query("SELECT Count(state) FROM Request u where state=1 and shop=:shopSelect")
+    Integer findByCountRequestStateOneAndShop(@Param("shopSelect") String shop);
+
     @Query("SELECT Count(state) FROM Request")
     Integer findByCountRequestTotal();
 

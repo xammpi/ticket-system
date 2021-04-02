@@ -23,10 +23,8 @@ public class MainController {
     private RequestRepository requestRepository;
 
     @PostMapping(value = "/")
-    public String homeRequestAdd(@ModelAttribute @Valid Request request, BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()) {
-            return "home";
-        }
+    public String homeRequestAdd(@ModelAttribute @Valid Request request, Model model) {
+
         requestRepository.save(request);
         //Mail mail = new Mail();
         // mail.sendMail(request.getShop(), request.getMessage(), request.getProblem(), request.getPhone(), request.getName());
