@@ -42,4 +42,7 @@ public interface RequestRepository extends CrudRepository<Request, Long> {
     @Query(value = "SELECT u FROM Request u WHERE id = :id")
     List<Request> findByIdAll(@Param("id") Long id);
 
+    @Query("SELECT u FROM Request u WHERE shop=:shop and state = 0 or state=3 order by id desc ")
+    List<Request> findByStateAndShop(@Param("shop") String shop);
+
 }

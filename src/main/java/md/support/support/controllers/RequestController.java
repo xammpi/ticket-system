@@ -3,7 +3,10 @@ package md.support.support.controllers;
 import com.itextpdf.text.DocumentException;
 import md.support.support.models.PDFExporter;
 import md.support.support.models.Request;
+import md.support.support.models.User;
 import md.support.support.repo.RequestRepository;
+import md.support.support.repo.ShopRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -42,18 +45,17 @@ public class RequestController {
         this.requestRepository = requestRepository;
     }
 
+    @Autowired
+    private ShopRepository shopRepository;
+
     public String requestGetQueryString;
 
     public void viewRequest(Model model) {
-        int requestsCountByZero = requestRepository.findByCountRequestStateZero();
-        int requestsCountByThree = requestRepository.findByCountRequestStateThree();
-        int requestsCountByOne = requestRepository.findByCountRequestStateOne();
-        int requestCountTotal = requestRepository.findByCountRequestTotal();
 
-        model.addAttribute("requestsCountByZero", requestsCountByZero);
-        model.addAttribute("requestsCountByThree", requestsCountByThree);
-        model.addAttribute("requestsCountByOne", requestsCountByOne);
-        model.addAttribute("requestCountTotal", requestCountTotal);
+        model.addAttribute("requestsCountByZero", requestRepository.findByCountRequestStateZero());
+        model.addAttribute("requestsCountByThree", requestRepository.findByCountRequestStateThree());
+        model.addAttribute("requestsCountByOne", requestRepository.findByCountRequestStateOne());
+        model.addAttribute("requestCountTotal", requestRepository.findByCountRequestTotal());
     }
 
     @PostMapping("/edit")
@@ -113,10 +115,16 @@ public class RequestController {
                          @RequestParam(value = "trip-start", required = false) String dateSort,
                          Model model, HttpServletRequest request) {
         viewRequest(model);
-        int requestsCountByZeroAndShop = requestRepository.findByCountRequestStateOneAndShop(shop);
-        model.addAttribute("shopSelect", shop);
-        model.addAttribute("requestsCountByZeroAndShop",requestsCountByZeroAndShop);
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute("user", user);
+        model.addAttribute("shops", shopRepository.findAll());
+//
+//        int requestsCountByZeroAndShop = requestRepository.findByCountRequestStateOneAndShop(shop);
+//        model.addAttribute("shopSelect", shop);
+//        model.addAttribute("requestsCountByZeroAndShop", requestsCountByZeroAndShop);
+
         requestGetQueryString = request.getQueryString();
+
         if (StringUtils.isEmpty(dateSort)) {
             List<Request> requests = requestRepository.findByShop(shop);
             model.addAttribute("requests", requests);

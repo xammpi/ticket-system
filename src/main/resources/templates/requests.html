@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <title> Выпоненые заявки </title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -18,26 +18,27 @@
                 <aside class="user-info-wrapper">
 
                     <div class="user-cover" th:style="'background-image: url('+@{/images/bg1.jpg}+');'">
+                        <div class="info-label" th:insert="parts/security :: security"></div>
                         <div class="user-avatar">
                             <img th:src="@{/images/avatar.png}" alt="User"/></div>
                     </div>
 
                     <div class="user-info">
                         <div class="user-data">
-                            <table class="table">
-                                <tbody>
-                                <tr>
-                                    <th scope="row">Магазин:</th>
-                                    <td><span class="badge badge-primary badge-pill" th:utext="${shopSelect}"/>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Выполненые заявки:</th>
-                                    <td><span class="badge badge-primary badge-pill"
-                                              th:utext="${requestsCountByZeroAndShop}"/></td>
-                                </tr>
-                                </tbody>
-                            </table>
+<!--                            <table class="table">-->
+<!--                                <tbody>-->
+<!--                                <tr>-->
+<!--                                    <th scope="row">Магазин:</th>-->
+<!--                                    <td><span class="badge badge-primary badge-pill" th:utext="${shopSelect}"/>-->
+<!--                                    </td>-->
+<!--                                </tr>-->
+<!--                                <tr>-->
+<!--                                    <th scope="row">Выполненые заявки:</th>-->
+<!--                                    <td><span class="badge badge-primary badge-pill"-->
+<!--                                              th:utext="${requestsCountByZeroAndShop}"/></td>-->
+<!--                                </tr>-->
+<!--                                </tbody>-->
+<!--                            </table>-->
                         </div>
                     </div>
 
@@ -63,24 +64,8 @@
                         <div class="col">
                             <p><select class="form-control" name="shop" id="shop"><br>
                                 <option value="">Выберите магазин</option>
-                                <option value="Дечебал 139">Дечебал 139</option>
-                                <option value="Зелинский 7">Зелинский 7</option>
-                                <option value="Дачия 10">Дачия 10</option>
-                                <option value="Тестемицану 23">Тестемицану 23</option>
-                                <option value="Докучаев 6">Докучаев 6</option>
-                                <option value="Лев Толстой 24/1">Лев Толстой 24/1</option>
-                                <option value="Штефан чел Маре 132">Штефан чел Маре 132</option>
-                                <option value="Штефан чел Маре 135">Штефан чел Маре 135</option>
-                                <option value="Пушкин 32">Пушкин 32</option>
-                                <option value="Щусев 55">Щусев 55</option>
-                                <option value="Каля Ешилор 16/6">Каля Ешилор 16/6</option>
-                                <option value="Алеку Русо 15">Алеку Русо 15</option>
-                                <option value="Мирча чел Бэтрын 24/6">Мирча чел Бэтрын 24/6</option>
-                                <option value="Игорь Виеру 6/3">Игорь Виеру 6/3</option>
-                                <option value="Индустриальная 59с">Индустриальная 59с</option>
-                                <option value="Московский проспект 9/5">Московский проспект 9/5</option>
-                                <option value="Мирча чел Бэтрын 2">Мирча чел Бэтрын 2</option>
-                                <option value="Дачия 47/7">Дачия 47/7</option>
+                                <option th:each="element : ${shops}"
+                                        th:value="${element.name}" th:text="${element.name}"></option>
                             </select></p>
                         </div>
                         <div class="col">
@@ -96,10 +81,23 @@
 
                 <form th:action="@{/completed/edit}" th:method="post">
                     <div class="container">
-                        <input class="btn btn-primary" type="submit" th:value="Вернуть" th:name="action"/>
-                        <input class="btn btn-primary" type="submit" th:value="Сохранить" th:name="action"/>
-                        <div class="flex-chek">
-                            <span class="badge badge-primary badge-pill"><input type="checkbox" id="check_all_uw"> Выбрать все</span>
+
+                        <div class="flex-container">
+
+                            <div class="flex-item">
+                                <div sec:authorize="hasAuthority('ADMIN')">
+                                    <input class="btn btn-primary" type="submit" th:value="Вернуть" th:name="action"/>
+                                </div>
+                            </div>
+                            <div class="flex-item">
+                                <input class="btn btn-primary" type="submit" th:value="Сохранить" th:name="action"/>
+                            </div>
+                            <div class="flex-item">
+                                <div class="flex-chek">
+                                    <span class="badge badge-primary badge-pill"><input type="checkbox"
+                                                                                        id="check_all_uw"> Выбрать все</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -110,7 +108,7 @@
                             <div th:text="'Дата заявки: '+${el.dateCreated}"/>
                             <div th:switch="${el.state}">
                                 <div th:case="'0'">Состояние: Новая заявка</div>
-                                <div th:case="'1'">Состояние: Выполненая заявка</div>
+                                <div class="badge badge-primary-postpone badge-pill" th:case="'1'">Состояние: Выполненая заявка</div>
                                 <div th:case="'3'">Состояние: Отложенная заявка</div>
                             </div>
                             <div th:text="'Проблема: '+${el.problem}"/>
@@ -139,6 +137,9 @@ $(function() {
       .prop("checked", $(this).is(":checked"));
   });
 });
+
+
+
 
 
 

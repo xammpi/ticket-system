@@ -1,0 +1,35 @@
+<div th:fragment="add-worker-modal">
+
+
+    <div class="modal fade bd-example-modal-lg" th:id="${'bd-example-modal-lg'}"
+         tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle1">Добавить нового исполнителя</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Имя и Фамилия</label>
+                        <input type="text" th:field="*{name}" class="form-control" placeholder="Имя и Фамилия"
+                               required/><br/>
+                        <label>Должность</label>
+                        <p><select th:field="*{position}" class="custom-select" multiple="multiple" required><br>
+                            <option value="">Выберите должность из списка</option>
+                            <option th:each="el:${positions}"
+                                    th:value="${el.id}" th:text="${el.name}"></option>
+                        </select></p>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Ввод</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>

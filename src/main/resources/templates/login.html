@@ -13,7 +13,7 @@
 <body>
 <div class="login-form">
     <div class="form-group ">
-        <h1> <img src="http://n1.md/test_form/css/logo.png" alt="logo" class="img-responsive" height="102" ></h1>
+        <h1><img src="http://n1.md/test_form/css/logo.png" alt="logo" class="img-responsive" height="102"></h1>
         <div th:if="${param.error}">
             Ошибка входа!
         </div>
@@ -22,14 +22,19 @@
         </div>
         <form name="loginform" th:action="@{/login}" method="post">
             <div class="form-group ">
-                <input type="text" class="form-control" placeholder="Имя пользователя " name="username" /><br />
+                <input type="text" class="form-control" placeholder="Имя пользователя " name="username"/><br/>
                 <i class="fa fa-user"></i>
             </div>
             <div class="form-group log-status">
-                <input type="password" class="form-control" placeholder="Пароль" name="password" /><br />
+                <input type="password" class="form-control" placeholder="Пароль" name="password"/><br/>
                 <i class="fa fa-lock"></i>
             </div>
-            <input type="submit"  class="log-btn" name="Submit" value="Войти" />
+            <input type="submit" class="log-btn" name="Submit" value="Войти"/>
+        </form>
+        <form action="/registration">
+            <div class="flex-container ">
+                <input type="submit" value="Регистрация" class="log-btn"/>
+            </div>
         </form>
     </div>
 </div>

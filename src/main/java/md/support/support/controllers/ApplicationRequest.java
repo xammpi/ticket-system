@@ -1,9 +1,14 @@
 package md.support.support.controllers;
 
 import md.support.support.models.Request;
+
+import md.support.support.models.User;
+import md.support.support.repo.ProblemRepository;
 import md.support.support.repo.RequestRepository;
 
+import md.support.support.repo.ShopRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,21 +21,34 @@ public class ApplicationRequest {
     @Autowired
     private RequestRepository requestRepository;
 
+    @Autowired
+    private ShopRepository shopRepository;
+
+    @Autowired
+    private ProblemRepository problemRepository;
+
+
+
     @GetMapping("/current-applications")
     public String applicationsMain(Model model) {
-        int requestsCountByZero = requestRepository.findByCountRequestStateZero();
-        int requestsCountByThree = requestRepository.findByCountRequestStateThree();
-        int requestsCountByOne = requestRepository.findByCountRequestStateOne();
-        int requestCountTotal = requestRepository.findByCountRequestTotal();
 
-        model.addAttribute("requestsCountByZero", requestsCountByZero);
-        model.addAttribute("requestsCountByThree", requestsCountByThree);
-        model.addAttribute("requestsCountByOne", requestsCountByOne);
-        model.addAttribute("requestCountTotal", requestCountTotal);
+        model.addAttribute("requestsCountByZero", requestRepository.findByCountRequestStateZero());
+        model.addAttribute("requestsCountByThree", requestRepository.findByCountRequestStateThree());
+        model.addAttribute("requestsCountByOne", requestRepository.findByCountRequestStateOne());
+        model.addAttribute("requestCountTotal", requestRepository.findByCountRequestTotal());
+        model.addAttribute("shops", shopRepository.findAll());
+        model.addAttribute("problems", problemRepository.findAll());
 
-        List<Request> requests = requestRepository.findByState();
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute("user", user);
+
+        if (String.valueOf(user.getRoles()).contains("ADMIN") || String.valueOf(user.getRoles()).contains("SUPPORT")) {
+            List<Request> requests = requestRepository.findByState();
+            model.addAttribute("requests", requests);
+            return "current-applications";
+        }
+        List<Request> requests = requestRepository.findByStateAndShop(user.getShop());
         model.addAttribute("requests", requests);
-
         return "current-applications";
     }
 

@@ -2,12 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <title th:text="${title}"/>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" th:href="@{/css/detail.css}">
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
-    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <div class="info-label" th:insert="parts/head :: head"></div>
 </head>
 <body>
 <h1 align="center">Заявка в ИТ-отдел</h1>
@@ -21,24 +16,8 @@
                         <!--                        <h6 th:errors="*{shop}" class="error"/>-->
                 <p><select th:field="*{shop}" class="custom-select" required><br>
                     <option value="">Выберите магазин из списка</option>
-                    <option th:value="'Дечебал 139'">Дечебал 139</option>
-                    <option th:value="'Зелинский 7'">Зелинский 7</option>
-                    <option th:value="'Дачия 10'">Дачия 10</option>
-                    <option th:value="'Тестемицану 23'">Тестемицану 23</option>
-                    <option th:value="'Докучаев 6'">Докучаев 6</option>
-                    <option th:value="'Лев Толстой 24/1'">Лев Толстой 24/1</option>
-                    <option th:value="'Штефан чел Маре 132'">Штефа чел Маре 132</option>
-                    <option th:value="'Штефан чел Маре 135'">Штефае чел Маре 135</option>
-                    <option th:value="'Пушкин 32'">Пушкин 32</option>
-                    <option th:value="'Щусев 55'">Щусев 55</option>
-                    <option th:value="'Каля Ешилор 16/6'">Каля Ешилор 16/6</option>
-                    <option th:value="'Алеку Русо 15'">Алеку Русо 15</option>
-                    <option th:value="'Мирча чел Бэтрын 24/6'">Мирча чел Бэтрын 24/6</option>
-                    <option th:value="'Игорь Виеру 6/3'">Игорь Виеру 6/3</option>
-                    <option th:value="'Индустриальная 59с'">Индутриальная 59с</option>
-                    <option th:value="'Московский проспект 9/5'">Московский проспект 9/5</option>
-                    <option th:value="'Мирча чел Бэтрын 2'">Мирча чел Бэтрын 2</option>
-                    <option th:value="'Дачия 47/7'">Дачия 47/7</option>
+                    <option th:each="el : ${shops}"
+                            th:value="${el.name}" th:text="${el.name}"></option>
                 </select></p>
 
                 <div class="input-group">
@@ -56,13 +35,11 @@
                         Укажите контактный телефон
                     </div>
                 </div>
+
                 <p><select th:field="*{problem}" class="custom-select" required><br>
                     <option value="">Выберите проблему из списка</option>
-                    <option th:value="'Компьютер'">Компьютер</option>
-                    <option th:value="'Весы'">Весы</option>
-                    <option th:value="'Касса'">Касса</option>
-                    <option th:value="'Музыка'">Музыка</option>
-                    <option th:value="'Ценники'">Ценники</option>
+                    <option th:each="el : ${problems}"
+                            th:value="${el.name}" th:text="${el.name}"></option>
                 </select></p>
 
                 <div class="input-group">
@@ -72,9 +49,13 @@
                         Описание проблемы
                     </div>
                 </div>
+<!--                <div class="input-group">-->
+<!--                    <input type="file" accept="image/*">-->
+<!--                </div>-->
                 <button type="submit" id="sendMail" class="btn btn-primary">Отправить</button>
                 <a href="/current-applications" class="btn btn-primary">Заявки</a>
                 </form>
+
                 <div id="errorMess"></div>
                 </p>
             </div>
@@ -84,31 +65,6 @@
 </div>
 <script th:src="@{/js/jquery-1.10.2.min.js}"></script>
 <script th:src="@{/js/bootstrap.min.js}"></script>
-<script>
-(function() {
-  'use strict';
-  window.addEventListener('load', function() {
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    var forms = document.getElementsByClassName('needs-validation');
-    // Loop over them and prevent submission
-    var validation = Array.prototype.filter.call(forms, function(form) {
-      form.addEventListener('submit', function(event) {
-        if (form.checkValidity() === false) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-        form.classList.add('was-validated');
-      }, false);
-    });
-  }, false);
-})();
-
-
-
-
-
-
-</script>
-
+<script th:src="@{/js/validation.js}"></script>
 </body>
 </html>

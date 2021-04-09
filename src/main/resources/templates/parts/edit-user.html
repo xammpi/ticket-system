@@ -1,0 +1,57 @@
+<div th:fragment="edit-user">
+
+    <div class="modal fade bd-example-modal-lg" th:id="${'bd-example-modal-lg'+{el.id}}"
+         tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle1">Редактировать данные пользователя</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input type="hidden" name="userId" th:value="*{el.id}"/>
+                        <label>Пользователь</label>
+                        <input type="text" name="username" th:value="*{el.username}" class="form-control"><br>
+
+                        <label>Пароль</label>
+                        <input type="text" name="password" th:value="*{el.password}" class="form-control"><br>
+
+                        <label>Права</label>
+                        <div class="form-group log-status">
+                            <p><select class="form-control" name="roles"><br>
+                                <option th:value="*{el.roles}" th:text="*{el.roles}"></option>
+                                <option th:each="roles : ${T(md.support.support.models.Role).values()}"
+                                        th:value="${roles}" th:text="${roles}"></option>
+                            </select></p>
+
+                        <label>Имя</label>
+                        <input type="text" name="name" th:value="*{el.name}" class="form-control"><br>
+
+                        <label>Магазин</label>
+                            <p><select class="form-control" name="shop"><br>
+                                <option th:value="*{el.shop}" th:text="*{el.shop}"></option>
+                                <option th:each="element : ${shops}"
+                                        th:value="${element.name}" th:text="${element.name}"></option>
+                            </select></p>
+
+
+
+                        </div>
+
+                        <label>Телефон</label>
+                        <input type="text" name="phone" th:value="*{el.phone}" class="form-control"><br>
+
+                        <label>Email</label>
+                        <input type="text" name="email" th:value="*{el.email}" class="form-control"><br>
+
+                        <button type="submit" class="btn btn-primary">Ввод</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

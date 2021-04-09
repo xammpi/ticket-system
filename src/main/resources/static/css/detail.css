@@ -1,7 +1,7 @@
-
- body{
+<--#708090 -->
+{
         margin-top: 20px !important;
-      	background-color: #708090 !important;
+      	background-color: #ffff !important;
       	}
 .test{
          position: absolute;
@@ -84,7 +84,7 @@ padding-top: 50px;
 }
 .user-info-wrapper .user-cover .user-avatar>img {
     display: block;
-    width: 100%;
+    width: 90%;
     border: 5px solid #fff;
     border-radius: 50%
 
@@ -99,16 +99,15 @@ padding-top: 50px;
     display: block;
     position: absolute;
     top: 18px;
-    right: 18px;
-    height: 26px;
+    right: 12px;
+    height: 56px;
     padding: 0 12px;
     border-radius: 13px;
     background-color: #fff;
     color: #606975;
-    font-size: 12px;
+    font-size: 16px;
     line-height: 26px;
     box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.18);
-    cursor: pointer
 }
 
 .user-info-wrapper .info-label>i {
@@ -204,6 +203,23 @@ a.list-group-item, .list-group-item-action {
 .badge.badge-primary {
     background-color: #0da9ef;
 }
+
+.badge.badge-primary-postpone {
+    background-color: #0da9ef;
+    font-size: 15px;
+}
+
+.badge.badge-primary-completed {
+    background-color: #6eb66c;
+    font-size: 15px;
+}
+
+.badge.badge-primary-new {
+    background-color: #ff6e6d;
+   font-size: 15px;
+
+}
+
 .with-badge .badge {
     position: absolute;
     top: 50%;
@@ -224,13 +240,15 @@ a.list-group-item, .list-group-item-action {
     margin-bottom: 30px;
     padding-left: 66px
 }
-
+/*
+Размеры блока comment
+*/
 .comment .comment-body {
     position: relative;
     padding: 24px;
     border: 1px solid #e1e7ec;
     border-radius: 7px;
-    background-color: #fff
+    background-color: #eeeeee
 }
 
 .comment .comment-body::after,

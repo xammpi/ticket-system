@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title> Login </title>
+    <div class="info-label" th:insert="parts/head :: head"></div>
+    <link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css'>
+</head>
+
+<body>
+<div class="login-form">
+    <div class="form-group ">
+
+        <h1><img src="http://n1.md/test_form/css/logo.png" alt="logo" class="img-responsive" height="102"></h1>
+        <h3 align="center">Реристрация</h3>
+        <span th:utext="${message}"/>
+
+        <form class="was-validated" th:action="@{/registration}" method="post">
+            <div class="form-group ">
+                <input type="text" class="form-control" placeholder="Имя пользователя " name="username" required/><br/>
+                <i class="fa fa-user"></i>
+            </div>
+
+            <div class="form-group log-status">
+                <input type="password" class="form-control" placeholder="Пароль" name="password" required/><br/>
+                <i class="fa fa-lock"></i>
+            </div>
+
+            <div class="form-group log-status">
+                <input type="name" class="form-control" placeholder="Укажите Фамилию и Имя" name="name" required/><br/>
+            </div>
+
+            <div class="form-group log-status">
+                <p><select class="form-control" name="shop" required><br>
+                    <option value="">Выберите магазин из списка</option>
+                    <option th:each="el : ${shops}"
+                            th:value="${el.name}" th:text="${el.name}"></option>
+                </select></p>
+            </div>
+
+            <div class="form-group log-status">
+                <input type="phone" class="form-control" placeholder="Телефон" name="phone" required/><br/>
+            </div>
+
+            <div class="form-group log-status">
+                <input type="email" class="form-control" placeholder="Почтовый адресс" name="email" required/><br/>
+            </div>
+
+            <input type="submit" class="log-btn" name="Submit" value="Подтвердить"/>
+        </form>
+    </div>
+</div>
+<script th:src="@{/js/jquery-1.10.2.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/validation.js}"></script>
+</body>
+</html>

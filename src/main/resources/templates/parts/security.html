@@ -1,0 +1,20 @@
+<div th:fragment="security">
+    <!--    <div sec:authorize="isAuthenticated()">-->
+    <!--        <span th:text="${#authentication.name}"></span>-->
+    <!--    </div>-->
+    <div th:each="el:${user}">
+        <table>
+            <tbody>
+            <tr>
+<!--                <th >Пользователь:</th>-->
+                <th  align="left" th:text="${el.name}"/>
+            </tr>
+            <tr>
+<!--                <th >Магазин:</th>-->
+                <th  th:utext="${el.shop}"/>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
