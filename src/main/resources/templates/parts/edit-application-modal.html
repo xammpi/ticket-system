@@ -13,15 +13,34 @@
                 <div class="modal-body">
                     <div class="container-fluid">
                         <form th:action="@{/edit-request}" method="post">
-                            <h6>
-                                <div th:text="'Дата заявки: '+${el.dateCreated}"/>
-                            </h6>
-                            <h6>
-                                <div th:switch="${el.state}">
-                                    <div class="badge badge-primary-new badge-pill" th:case="'0'">Состояние: Новая заявка</div>
-                                    <div class="badge badge-primary-postpone badge-pill" th:case="'3'">Состояние: Отложенная заявка</div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <h6>
+                                        <div th:text="'Дата заявки: '+${el.dateCreated}"/>
+                                    </h6>
+                                    <h6>
+                                        <div th:switch="${el.state}">
+                                            <div class="badge badge-primary-new badge-pill" th:case="'0'">Состояние:
+                                                Новая
+                                                заявка
+                                            </div>
+                                            <div class="badge badge-primary-postpone badge-pill" th:case="'3'">
+                                                Состояние:
+                                                Отложенная заявка
+                                            </div>
+                                        </div>
+                                    </h6>
                                 </div>
-                            </h6>
+                                <div class="col-md-4">
+                                    <label>Исполнитель</label>
+                                    <p><select class="form-control" name="worker"><br>
+                                        <option th:text="*{el.worker}"></option>
+                                        <option th:each="element:${workers}"
+                                                th:value="${element.id}"
+                                                th:text="${element.name}+'-'+${element.position}"></option>
+                                    </select></p>
+                                </div>
+                            </div>
                             <input type="hidden" name="id" th:value="*{el.id}">
                             <div class="row">
                                 <div class="col-md-4">

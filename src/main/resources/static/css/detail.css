@@ -209,6 +209,12 @@ a.list-group-item, .list-group-item-action {
     font-size: 15px;
 }
 
+.badge.badge-primary-expects {
+    background-color: #e8c91c;
+    font-size: 15px;
+}
+
+
 .badge.badge-primary-completed {
     background-color: #6eb66c;
     font-size: 15px;

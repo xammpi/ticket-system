@@ -128,10 +128,6 @@
 
 
     </dependencies>
-
-
-
-
 	<build>
 		<plugins>
 			<plugin>

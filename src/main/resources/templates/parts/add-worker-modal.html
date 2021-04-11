@@ -18,7 +18,7 @@
                         <input type="text" th:field="*{name}" class="form-control" placeholder="Имя и Фамилия"
                                required/><br/>
                         <label>Должность</label>
-                        <p><select th:field="*{position}" class="custom-select" multiple="multiple" required><br>
+                        <p><select th:field="*{position}" class="chosen-select" multiple required><br>
                             <option value="">Выберите должность из списка</option>
                             <option th:each="el:${positions}"
                                     th:value="${el.id}" th:text="${el.name}"></option>

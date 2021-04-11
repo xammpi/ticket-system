@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "request")
@@ -34,13 +35,10 @@ public class Request {
     @Transient
     private String dateSort;
 
-    public String getDateSort() {
-        return dateSort;
-    }
-
-    public void setDateSort(String dateSort) {
-        this.dateSort = dateSort;
-    }
+    @ManyToMany()
+    @JoinTable(name = "worker_request", joinColumns = {@JoinColumn(name = "request_id")},
+            inverseJoinColumns = {@JoinColumn(name = "worker_id")})
+    private List<Worker> worker;
 
     @NotBlank(message = "Выберите магазин из списка")
     private String shop;
@@ -50,6 +48,22 @@ public class Request {
 
     @JoinColumn(name = "comment")
     private String comment;
+
+    public List<Worker> getWorker() {
+        return worker;
+    }
+
+    public void setWorker(List<Worker> worker) {
+        this.worker = worker;
+    }
+
+    public String getDateSort() {
+        return dateSort;
+    }
+
+    public void setDateSort(String dateSort) {
+        this.dateSort = dateSort;
+    }
 
     public String getComment() {
         return comment;

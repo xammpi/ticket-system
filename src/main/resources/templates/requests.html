@@ -25,20 +25,7 @@
 
                     <div class="user-info">
                         <div class="user-data">
-<!--                            <table class="table">-->
-<!--                                <tbody>-->
-<!--                                <tr>-->
-<!--                                    <th scope="row">Магазин:</th>-->
-<!--                                    <td><span class="badge badge-primary badge-pill" th:utext="${shopSelect}"/>-->
-<!--                                    </td>-->
-<!--                                </tr>-->
-<!--                                <tr>-->
-<!--                                    <th scope="row">Выполненые заявки:</th>-->
-<!--                                    <td><span class="badge badge-primary badge-pill"-->
-<!--                                              th:utext="${requestsCountByZeroAndShop}"/></td>-->
-<!--                                </tr>-->
-<!--                                </tbody>-->
-<!--                            </table>-->
+                            <table class="table" th:insert="parts/execution-status :: execution-status"></table>
                         </div>
                     </div>
 
@@ -88,6 +75,9 @@
                                 <div sec:authorize="hasAuthority('ADMIN')">
                                     <input class="btn btn-primary" type="submit" th:value="Вернуть" th:name="action"/>
                                 </div>
+                                <div sec:authorize="hasAuthority('SUPPORT')">
+                                    <input class="btn btn-primary" type="submit" th:value="Вернуть" th:name="action"/>
+                                </div>
                             </div>
                             <div class="flex-item">
                                 <input class="btn btn-primary" type="submit" th:value="Сохранить" th:name="action"/>
@@ -108,7 +98,7 @@
                             <div th:text="'Дата заявки: '+${el.dateCreated}"/>
                             <div th:switch="${el.state}">
                                 <div th:case="'0'">Состояние: Новая заявка</div>
-                                <div class="badge badge-primary-postpone badge-pill" th:case="'1'">Состояние: Выполненая заявка</div>
+                                <div class="badge badge-primary-completed badge-pill" th:case="'1'">Состояние: Выполненая заявка</div>
                                 <div th:case="'3'">Состояние: Отложенная заявка</div>
                             </div>
                             <div th:text="'Проблема: '+${el.problem}"/>

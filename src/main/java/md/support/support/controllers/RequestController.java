@@ -50,14 +50,6 @@ public class RequestController {
 
     public String requestGetQueryString;
 
-    public void viewRequest(Model model) {
-
-        model.addAttribute("requestsCountByZero", requestRepository.findByCountRequestStateZero());
-        model.addAttribute("requestsCountByThree", requestRepository.findByCountRequestStateThree());
-        model.addAttribute("requestsCountByOne", requestRepository.findByCountRequestStateOne());
-        model.addAttribute("requestCountTotal", requestRepository.findByCountRequestTotal());
-    }
-
     @PostMapping("/edit")
     public String edit(HttpServletResponse response
             , @RequestParam(value = "id", required = false) List<Long> s
@@ -101,28 +93,31 @@ public class RequestController {
         return "requests";
     }
 
-    /*
-        @PostMapping("/requests/{id}/state0")
-        public String applicationStateZero(@PathVariable(value = "id") long id, Model model) {
-            Request request = requestRepository.findById(id).orElseThrow();
-            request.setState(0);
-            requestRepository.save(request);
-            return "redirect:/requests";
-        }
-     */
     @GetMapping("/requests")
     public String filter(@RequestParam(value = "shop", required = false) String shop,
                          @RequestParam(value = "trip-start", required = false) String dateSort,
                          Model model, HttpServletRequest request) {
-        viewRequest(model);
+
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("user", user);
-        model.addAttribute("shops", shopRepository.findAll());
-//
-//        int requestsCountByZeroAndShop = requestRepository.findByCountRequestStateOneAndShop(shop);
-//        model.addAttribute("shopSelect", shop);
-//        model.addAttribute("requestsCountByZeroAndShop", requestsCountByZeroAndShop);
-
+        if (String.valueOf(user.getRoles()).contains("USER")) {
+            model.addAttribute("requestsCountByZero", requestRepository.findByCountRequestStateZeroAndShop(user.getShop()));
+            model.addAttribute("requestsCountByThree", requestRepository.findByCountRequestStateThreeAndShop(user.getShop()));
+            model.addAttribute("requestsCountByOne", requestRepository.findByCountRequestStateOne(user.getShop()));
+            model.addAttribute("requestsCountByTwo", requestRepository.findByCountRequestStateTowAndShop(user.getShop()));
+            model.addAttribute("requestsCountByFour", requestRepository.findByCountRequestStateFourAndShop(user.getShop()));
+            model.addAttribute("requestCountTotal", requestRepository.findByCountRequestTotalAndShop(user.getShop()));
+            model.addAttribute("shops", shopRepository.findByName(user.getShop()));
+        }
+        if (String.valueOf(user.getRoles()).contains("ADMIN") || String.valueOf(user.getRoles()).contains("SUPPORT")) {
+            model.addAttribute("requestsCountByZero", requestRepository.findByCountRequestStateZero());
+            model.addAttribute("requestsCountByThree", requestRepository.findByCountRequestStateThree());
+            model.addAttribute("requestsCountByOne", requestRepository.findByCountRequestStateOne());
+            model.addAttribute("requestsCountByTwo", requestRepository.findByCountRequestStateTow());
+            model.addAttribute("requestsCountByFour", requestRepository.findByCountRequestStateFour());
+            model.addAttribute("requestCountTotal", requestRepository.findByCountRequestTotal());
+            model.addAttribute("shops", shopRepository.findAll());
+        }
         requestGetQueryString = request.getQueryString();
 
         if (StringUtils.isEmpty(dateSort)) {

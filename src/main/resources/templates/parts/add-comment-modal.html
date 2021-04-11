@@ -18,13 +18,14 @@
                             <textarea rows="3" name="comment" class="form-control"
                                       th:text="*{el.comment}"/>
                             <br>
-                            <button type="submit" class="btn btn-primary">Добавить</button>
+                            <div sec:authorize="hasAuthority('ADMIN')">
+                                <button type="submit" class="btn btn-primary">Ввод</button>
+                            </div>
+                            <div sec:authorize="hasAuthority('SUPPORT')">
+                                <button type="submit" class="btn btn-primary">Ввод</button>
+                            </div>
                         </div>
                     </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть
-                    </button>
                 </div>
             </div>
         </div>

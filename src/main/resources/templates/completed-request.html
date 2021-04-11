@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title> Текущие заявки </title>
+    <meta http-equiv="refresh" content="60">
+    <div class="info-label" th:insert="parts/head :: head"></div>
+</head>
+<body>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="container padding-bottom-3x mb-2">
+    <div class="row">
+        <div class="col-lg-4">
+            <aside class="user-info-wrapper">
+
+                <div class="user-cover" th:style="'background-image: url('+@{/images/bg1.jpg}+');'">
+                    <div class="info-label" th:insert="parts/security :: security"></div>
+                    <div class="user-avatar">
+                        <img th:src="@{/images/avatar.png}" alt="User"/></div>
+                </div>
+
+                <div class="user-info">
+                    <div class="user-data">
+                        <table class="table">
+                            <tbody>
+                            <tr>
+                                <th scope="row">Выполненые заявки:</th>
+                                <td><span class="badge badge-primary-completed badge-pill"
+                                          th:utext="${requestsCountByOne}"/></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </aside>
+
+            <nav class=" list-group"><a class="list-group-item with-badge" href="/request/new"><i
+                    class="fa fa-refresh" aria-hidden="true"></i>Обновить</a>
+                <nav class=" list-group"><a class="list-group-item with-badge" href="/current-applications"><i
+                        class="fa fa-refresh" aria-hidden="true"></i>Назад</a>
+                    <form th:action="@{/logout}" method="post">
+                        <a class="list-group-item with-badge active"><i class="fa fa-sign-out"
+                                                                        aria-hidden="true"></i>
+                            <input type="submit" class="btn btn-primary" value="Выход"/> </a>
+                    </form>
+                </nav>
+            </nav>
+        </div>
+        <div class="col-lg-8">
+            <div class="padding-top-2x mt-2 hidden-lg-up"></div>
+
+            <div class="comment">
+                <div class="comment-body">
+
+                    <table class="table table-sm">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Магазин</th>
+                            <th scope="col">Количество заявок</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <div th:each="el:${shop}" >
+                            <tr>
+                                <td>
+                                    <a th:text="${el.name}"/>
+                                </td>
+
+                                <td>
+                                    <span class="badge badge-primary-completed badge-pill"
+                                          th:utext="${el.count}"/>
+                                </td>
+                            </tr>
+                        </div>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script th:src="@{/js/jquery-1.10.2.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+
+</html>

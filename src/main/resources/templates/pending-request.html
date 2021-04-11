@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <head>
-    <title> Текущие заявки </title>
+    <title> Отложенные заявки </title>
     <meta http-equiv="refresh" content="60">
     <div class="info-label" th:insert="parts/head :: head"></div>
 </head>
@@ -16,35 +16,37 @@
                 <div class="user-cover" th:style="'background-image: url('+@{/images/bg1.jpg}+');'">
                     <div class="info-label" th:insert="parts/security :: security"></div>
                     <div class="user-avatar">
-                        <img th:src="@{images/avatar.png}" alt="User"/></div>
+                        <img th:src="@{/images/avatar.png}" alt="User"/></div>
                 </div>
 
                 <div class="user-info">
                     <div class="user-data">
-                        <table class="table" th:insert="parts/execution-status :: execution-status"></table>
+                        <table class="table">
+                            <tbody>
+                            <tr>
+                                <th scope="row">Отложенные заявки:</th>
+                                <td><span class="badge badge-primary badge-pill"
+                                          th:utext="${requestsCountByThree}"/>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
             </aside>
 
-            <nav class=" list-group"><a class="list-group-item with-badge" href="/current-applications"><i
+            <nav class=" list-group"><a class="list-group-item with-badge" href="/request/new"><i
                     class="fa fa-refresh" aria-hidden="true"></i>Обновить</a>
-                <a class="list-group-item" href="/completed/requests"><i class="fa fa-check-circle"
-                                                                         aria-hidden="true"></i>Выполненые
-                    заявки</a>
-                <a class="list-group-item" href="/"><i class="fa fa-paper-plane" aria-hidden="true"></i>Отправить
-                    заявку</a>
-                <div sec:authorize="hasAuthority('ADMIN')">
-                    <a class="list-group-item" href="/admin-panel"><i class="fa fa-cogs"
-                                                                      aria-hidden="true"></i>Админка</a>
-                </div>
-                <form th:action="@{/logout}" method="post">
-                    <a class="list-group-item with-badge active"><i class="fa fa-sign-out"
-                                                                    aria-hidden="true"></i>
-                        <input type="submit" class="btn btn-primary" value="Выход"/> </a>
-                </form>
+                <nav class=" list-group"><a class="list-group-item with-badge" href="/current-applications"><i
+                        class="fa fa-refresh" aria-hidden="true"></i>Назад</a>
+                    <form th:action="@{/logout}" method="post">
+                        <a class="list-group-item with-badge active"><i class="fa fa-sign-out"
+                                                                        aria-hidden="true"></i>
+                            <input type="submit" class="btn btn-primary" value="Выход"/> </a>
+                    </form>
+                </nav>
             </nav>
-
         </div>
         <div class="col-lg-8">
             <div class="padding-top-2x mt-2 hidden-lg-up"></div>
@@ -95,25 +97,6 @@
 
                         </div>
                         <div class="flex-item">
-                            <form th:action="'/current-applications/'+${el.id}+'/state4'" method="post">
-                                <div sec:authorize="hasAuthority('SUPPORT')">
-                                    <button type="submit" class="btn btn-primary">Завершить</button>
-                                </div>
-                            </form>
-                        </div>
-
-                        <div class="flex-item">
-                            <form th:action="@{/edit-state-three}"
-                                  method="post">
-                                <input type="hidden" name="id" th:value="*{el.id}">
-                                <input type="hidden" name="state" th:value="*{el.state=3}">
-                                <div sec:authorize="hasAuthority('ADMIN')">
-                                    <button type="submit" class="btn btn-primary">Отложить</button>
-                                </div>
-                                <div sec:authorize="hasAuthority('SUPPORT')">
-                                    <button type="submit" class="btn btn-primary">Отложить</button>
-                                </div>
-                            </form>
                         </div>
                         <div class="flex-item">
                             <button type="button" class="btn btn-primary" data-toggle="modal"

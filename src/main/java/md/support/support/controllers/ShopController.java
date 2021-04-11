@@ -3,6 +3,7 @@ package md.support.support.controllers;
 import md.support.support.models.Mail;
 import md.support.support.models.Shop;
 import md.support.support.models.User;
+import md.support.support.repo.RequestRepository;
 import md.support.support.repo.ShopRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,6 +18,9 @@ public class ShopController {
 
     @Autowired
     private ShopRepository shopRepository;
+
+    @Autowired
+    private RequestRepository requestRepository;
 
     @GetMapping("/shop")
     public String shopList(Model model) {

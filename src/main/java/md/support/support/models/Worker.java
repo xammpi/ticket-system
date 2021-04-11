@@ -14,7 +14,7 @@ public class Worker {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
-   // @ManyToMany(cascade = {CascadeType.ALL})
+
     @ManyToMany()
     @JoinTable(name = "worker_position", joinColumns = {@JoinColumn(name = "worker_id")},
             inverseJoinColumns = { @JoinColumn(name = "position_id")})
@@ -42,6 +42,11 @@ public class Worker {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 
 }

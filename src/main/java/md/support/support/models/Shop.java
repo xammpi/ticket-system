@@ -13,6 +13,17 @@ public class Shop {
 
     private String name;
 
+    @Column(name = "count_request")
+    private Integer count;
+
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
+    }
+
     public Long getId() {
         return id;
     }

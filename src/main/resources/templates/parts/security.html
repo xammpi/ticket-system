@@ -6,15 +6,20 @@
         <table>
             <tbody>
             <tr>
-<!--                <th >Пользователь:</th>-->
-                <th  align="left" th:text="${el.name}"/>
+                <th align="left" th:text="${el.name}"/>
             </tr>
             <tr>
-<!--                <th >Магазин:</th>-->
-                <th  th:utext="${el.shop}"/>
+                <div sec:authorize="hasAuthority('ADMIN')">
+                    <th th:utext="${el.roles}"/>
+                </div>
+                <div sec:authorize="hasAuthority('SUPPORT')">
+                    <th th:utext="${el.roles}"/>
+                </div>
+                <div sec:authorize="hasAuthority('USER')">
+                    <th th:utext="${el.shop}"/>
+                </div>
             </tr>
             </tbody>
         </table>
     </div>
-
 </div>

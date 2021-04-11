@@ -1,0 +1,50 @@
+<div th:fragment="execution-status">
+    <tbody>
+    <tr>
+        <th scope="row">
+            <a href="/request/new"/>Новые заявки:
+        </th>
+        <td><span class="badge badge-primary-new badge-pill"
+                  th:utext="${requestsCountByZero}"/>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row">
+            <a href="/request/in-progress"/>Выполняются:
+        </th>
+        <td><span class="badge badge-primary-postpone badge-pill"
+                  th:utext="${requestsCountByTwo}"/>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row">
+            <a href="/request/pending"/>Отложенные заявки:
+        </th>
+        <td><span class="badge badge-primary badge-pill"
+                  th:utext="${requestsCountByThree}"/>
+        </td>
+
+    </tr>
+    <tr>
+        <th scope="row">
+            <a href="/request/awaiting"/>Ожидают подтверждения:
+        </th>
+        <td><span class="badge badge-primary-expects badge-pill"
+                  th:utext="${requestsCountByFour}"/>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row">
+            <a href="/request/completed"/>Выполненые заявки:
+        </th>
+        <td><span class="badge badge-primary-completed badge-pill"
+                  th:utext="${requestsCountByOne}"/></td>
+    </tr>
+
+    <tr>
+        <th scope="row">Всего:</th>
+        <td><span class="badge badge-primary-completed badge-pill"
+                  th:utext="${requestCountTotal}"/></td>
+    </tr>
+    </tbody>
+</div>
