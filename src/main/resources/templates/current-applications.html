@@ -27,17 +27,23 @@
 
             </aside>
 
-            <nav class=" list-group"><a class="list-group-item with-badge" href="/current-applications"><i
-                    class="fa fa-refresh" aria-hidden="true"></i>Обновить</a>
+            <nav class=" list-group">
+                <a class="list-group-item with-badge active" data-toggle="modal"
+                   th:attr="data-target='#bd-example-modal-lg'">
+                    <i class="fa fa-paper-plane" aria-hidden="true"></i>Отправить заявку
+                </a>
+                <div th:insert="parts/request-modal :: request-modal"></div>
+
+                <a class="list-group-item with-badge" href="/current-applications"><i
+                        class="fa fa-refresh" aria-hidden="true"></i>Обновить</a>
                 <a class="list-group-item" href="/completed/requests"><i class="fa fa-check-circle"
                                                                          aria-hidden="true"></i>Выполненые
                     заявки</a>
-                <a class="list-group-item" href="/"><i class="fa fa-paper-plane" aria-hidden="true"></i>Отправить
-                    заявку</a>
-                <div sec:authorize="hasAuthority('ADMIN')">
+
+            <div sec:authorize="hasAuthority('ADMIN')">
                     <a class="list-group-item" href="/admin-panel"><i class="fa fa-cogs"
                                                                       aria-hidden="true"></i>Админка</a>
-                </div>
+              </div>
                 <form th:action="@{/logout}" method="post">
                     <a class="list-group-item with-badge active"><i class="fa fa-sign-out"
                                                                     aria-hidden="true"></i>
@@ -52,25 +58,8 @@
             <div th:each="el:${requests}" class="comment">
                 <div class="comment-body">
                     <p class="comment-text"></p>
-                    <h3 th:text="'Магазин: '+ ${el.shop}"></h3>
-                    <div th:text="'Дата заявки: '+${el.dateCreated}"/>
-                    <div th:switch="${el.state}">
-                        <div class="badge badge-primary-new badge-pill" th:case="'0'">Состояние: Новая заявка</div>
-                        <div class="badge badge-primary-postpone badge-pill" th:case="'2'"><i
-                                class="fa fa-spinner fa-pulse fa-1x fa-fw"></i> Состояние: Выполняется...
-                        </div>
-                        <div class="badge badge-primary-expects badge-pill" th:case="'4'"><i
-                                class="fa fa-spinner fa-pulse fa-1x fa-fw"></i> Состояние: Выполнена. Ожидает
-                            подтверждения...
-                        </div>
-                        <div class="badge badge-primary-postpone badge-pill" th:case="'3'">Состояние: Отложенная
-                            заявка
-                        </div>
-                    </div>
-
-                    <div th:text="'Проблема: '+${el.problem}"/>
-                    <div class="twolines" th:text="'Описание проблемы: '+${el.message}"/>
-                    <div th:text="'Исполнитель: '+${el.worker}"/>
+                    <p>
+                    <div th:insert="parts/request :: request"></div>
                     <div class="flex-container">
                         <div class="flex-item">
                             <form th:action="'/current-applications/'+${el.id}+'/state1'" method="post">
@@ -103,10 +92,8 @@
                         </div>
 
                         <div class="flex-item">
-                            <form th:action="@{/edit-state-three}"
+                            <form th:action="@{'/current-applications/'+${el.id}+'/state3'}"
                                   method="post">
-                                <input type="hidden" name="id" th:value="*{el.id}">
-                                <input type="hidden" name="state" th:value="*{el.state=3}">
                                 <div sec:authorize="hasAuthority('ADMIN')">
                                     <button type="submit" class="btn btn-primary">Отложить</button>
                                 </div>

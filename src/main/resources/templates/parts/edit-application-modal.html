@@ -14,36 +14,61 @@
                     <div class="container-fluid">
                         <form th:action="@{/edit-request}" method="post">
                             <div class="row">
-                                <div class="col-md-4">
-                                    <h6>
-                                        <div th:text="'Дата заявки: '+${el.dateCreated}"/>
-                                    </h6>
-                                    <h6>
-                                        <div th:switch="${el.state}">
-                                            <div class="badge badge-primary-new badge-pill" th:case="'0'">Состояние:
-                                                Новая
-                                                заявка
-                                            </div>
-                                            <div class="badge badge-primary-postpone badge-pill" th:case="'3'">
-                                                Состояние:
-                                                Отложенная заявка
-                                            </div>
+                                <div class="col-md-7">
+                                    <div th:switch="${el.state}">
+                                        <div class="badge badge-primary-new badge-pill" th:case="'0'">Состояние: Новая
+                                            заявка
                                         </div>
+                                        <div class="badge badge-primary-completed badge-pill" th:case="'1'">Состояние:
+                                            Выполненая заявка
+                                        </div>
+                                        <div class="badge badge-primary-postpone badge-pill" th:case="'2'"><i
+                                                class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>Состояние:
+                                            Выполняется...
+                                        </div>
+                                        <div class="badge badge-primary-expects badge-pill" th:case="'4'"><i
+                                                class="fa fa-spinner fa-pulse fa-1x fa-fw"></i> Состояние:
+                                            Выполнена. Ожидает
+                                            подтверждения...
+                                        </div>
+                                        <div class="badge badge-primary-postpone badge-pill" th:case="'3'"><i
+                                                class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>Состояние:
+                                            Отложенная
+                                            заявка
+                                        </div>
+                                    </div>
+                                    <h6>
+                                        <div th:text="'Дата подачи заявки: '+${el.dateCreated}"/>
+                                        <th:block th:if="${el.execution != null}">
+                                            <div th:text="'Дата начала выполнения заявки: '+${el.execution}"/>
+                                        </th:block>
+                                        <th:block th:if="${el.dateEnd != null}">
+                                            <div th:text="'Дата завершения заявки: '+${el.dateEnd}"/>
+                                        </th:block>
+                                        <th:block th:if="${el.dateClose != null}">
+                                            <div th:text="'Дата закрытия заявки: '+${el.dateClose}"/>
+                                        </th:block>
                                     </h6>
+
                                 </div>
-                                <div class="col-md-4">
-                                    <label>Исполнитель</label>
-                                    <p><select class="form-control" name="worker"><br>
-                                        <option th:text="*{el.worker}"></option>
-                                        <option th:each="element:${workers}"
-                                                th:value="${element.id}"
-                                                th:text="${element.name}+'-'+${element.position}"></option>
-                                    </select></p>
+                                <div class="col-md-5">
+                                    <div class="modal-body">
+                                        <label>Исполнитель</label>
+                                        <p><select class="form-control" name="workerId" required><br>
+                                            <th:block th:if="${el.worker.size != 0}">
+                                                <option th:text="*{el.worker}"></option>
+                                            </th:block>
+                                            <option value="">Выберите исполнителя</option>
+                                            <option th:each="element:${workers}"
+                                                    th:value="${element.name}"
+                                                    th:text="${element.name}+'-'+${element.position}"></option>
+                                        </select></p>
+                                    </div>
                                 </div>
                             </div>
                             <input type="hidden" name="id" th:value="*{el.id}">
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-7">
                                     <label>Магазин</label>
                                     <p><select class="form-control" name="shop"><br>
                                         <option th:value="*{el.shop}" th:text="*{el.shop}"></option>
@@ -52,7 +77,7 @@
                                     </select></p>
                                 </div>
 
-                                <div class="col-md-4">
+                                <div class="col-md-5">
                                     <label>Проблема</label>
                                     <p><select class="form-control" name="problem"><br>
                                         <option th:value="*{el.problem}" th:text="*{el.problem}"></option>
@@ -62,13 +87,13 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-4">
-                                    <label>Имя</label>
+                                <div class="col-md-7">
+                                    <label>Имя и Фамилия</label>
                                     <input type="text" name="name" th:value="*{el.name}"
                                            placeholder="Укажите Фамилию и Имя"
                                            class="form-control"><br>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-5">
                                     <label>Телефон</label>
                                     <input type="text" name="phone" th:value="*{el.phone}"
                                            placeholder="Укажите контактный телефон"

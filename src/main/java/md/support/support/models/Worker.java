@@ -15,7 +15,7 @@ public class Worker {
     private Long id;
     private String name;
 
-    @ManyToMany()
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "worker_position", joinColumns = {@JoinColumn(name = "worker_id")},
             inverseJoinColumns = { @JoinColumn(name = "position_id")})
     private Set<Position> position = new HashSet<>();

@@ -2,6 +2,7 @@ package md.support.support.controllers;
 
 import md.support.support.models.Request;
 
+import md.support.support.models.Shop;
 import md.support.support.models.User;
 import md.support.support.models.Worker;
 import md.support.support.repo.*;
@@ -13,6 +14,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
@@ -24,10 +27,8 @@ public class ApplicationRequest {
 
     @Autowired
     private ShopRepository shopRepository;
-
     @Autowired
     private ProblemRepository problemRepository;
-
     @Autowired
     private WorkerRepository workerRepository;
     @Autowired
@@ -50,6 +51,8 @@ public class ApplicationRequest {
             model.addAttribute("requestsCountByFour", requestRepository.findByCountRequestStateFour());
             model.addAttribute("requestCountTotal", requestRepository.findByCountRequestTotal());
             List<Request> requests = requestRepository.findByState();
+            model.addAttribute("name", user.getName());
+            model.addAttribute("phone", user.getPhone());
             model.addAttribute("requests", requests);
             return "current-applications";
         }
@@ -60,37 +63,43 @@ public class ApplicationRequest {
             model.addAttribute("requestsCountByTwo", requestRepository.findByCountRequestStateTowAndShop(user.getShop()));
             model.addAttribute("requestsCountByFour", requestRepository.findByCountRequestStateFourAndShop(user.getShop()));
             model.addAttribute("requestCountTotal", requestRepository.findByCountRequestTotalAndShop(user.getShop()));
-            List<Request> requests = requestRepository.findByStateAndShop(user.getShop());
-            model.addAttribute("requests", requests);
+//            List<Request> requests = requestRepository.findByStateAndShop(user.getShop());
+            model.addAttribute("requests", requestRepository.findByStateAndShop(user.getShop()));
+            model.addAttribute("shops", shopRepository.findByName(user.getShop()));
+            model.addAttribute("name", user.getName());
+            model.addAttribute("phone", user.getPhone());
             return "current-applications";
         }
         return "current-applications";
     }
 
+    @PostMapping(value = "/add-request")
+    public String homeRequestAdd(@ModelAttribute @Valid Request request, Model model) {
+
+            requestRepository.save(request);
+
+        // Mail mail = new Mail();
+        // mail.sendMail(request.getShop(), request.getMessage(), request.getProblem(), request.getPhone(), request.getName());
+        return "redirect:/current-applications";
+    }
+
+
     @PostMapping("/edit-request")
-    public String editRequest(@RequestParam("id") long id, @RequestParam String shop, @RequestParam String name,
+    public String editRequest(@RequestParam("id") Request request, @RequestParam String shop, @RequestParam String name,
                               @RequestParam String phone, @RequestParam String problem, @RequestParam String message,
-                              @RequestParam String comment, @RequestParam("worker") Long workerId, HttpServletRequest referer) {
-        Request request = requestRepository.findById(id).orElseThrow();
+                              @RequestParam String comment, @RequestParam("workerId") String workerId, HttpServletRequest referer) {
+
         request.setShop(shop);
         request.setName(name);
         request.setPhone(phone);
         request.setProblem(problem);
         request.setMessage(message);
         request.setComment(comment);
-        request.setWorker(workerRepository.findAllById(Collections.singleton(workerId)));
+        request.getWorker().add(workerRepository.findByName(workerId));
         requestRepository.save(request);
         return "redirect:" + referer.getHeader("referer");
     }
 
-    @PostMapping("/edit-state-three")
-    public String editStateThree(@RequestParam("id") long id, @RequestParam String state
-            , HttpServletRequest referer) {
-        Request request = requestRepository.findById(id).orElseThrow();
-        request.setState(Integer.parseInt(state));
-        requestRepository.save(request);
-        return "redirect:" + referer.getHeader("referer");
-    }
 
     @PostMapping("/change-comment")
     public String changeComment(@RequestParam("id") long id, @RequestParam String comment
@@ -104,9 +113,27 @@ public class ApplicationRequest {
     @PostMapping("/current-applications/{id}/state1")
     public String applicationStateOne(@PathVariable(value = "id") long id, HttpServletRequest referer
             , Model model) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Request request = requestRepository.findById(id).orElseThrow();
-        request.setState(1);
-        requestRepository.save(request);
+        if (String.valueOf(user.getRoles()).contains("ADMIN")) {
+            request.setState(1);
+            request.setDateClose(Calendar.getInstance().getTime());
+            request.setExecution(Calendar.getInstance().getTime());
+            request.setDateEnd(Calendar.getInstance().getTime());
+            if (request.getWorker().size() == 0) {
+                request.getWorker().add(workerRepository.findByName("ADMIN"));
+            }
+            requestRepository.save(request);
+            return "redirect:" + referer.getHeader("referer");
+        }
+        if (String.valueOf(user.getRoles()).contains("USER")) {
+            if (request.getExecution() != null || request.getDateClose() != null) {
+                request.setState(1);
+                request.setDateClose(Calendar.getInstance().getTime());
+                requestRepository.save(request);
+                return "redirect:" + referer.getHeader("referer");
+            }
+        }
         return "redirect:" + referer.getHeader("referer");
     }
 
@@ -115,10 +142,17 @@ public class ApplicationRequest {
                                       HttpServletRequest referer, Model model) {
         Request request = requestRepository.findById(id).orElseThrow();
         request.setState(2);
-        if (workerId == null) {
-            return "redirect:/current-applications";
-        }
         request.setWorker(workerRepository.findAllById(Collections.singleton(workerId)));
+        request.setExecution(Calendar.getInstance().getTime());
+        requestRepository.save(request);
+        return "redirect:" + referer.getHeader("referer");
+    }
+
+    @PostMapping("/current-applications/{id}/state3")
+    public String editStateThree(@PathVariable(value = "id") long id
+            , HttpServletRequest referer) {
+        Request request = requestRepository.findById(id).orElseThrow();
+        request.setState(3);
         requestRepository.save(request);
         return "redirect:" + referer.getHeader("referer");
     }
@@ -127,8 +161,12 @@ public class ApplicationRequest {
     public String applicationStateFour(@PathVariable(value = "id") long id
             , HttpServletRequest referer, Model model) {
         Request request = requestRepository.findById(id).orElseThrow();
-        request.setState(4);
-        requestRepository.save(request);
+        if (request.getWorker().size() != 0) {
+            request.setState(4);
+            request.setDateEnd(Calendar.getInstance().getTime());
+            requestRepository.save(request);
+            return "redirect:" + referer.getHeader("referer");
+        }
         return "redirect:" + referer.getHeader("referer");
     }
 

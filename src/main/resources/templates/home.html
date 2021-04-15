@@ -21,7 +21,7 @@
                 </select></p>
 
                 <div class="input-group">
-                    <input type="text" th:field="*{name}" placeholder="Укажите Фамилию и Имя" class="form-control"
+                    <input type="text" th:field="*{name}" placeholder="Укажите Фамилию и Имя" pattern="^[a-zA-Z ]+$" class="form-control"
                            id="validationCustom03" aria-describedby="inputGroupPrepend" required><br>
                     <div class="invalid-feedback">
                         Укажите Фамилию и Имя
@@ -29,7 +29,7 @@
                 </div>
 
                 <div class="input-group">
-                    <input type="text" th:field="*{phone}" placeholder="Укажите контактный телефон" class="form-control"
+                    <input type="tel"  th:field="*{phone}"  pattern="^[ 0-9]+$" placeholder="Укажите контактный телефон" class="form-control"
                            id="validationCustom04" aria-describedby="inputGroupPrepend" required><br>
                     <div class="invalid-feedback">
                         Укажите контактный телефон

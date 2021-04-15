@@ -10,6 +10,7 @@ import md.support.support.models.User;
 import md.support.support.repo.ProblemRepository;
 import md.support.support.repo.RequestRepository;
 import md.support.support.repo.ShopRepository;
+import md.support.support.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.support.CustomSQLErrorCodesTranslation;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,6 +29,9 @@ public class MainController {
     private ShopRepository shopRepository;
     @Autowired
     private ProblemRepository problemRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @PostMapping(value = "/")
     public String homeRequestAdd(@ModelAttribute @Valid Request request, Model model) {
@@ -49,6 +53,8 @@ public class MainController {
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             model.addAttribute("shops", shopRepository.findByName(user.getShop()));
             model.addAttribute("problems", problemRepository.findAll());
+            model.addAttribute("name",user.getName());
+            model.addAttribute("phone",user.getPhone());
             return "home";
         }
         model.addAttribute("shops", shopRepository.findAll());

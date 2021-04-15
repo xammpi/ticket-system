@@ -35,10 +35,10 @@
 
             </aside>
 
-            <nav class=" list-group"><a class="list-group-item with-badge" href="/request/new"><i
+            <nav class=" list-group"><a class="list-group-item with-badge" href="/request/completed"><i
                     class="fa fa-refresh" aria-hidden="true"></i>Обновить</a>
                 <nav class=" list-group"><a class="list-group-item with-badge" href="/current-applications"><i
-                        class="fa fa-refresh" aria-hidden="true"></i>Назад</a>
+                        class="fa fa-reply" aria-hidden="true"></i>Назад</a>
                     <form th:action="@{/logout}" method="post">
                         <a class="list-group-item with-badge active"><i class="fa fa-sign-out"
                                                                         aria-hidden="true"></i>
@@ -61,17 +61,17 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <div th:each="el:${shop}" >
+                        <div th:each="el:${shop}">
                             <tr>
                                 <td>
-                                    <a th:text="${el.name}"/>
+                                    <a  href="/request/completed" th:text="${el.name}"/>
                                 </td>
 
-                                <td>
+                            <td>
                                     <span class="badge badge-primary-completed badge-pill"
-                                          th:utext="${el.count}"/>
-                                </td>
-                            </tr>
+                                          th:text="${el.count}"/>
+                            </td>
+                        </tr>
                         </div>
                         </tbody>
                     </table>

@@ -1,5 +1,4 @@
 <div th:fragment="edit-request">
-
     <div class="modal fade bd-example-modal-lg" th:id="${'bd-example-modal-lg'+{el.id}}"
          tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -9,38 +8,83 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
+
                 </div>
 
                 <div class="modal-body">
-                    <div class="form-group">
-                        <h6>
-                            <div th:text="'Дата заявки: '+${el.dateCreated}"/>
-                        </h6>
-                        <h6>
-                            <div th:switch="${el.state}">
-                                <div th:case="'0'">Состояние: Новая заявка</div>
-                                <div th:case="'3'">Состояние: Отложенная заявка
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-7">
+                                <div class="badge badge-primary-completed badge-pill">Состояние:
+                                    Выполненая заявка
+                                </div>
+                                <h6>
+                                <div th:text="'Дата подачи заявки: '+${el.dateCreated}"/>
+                                <div th:text="'Дата начала выполнения заявки: '+${el.execution}"/>
+                                <div th:text="'Дата завершения заявки: '+${el.dateEnd}"/>
+                                <div th:text="'Дата закрытия заявки: '+${el.dateClose}"/>
+                                </h6>
+                            </div>
+                            <div class="col-md -5">
+                                <div class="modal-body">
+                                    <label>Исполнитель</label>
+                                    <p><select class="form-control" name="workerId" required><br>
+                                        <th:block th:if="${el.worker.size != 0}">
+                                            <option th:text="*{el.worker}"></option>
+                                        </th:block>
+                                        <option value="">Выберите исполнителя</option>
+                                        <option th:each="element:${workers}"
+                                                th:value="${element.name}"
+                                                th:text="${element.name}+'-'+${element.position}"></option>
+                                    </select></p>
                                 </div>
                             </div>
-                        </h6>
-                        <label>Магазин</label>
-                        <input type="text" name="shop" th:value="*{el.shop}" class="form-control"><br>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-7">
+                                <label>Магазин</label>
+                                <p><select class="form-control" name="shop"><br>
+                                    <option th:value="*{el.shop}" th:text="*{el.shop}"></option>
+                                    <option th:each="element : ${shops}"
+                                            th:value="${element.name}" th:text="${element.name}"></option>
+                                </select></p>
+                            </div>
 
-                        <label>Имя</label>
-                        <input type="text" name="name" th:value="*{el.name}" class="form-control"><br>
+                            <div class="col-md-5">
+                                <label>Проблема</label>
+                                <p><select class="form-control" name="problem"><br>
+                                    <option th:value="*{el.problem}" th:text="*{el.problem}"></option>
+                                    <option th:each="el : ${problems}"
+                                            th:value="${el.name}" th:text="${el.name}"></option>
+                                </select></p>
+                            </div>
+                        </div>
 
-                        <label>Телефон</label>
-                        <input type="text" name="phone" th:value="*{el.phone}" class="form-control"><br>
-
-                        <label>Проблема</label>
-                        <input type="text" name="problem" th:value="*{el.problem}" class="form-control"><br>
+                        <div class="row">
+                            <div class="col-md-7">
+                                <label>Имя и Фамилия</label>
+                                <input type="text" name="name" th:value="*{el.name}"
+                                       placeholder="Укажите Фамилию и Имя"
+                                       class="form-control"><br>
+                            </div>
+                            <div class="col-md-5">
+                                <label>Телефон</label>
+                                <input type="text" name="phone" th:value="*{el.phone}"
+                                       placeholder="Укажите контактный телефон"
+                                       class="form-control"><br>
+                            </div>
+                        </div>
 
                         <label>Описание проблемы</label>
                         <textarea rows="5" name="message" class="form-control"
                                   th:text="*{el.message}"/><br>
+                        <label>Коментарии</label>
+                        <textarea rows="2" name="comment" class="form-control"
+                                  th:text="*{el.comment}"/><br>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>

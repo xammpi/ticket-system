@@ -1,0 +1,59 @@
+<div th:fragment="request-modal">
+
+    <div class="modal fade bd-example-modal-lg" th:id="${'bd-example-modal-lg'}"
+         tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle1">Новая заявка</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form th:action="@{/add-request}" th:object="${request}" method="post">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <div class="was-validated">
+                                <label>Магазин</label>
+                                <p><select name="shop" class="custom-select" required><br>
+                                    <option th:each="el : ${shops}"
+                                            th:value="${el.name}" th:text="${el.name}"></option>
+                                </select></p>
+
+                                <label>Имя</label>
+                                <input type="text" name="name" th:value="${name}" pattern="^[a-zA-Z ]+$"
+                                       placeholder="Укажите Фамилию и Имя"
+                                       class="form-control"
+                                       id="validationCustom03" aria-describedby="inputGroupPrepend" required><br>
+
+                                <label>Телефон</label>
+                                <input type="text" name="phone" th:value="${phone}" pattern="^[ 0-9]+$"
+                                       placeholder="Укажите контактный телефон"
+                                       class="form-control"
+                                       id="validationCustom04" aria-describedby="inputGroupPrepend" required><br>
+
+                                <label>Проблема</label>
+                                <p><select name="problem" class="custom-select" required><br>
+                                    <option value="">Выберите проблему из списка</option>
+                                    <option th:each="el : ${problems}"
+                                            th:value="${el.name}" th:text="${el.name}"></option>
+                                </select></p>
+
+                                <label>Описание проблемы</label>
+                                <textarea rows="5" name="message" placeholder="Описание проблемы" class="form-control"
+                                          id="validationCustom05" aria-describedby="inputGroupPrepend"
+                                          required></textarea><br>
+
+                                <button type="submit" class="btn btn-primary">Ввод</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</div>

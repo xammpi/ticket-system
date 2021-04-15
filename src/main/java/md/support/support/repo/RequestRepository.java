@@ -47,7 +47,7 @@ public interface RequestRepository extends CrudRepository<Request, Long> {
     List<Request> findByStateFour();
 
     //View shop to user
-    @Query("SELECT u FROM Request u WHERE shop=:shop and state = 0 or state=3 or state=2 or state =4 order by id desc ")
+    @Query("SELECT u FROM Request u WHERE shop=:shop and ( state = 0 or state = 3 or state = 2 or state = 4 )order by id desc ")
     List<Request> findByStateAndShop(@Param("shop") String shop);
 
     @Query("SELECT u FROM Request u WHERE shop=:shop and state = 0 order by id desc ")

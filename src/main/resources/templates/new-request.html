@@ -39,7 +39,7 @@
             <nav class=" list-group"><a class="list-group-item with-badge" href="/request/new"><i
                     class="fa fa-refresh" aria-hidden="true"></i>Обновить</a>
                 <nav class=" list-group"><a class="list-group-item with-badge" href="/current-applications"><i
-                        class="fa fa-refresh" aria-hidden="true"></i>Назад</a>
+                        class="fa fa-reply" aria-hidden="true"></i>Назад</a>
                     <form th:action="@{/logout}" method="post">
                         <a class="list-group-item with-badge active"><i class="fa fa-sign-out"
                                                                         aria-hidden="true"></i>
@@ -97,7 +97,7 @@
 
                         </div>
                         <div class="flex-item">
-                            <form th:action="@{/edit-state-three}"
+                            <form th:action="@{'/current-applications/'+${el.id}+'/state3'}"
                                   method="post">
                                 <input type="hidden" name="id" th:value="*{el.id}">
                                 <input type="hidden" name="state" th:value="*{el.state=3}">

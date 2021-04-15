@@ -4,9 +4,6 @@ import com.itextpdf.text.*;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfWriter;
-import md.support.support.models.Request;
-import org.springframework.stereotype.Service;
-
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;

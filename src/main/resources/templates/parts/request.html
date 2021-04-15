@@ -1,0 +1,33 @@
+<div th:fragment="request">
+    <div th:switch="${el.state}">
+        <div class="badge badge-primary-new badge-pill" th:case="'0'">Состояние: Новая заявка</div>
+        <div class="badge badge-primary-postpone badge-pill" th:case="'2'"><i
+                class="fa fa-spinner fa-pulse fa-1x fa-fw"></i> Состояние: Выполняется...
+        </div>
+        <div class="badge badge-primary-expects badge-pill" th:case="'4'"><i
+                class="fa fa-spinner fa-pulse fa-1x fa-fw"></i> Состояние: Выполнена. Ожидает
+            подтверждения...
+        </div>
+        <div class="badge badge-primary-postpone badge-pill" th:case="'3'">Состояние: Отложенная
+            заявка
+        </div>
+    </div>
+
+    <h3 th:text="'Магазин: '+ ${el.shop}"></h3>
+    <p>
+    <div th:text="'Дата подачи заявки: '+${el.dateCreated}"/>
+    <th:block th:if="${el.execution != null}">
+        <div th:text="'Дата начала выполнения заявки: '+${el.execution}"/>
+    </th:block>
+    <th:block th:if="${el.dateEnd != null}">
+        <div th:text="'Дата завершения заявки исполнителем: '+${el.dateEnd}"/>
+    </th:block>
+    <th:block th:if="${el.worker.size != 0}">
+        <div th:text="'Исполнитель: '+${el.worker}"/>
+    </th:block>
+    </p>
+
+    <div th:text="'Проблема: '+${el.problem}"/>
+    <div class="twolines" th:text="'Описание проблемы: '+${el.message}"/>
+
+</div>

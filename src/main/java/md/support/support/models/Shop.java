@@ -1,7 +1,8 @@
 package md.support.support.models;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import javax.persistence.*;
-import java.util.Collection;
 
 @Entity
 @Table(name = "shop")
@@ -13,14 +14,15 @@ public class Shop {
 
     private String name;
 
-    @Column(name = "count_request")
-    private Integer count;
+    @Column(name = "count_request_completed")
+    @Value("0")
+    private int count;
 
-    public Integer getCount() {
+    public int getCount() {
         return count;
     }
 
-    public void setCount(Integer count) {
+    public void setCount(int count) {
         this.count = count;
     }
 
@@ -42,5 +44,11 @@ public class Shop {
 
     public Shop() {
 
+    }
+
+    public Shop(Long id, String name, int count) {
+        this.id = id;
+        this.name = name;
+        this.count = count;
     }
 }

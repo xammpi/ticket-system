@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.Collections;
 import java.util.List;
 
 @RequestMapping("/request")
@@ -138,13 +139,18 @@ public class ExecutionController {
 
         if (String.valueOf(user.getRoles()).contains("ADMIN") || String.valueOf(user.getRoles()).contains("SUPPORT")) {
             model.addAttribute("requestsCountByOne", requestRepository.findByCountRequestStateOne());
-
+            for (Shop shop : shopRepository.findAll()) {
+                shop.setCount(requestRepository.findByCountRequestStateOne(shop.getName()));
+                shopRepository.save(shop);
+            }
             model.addAttribute("shop", shopRepository.findAll());
             return "completed-request";
         }
         if (String.valueOf(user.getRoles()).contains("USER")) {
+            Shop shop = shopRepository.findByName(user.getShop());
+            shop.setCount(requestRepository.findByCountRequestStateOne(user.getShop()));
+            shopRepository.save(shop);
             model.addAttribute("requestsCountByOne", requestRepository.findByCountRequestStateOne(user.getShop()));
-            // List<Request> requests = requestRepository.findByStateOneAndShop(user.getShop());
             model.addAttribute("shop", shopRepository.findByName(user.getShop()));
             return "completed-request";
         }

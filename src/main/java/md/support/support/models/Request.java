@@ -1,5 +1,6 @@
 package md.support.support.models;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -19,6 +20,18 @@ public class Request {
     @Column(name = "date_created")
     @Temporal(TemporalType.DATE)
     private Date dateCreated = Calendar.getInstance().getTime();
+
+    @Column(name = "date_execution")
+    @Temporal(TemporalType.DATE)
+    private Date execution;
+
+    @Column(name = "date_end")
+    @Temporal(TemporalType.DATE)
+    private Date dateEnd;
+
+    @Column(name = "date_close")
+    @Temporal(TemporalType.DATE)
+    private Date dateClose;
 
     private int state;
 
@@ -40,17 +53,43 @@ public class Request {
             inverseJoinColumns = {@JoinColumn(name = "worker_id")})
     private List<Worker> worker;
 
+    public Date getDateClose() {
+        return dateClose;
+    }
+
+    public void setDateClose(Date dateClose) {
+        this.dateClose = dateClose;
+    }
+
     @NotBlank(message = "Выберите магазин из списка")
     private String shop;
 
     @NotBlank(message = "Выберите проблему из списка")
     private String problem;
 
+    @Value("")
     @JoinColumn(name = "comment")
     private String comment;
 
     public List<Worker> getWorker() {
         return worker;
+    }
+
+    public Date getDateEnd() {
+
+        return dateEnd;
+    }
+
+    public void setDateEnd(Date dateEnd) {
+        this.dateEnd = dateEnd;
+    }
+
+    public Date getExecution() {
+        return execution;
+    }
+
+    public void setExecution(Date execution) {
+        this.execution = execution;
     }
 
     public void setWorker(List<Worker> worker) {
@@ -145,7 +184,8 @@ public class Request {
         this.shop = shop;
     }
 
-    public Request(String name, String phone, String message, String shop, String problem, Date date, String comment) {
+    public Request(String name, String phone, String message, String shop
+            , String problem, Date date, Date execution, Date dateClose, Date dateEnd, String comment) {
         this.name = name;
         this.phone = phone;
         this.message = message;
@@ -153,6 +193,9 @@ public class Request {
         this.problem = problem;
         this.state = 0;
         this.dateCreated = date;
+        this.dateClose = dateClose;
+        this.execution = execution;
+        this.dateClose = dateClose;
         this.comment = comment;
     }
 }

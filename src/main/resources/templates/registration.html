@@ -31,7 +31,7 @@
             </div>
 
             <div class="form-group log-status">
-                <p><select class="form-control" name="shop" required><br>
+                <p><select class="form-control" name="shop" ><br>
                     <option value="">Выберите магазин из списка</option>
                     <option th:each="el : ${shops}"
                             th:value="${el.name}" th:text="${el.name}"></option>
