@@ -1,0 +1,86 @@
+<div th:fragment="completed-request">
+    <div class="comment-body">
+        <table class="table table-sm">
+            <thead class="thead-dark">
+            <tr>
+                <!--                    <input type="checkbox" th:value="*{el.id}" class="uw-checkbox" name="id"/>-->
+                <th scope="col">
+                    <input type="checkbox" id="check_all_uw"/>
+                </th>
+                <th scope="col">№</th>
+                <th scope="col">Магазин</th>
+                <th scope="col">Дата подачи</th>
+                <th scope="col">Дата закрытия</th>
+                <th scope="col">Проблема</th>
+                <th scope="col">Исполнитель</th>
+                <th scope="col"></th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <div th:each="el:${page}">
+                <tr>
+                    <td>
+                        <input type="checkbox" th:value="*{el.id}" class="uw-checkbox" name="id"/>
+                    </td>
+                    <td>
+                        <a th:text="${el.id}"/>
+                    </td>
+                    <td>
+                        <a th:text="${el.shop}"/>
+                    </td>
+
+                    <td>
+                        <span th:text="${el.dateCreated}"/>
+                    </td>
+                    <td>
+                        <span th:text="${el.dateClose}"/>
+                    </td>
+
+                    <td>
+                        <div th:text="${el.problem}"/>
+                    </td>
+                    <td>
+                        <span th:text="${el.worker}"/>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                th:attr="data-target='#bd-example-modal-lg'+${el.id}">
+                            <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+                        </button>
+                        <div th:insert="parts/edit-request :: edit-request"></div>
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+            </div>
+            </tbody>
+        </table>
+        <nav aria-label="Pagination" th:if="${page.totalPages gt 0}">
+            <ul class="pagination justify-content-center font-weight-bold">
+                <li class="page-item" th:classappend="${page.number eq 0} ? 'disabled'">
+                    <a class="page-link"
+                       th:href="@{'/completed/requests?shop='+${shop}+'&trip-start='+${date}+'&worker=&page={id}'(id=${page.number lt 2 ? 1 : page.number})}"
+                       aria-label="Previous" title="Previous Page" data-toggle="tooltip">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item" th:classappend="${i eq page.number + 1} ? 'active'"
+                    th:each="i : ${#numbers.sequence( 1, page.totalPages, 1)}">
+                    <a class="page-link"
+                       th:href="@{'/completed/requests?shop='+${shop}+'&trip-start='+${date}+'&worker=&page={id}'(id=${i})}"
+                       th:text="${i}"
+                       th:title="${'Page '+ i}" data-toggle="tooltip"></a>
+                </li>
+                <li class="page-item" th:classappend="${page.number + 1 eq page.totalPages} ? 'disabled'">
+                    <a class="page-link"
+                       th:href="@{'/completed/requests?shop='+${shop}+'&trip-start='+${date}+'&worker=&page={id}'(id=${page.number + 2})}"
+                       aria-label="Next" title="Next Page" data-toggle="tooltip">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+    </div>
+</div>

@@ -4,8 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "usr")
@@ -19,7 +18,6 @@ public class User implements UserDetails {
     private boolean active;
 
     private String name;
-    private String shop;
     private String phone;
     private String email;
 
@@ -27,6 +25,11 @@ public class User implements UserDetails {
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_shop", joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "shop_id")})
+    private List<Shop> shop = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -48,11 +51,11 @@ public class User implements UserDetails {
         this.name = name;
     }
 
-    public String getShop() {
+    public List<Shop> getShop() {
         return shop;
     }
 
-    public void setShop(String shop) {
+    public void setShop(List<Shop> shop) {
         this.shop = shop;
     }
 
@@ -125,4 +128,18 @@ public class User implements UserDetails {
         this.active = active;
     }
 
+    public User(Long id, String username, String password, boolean active, String name, String phone, String email, Set<Role> roles, List<Shop> shop) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.active = active;
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.roles = roles;
+        this.shop = shop;
+    }
+
+    public User() {
+    }
 }

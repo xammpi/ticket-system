@@ -57,15 +57,15 @@ public class ApplicationRequest {
             return "current-applications";
         }
         if (String.valueOf(user.getRoles()).contains("USER")) {
-            model.addAttribute("requestsCountByZero", requestRepository.findByCountRequestStateZeroAndShop(user.getShop()));
-            model.addAttribute("requestsCountByThree", requestRepository.findByCountRequestStateThreeAndShop(user.getShop()));
-            model.addAttribute("requestsCountByOne", requestRepository.findByCountRequestStateOne(user.getShop()));
-            model.addAttribute("requestsCountByTwo", requestRepository.findByCountRequestStateTowAndShop(user.getShop()));
-            model.addAttribute("requestsCountByFour", requestRepository.findByCountRequestStateFourAndShop(user.getShop()));
-            model.addAttribute("requestCountTotal", requestRepository.findByCountRequestTotalAndShop(user.getShop()));
+            model.addAttribute("requestsCountByZero", requestRepository.findByCountRequestStateZeroAndShop(user.getShop().toString()));
+            model.addAttribute("requestsCountByThree", requestRepository.findByCountRequestStateThreeAndShop(user.getShop().toString()));
+            model.addAttribute("requestsCountByOne", requestRepository.findByCountRequestStateOne(user.getShop().toString()));
+            model.addAttribute("requestsCountByTwo", requestRepository.findByCountRequestStateTowAndShop(user.getShop().toString()));
+            model.addAttribute("requestsCountByFour", requestRepository.findByCountRequestStateFourAndShop(user.getShop().toString()));
+            model.addAttribute("requestCountTotal", requestRepository.findByCountRequestTotalAndShop(user.getShop().toString()));
 //            List<Request> requests = requestRepository.findByStateAndShop(user.getShop());
-            model.addAttribute("requests", requestRepository.findByStateAndShop(user.getShop()));
-            model.addAttribute("shops", shopRepository.findByName(user.getShop()));
+            model.addAttribute("requests", requestRepository.findByStateAndShop(user.getShop().toString()));
+            model.addAttribute("shops", shopRepository.findByName(user.getShop().toString()));
             model.addAttribute("name", user.getName());
             model.addAttribute("phone", user.getPhone());
             return "current-applications";

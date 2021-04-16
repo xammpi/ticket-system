@@ -1,7 +1,9 @@
 package md.support.support.controllers;
 
 import md.support.support.models.Role;
+import md.support.support.models.Shop;
 import md.support.support.models.User;
+import md.support.support.models.Worker;
 import md.support.support.repo.ShopRepository;
 import md.support.support.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -26,20 +30,24 @@ public class UserController {
         model.addAttribute("user", user);
         model.addAttribute("users", userRepository.findAll());
         model.addAttribute("shops", shopRepository.findAll());
+        model.addAttribute("user", new User());
         return "user-list";
     }
 
-    @PostMapping()
+    @PostMapping("/edit")
     public String userEdit(@RequestParam("userId") User user, @RequestParam("username") String username
-            , @RequestParam("name") String name, @RequestParam("shop") String shop, @RequestParam("phone") String phone
-            , @RequestParam("email") String email, @RequestParam("roles") Set<Role> roles) {
+            , @RequestParam("password") String password, @RequestParam("name") String name
+            , @RequestParam("shop") String shop, @RequestParam("roles") Set<Role> roles
+            , @RequestParam("phone") String phone, @RequestParam("email") String email, Model model) {
         user.setUsername(username);
+        user.setPassword(password);
         user.setName(name);
-        user.setShop(shop);
-        user.setPhone(phone);
-        user.setEmail(email);
+        user.getShop().clear();
+        user.getShop().add(shopRepository.findByName(shop));
         user.getRoles().clear();
         user.setRoles(roles);
+        user.setPhone(phone);
+        user.setEmail(email);
         userRepository.save(user);
         return "redirect:/user";
     }
@@ -49,4 +57,6 @@ public class UserController {
         userRepository.delete(user);
         return "redirect:/user";
     }
+
+
 }

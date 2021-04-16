@@ -48,8 +48,8 @@ public class ExecutionController {
             return "new-request";
         }
         if (String.valueOf(user.getRoles()).contains("USER")) {
-            model.addAttribute("requestsCountByZero", requestRepository.findByCountRequestStateZeroAndShop(user.getShop()));
-            List<Request> requests = requestRepository.findByStateZeroAndShop(user.getShop());
+            model.addAttribute("requestsCountByZero", requestRepository.findByCountRequestStateZeroAndShop(user.getShop().toString()));
+            List<Request> requests = requestRepository.findByStateZeroAndShop(user.getShop().toString());
             model.addAttribute("requests", requests);
             return "new-request";
         }
@@ -72,8 +72,8 @@ public class ExecutionController {
             return "in-progress";
         }
         if (String.valueOf(user.getRoles()).contains("USER")) {
-            model.addAttribute("requestsCountByTwo", requestRepository.findByCountRequestStateTowAndShop(user.getShop()));
-            List<Request> requests = requestRepository.findByStateTwoAndShop(user.getShop());
+            model.addAttribute("requestsCountByTwo", requestRepository.findByCountRequestStateTowAndShop(user.getShop().toString()));
+            List<Request> requests = requestRepository.findByStateTwoAndShop(user.getShop().toString());
             model.addAttribute("requests", requests);
             return "in-progress";
         }
@@ -96,8 +96,8 @@ public class ExecutionController {
             return "pending-request";
         }
         if (String.valueOf(user.getRoles()).contains("USER")) {
-            model.addAttribute("requestsCountByThree", requestRepository.findByCountRequestStateThreeAndShop(user.getShop()));
-            List<Request> requests = requestRepository.findByStateThreeAndShop(user.getShop());
+            model.addAttribute("requestsCountByThree", requestRepository.findByCountRequestStateThreeAndShop(user.getShop().toString()));
+            List<Request> requests = requestRepository.findByStateThreeAndShop(user.getShop().toString());
             model.addAttribute("requests", requests);
             return "pending-request";
         }
@@ -120,8 +120,8 @@ public class ExecutionController {
             return "awaiting-confirmation";
         }
         if (String.valueOf(user.getRoles()).contains("USER")) {
-            model.addAttribute("requestsCountByFour", requestRepository.findByCountRequestStateFourAndShop(user.getShop()));
-            List<Request> requests = requestRepository.findByStateFourAndShop(user.getShop());
+            model.addAttribute("requestsCountByFour", requestRepository.findByCountRequestStateFourAndShop(user.getShop().toString()));
+            List<Request> requests = requestRepository.findByStateFourAndShop(user.getShop().toString());
             model.addAttribute("requests", requests);
             return "awaiting-confirmation";
         }
@@ -147,11 +147,11 @@ public class ExecutionController {
             return "completed-request";
         }
         if (String.valueOf(user.getRoles()).contains("USER")) {
-            Shop shop = shopRepository.findByName(user.getShop());
-            shop.setCount(requestRepository.findByCountRequestStateOne(user.getShop()));
+            Shop shop = shopRepository.findByName(user.getShop().toString());
+            shop.setCount(requestRepository.findByCountRequestStateOne(user.getShop().toString()));
             shopRepository.save(shop);
-            model.addAttribute("requestsCountByOne", requestRepository.findByCountRequestStateOne(user.getShop()));
-            model.addAttribute("shop", shopRepository.findByName(user.getShop()));
+            model.addAttribute("requestsCountByOne", requestRepository.findByCountRequestStateOne(user.getShop().toString()));
+            model.addAttribute("shop", shopRepository.findByName(user.getShop().toString()));
             return "completed-request";
         }
         return "completed-request";

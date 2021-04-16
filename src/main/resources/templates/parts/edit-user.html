@@ -22,23 +22,23 @@
 
                         <label>Права</label>
                         <div class="form-group log-status">
-                            <p><select class="form-control" name="roles"><br>
-                                <option th:value="*{el.roles}" th:text="*{el.roles}"></option>
+                            <p><select class="form-control" name="roles" th:value="*{roles}"><br>
+                                <option th:each="n:${el.roles}"
+                                        th:text="*{n}"></option>
                                 <option th:each="roles : ${T(md.support.support.models.Role).values()}"
                                         th:value="${roles}" th:text="${roles}"></option>
                             </select></p>
 
-                        <label>Имя</label>
-                        <input type="text" name="name" th:value="*{el.name}" class="form-control"><br>
+                            <label>Имя</label>
+                            <input type="text" name="name" th:value="*{el.name}" class="form-control"><br>
 
-                        <label>Магазин</label>
-                            <p><select class="form-control" name="shop"><br>
-                                <option th:value="*{el.shop}" th:text="*{el.shop}"></option>
+                            <label>Магазин</label>
+                            <p><select class="form-control" name="shop" th:value="*{shop}"><br>
+                                <option th:each="n:${el.shop}"
+                                        th:value="*{n}" th:text="*{n}"></option>
                                 <option th:each="element : ${shops}"
                                         th:value="${element.name}" th:text="${element.name}"></option>
                             </select></p>
-
-
 
                         </div>
 

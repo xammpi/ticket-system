@@ -21,10 +21,10 @@ public class AdminController {
     @GetMapping("/admin-panel")
     public String shopList(Model model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        int requestsCountByZero = requestRepository.findByCountRequestStateZeroAndShop(user.getShop());
-        int requestsCountByThree = requestRepository.findByCountRequestStateThreeAndShop(user.getShop());
-        int requestsCountByOne = requestRepository.findByCountRequestStateOne(user.getShop());
-        int requestCountTotal = requestRepository.findByCountRequestTotalAndShop(user.getShop());
+        int requestsCountByZero = requestRepository.findByCountRequestStateZeroAndShop(user.getShop().toString());
+        int requestsCountByThree = requestRepository.findByCountRequestStateThreeAndShop(user.getShop().toString());
+        int requestsCountByOne = requestRepository.findByCountRequestStateOne(user.getShop().toString());
+        int requestCountTotal = requestRepository.findByCountRequestTotalAndShop(user.getShop().toString());
 
 
         model.addAttribute("requestsCountByZero", requestsCountByZero);

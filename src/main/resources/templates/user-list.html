@@ -19,6 +19,7 @@
 
                     <div class="user-cover" th:style="'background-image: url('+@{/images/bg1.jpg}+');'">
                         <div class="info-label" th:insert="parts/security :: security"></div>
+                        -
                         <div class="user-avatar">
                             <img th:src="@{/images/avatar.png}" alt="User"/></div>
                     </div>
@@ -33,7 +34,8 @@
                 </aside>
 
                 <nav class=" list-group">
-                    <a class="list-group-item" href="/admin-panel"><i class="fa fa-reply-all" aria-hidden="true"></i></i>Назад</a>
+                    <a class="list-group-item" href="/admin-panel"><i class="fa fa-reply-all"
+                                                                      aria-hidden="true"></i></i>Назад</a>
                     <form th:action="@{/logout}" method="post">
                         <a class="list-group-item with-badge active"><i class="fa fa-sign-out"
                                                                         aria-hidden="true"></i>
@@ -50,7 +52,7 @@
                                 th:attr="data-target='#bd-example-modal-lg'">
                             Добавить пользователя
                         </button>
-                        <form th:action="@{/registration-modal-user}" th:method="post">
+                        <form th:object="${user}" th:action="@{/registration-modal-user}" th:method="post">
                             <div th:insert="parts/registration-modal :: registration-modal"></div>
                         </form>
                     </div>
@@ -77,10 +79,10 @@
                                     </td>
 
                                     <td>
-                                        <div th:text="${el.name}"/>
+                                        <a th:text="${el.name}"/>
                                     </td>
                                     <td>
-                                        <span th:text="${el.shop}"/>
+                                        <p th:each="n:*{el.shop}" th:text="${n}"></p>
                                     </td>
 
                                     <td>
@@ -88,7 +90,7 @@
                                                 th:attr="data-target='#bd-example-modal-lg'+${el.id}">
                                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                         </button>
-                                        <form th:action="@{/user}" th:method="post">
+                                        <form th:action="@{/user/edit}" th:method="post">
                                             <div th:insert="parts/edit-user :: edit-user"></div>
                                         </form>
                                     </td>
@@ -103,6 +105,9 @@
                             </div>
                             </tbody>
                         </table>
+
+
+
                     </div>
                 </div>
             </div>

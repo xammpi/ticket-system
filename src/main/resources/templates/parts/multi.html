@@ -1,0 +1,55 @@
+<div th:fragment="multi">
+    <button class="btn btn-primary btn-sm"
+            data-toggle="modal" data-target="#dialogNewMessage">
+        <i class="fas fa-plus-circle mr-1"></i>New
+    </button>
+
+    <div class="row">
+        <div class="col">
+            <select id="Country" class="mdb-select md-form colorful-select dropdown-danger" multiple>
+                <option value="" disabled selected>Choose your country</option>
+                <option value="1">USA</option>
+                <option value="2">Germany</option>
+                <option value="3">France</option>
+                <option value="3">Poland</option>
+                <option value="3">Japan</option>
+            </select>
+            <label class="mdb-main-label" for="Country">Label for Country</label>
+            <button class="btn-save btn btn-danger btn-sm">Save</button>
+        </div>
+    </div>
+
+
+    <div class="modal" id="dialogNewMessage" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <!--Content-->
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h5 class="modal-title w-100 font-weight-bold py-2"><strong><span>New Message</span></strong></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <!--Body-->
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col">
+                            <select id="Users" class="mdb-select md-form colorful-select dropdown-danger" multiple>
+                                <option value="" disabled selected>Choose your country</option>
+                                <option value="1">USA</option>
+                                <option value="2">Germany</option>
+                                <option value="3">France</option>
+                                <option value="3">Poland</option>
+                                <option value="3">Japan</option>
+                            </select>
+                            <label class="mdb-main-label" for="Users">Label example</label>
+                            <button class="btn-save btn btn-danger btn-sm">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

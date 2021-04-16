@@ -34,8 +34,6 @@
                 <nav class=" list-group">
                     <a class="list-group-item" href="/current-applications"><i class="fa fa-cogs"
                                                                                aria-hidden="true"></i>Текущие заявки</a>
-<!--                    <a class="list-group-item" href="/"><i class="fa fa-paper-plane" aria-hidden="true"></i>Отправить-->
-<!--                        заявку</a>-->
                     <form th:action="@{/logout}" method="post">
                         <a class="list-group-item with-badge active"><i class="fa fa-sign-out"
                                                                         aria-hidden="true"></i>
@@ -60,6 +58,13 @@
                                    min="2021-03-04" max="2030-12-31">
                         </div>
                         <div class="col">
+                            <p><select class="form-control" name="worker" id="worker"><br>
+                                <option value="">Выберите исполнителя</option>
+                                <option th:each="el : ${worker}"
+                                        th:value="${el.id}" th:text="${el.name}"></option>
+                            </select></p>
+                        </div>
+                        <div class="col">
                             <button type="submit" class="btn btn-primary">Найти</button>
                             <a href="/completed/requests" class="btn btn-primary">Сбросить фильтр</a>
                         </div>
@@ -82,37 +87,19 @@
                             <div class="flex-item">
                                 <input class="btn btn-primary" type="submit" th:value="Сохранить" th:name="action"/>
                             </div>
-                            <div class="flex-item">
-                                <div class="flex-chek">
-                                    <span class="badge badge-primary badge-pill"><input type="checkbox"
-                                                                                        id="check_all_uw"> Выбрать все</span>
-                                </div>
-                            </div>
+<!--                            <div class="flex-item">-->
+<!--                                <div class="flex-chek">-->
+<!--                                    <span class="badge badge-primary badge-pill"><input type="checkbox"-->
+<!--                                                                                        id="check_all_uw"> Выбрать все</span>-->
+<!--                                </div>-->
+<!--                            </div>-->
                         </div>
                     </div>
 
-                    <div th:each="el:${requests}" class="comment">
-                        <div class="comment-body">
-                            <input type="checkbox" th:value="*{el.id}" class="uw-checkbox" name="id"/>
-                            <div class="badge badge-primary-completed badge-pill">Состояние: Выполненая
-                                заявка
-                            </div>
-                            <h5 th:text="'Магазин: '+ ${el.shop}"></h5>
-                            <p>
-                            <div th:text="'Дата подачи заявки: '+${el.dateCreated}"/>
-                            <div th:text="'Дата закрытия заявки: '+${el.dateClose}"/>
-                            <div th:text="'Исполнитель: '+${el.worker}"/>
-                            </p>
-                            <div th:text="'Проблема: '+${el.problem}"/>
-                            <div class="twolines" th:text="'Описание проблемы: '+${el.message}"/>
+<!--                            <input type="checkbox" th:value="*{el.id}" class="uw-checkbox" name="id"/>-->
 
-                            <button type="button" class="btn btn-primary" data-toggle="modal"
-                                    th:attr="data-target='#bd-example-modal-lg'+${el.id}">
-                                <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
-                            </button>
-                            <div th:insert="parts/edit-request :: edit-request"></div>
-                        </div>
-                    </div>
+                            <div th:insert="parts/completed-request :: completed-request"></div>
+
                 </form>
             </div>
         </div>

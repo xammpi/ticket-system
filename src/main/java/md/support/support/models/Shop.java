@@ -51,4 +51,9 @@ public class Shop {
         this.name = name;
         this.count = count;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

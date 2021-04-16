@@ -14,38 +14,42 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label>Пользователь</label>
-                        <input type="text" class="form-control" placeholder="Имя пользователя " name="username"/><br/>
+                        <input type="text" th:field="*{username}" class="form-control" placeholder="Имя пользователя "
+                               required/><br/>
 
                         <label>Пароль</label>
-                        <input type="password" class="form-control" placeholder="Пароль" name="password"/><br/>
+                        <input type="password" th:field="*{password}" class="form-control" placeholder="Пароль"
+                               required/><br/>
 
                         <label>Имя</label>
-                        <input type="name" class="form-control" placeholder="Укажите Фамилию и Имя" name="name"/><br/>
+                        <input type="text" th:field="*{name}" class="form-control" placeholder="Укажите Фамилию и Имя"
+                               required/><br/>
 
                         <label>Магазин</label>
-                        <p><select class="form-control" name="shop"><br>
+                        <p><select th:field="*{shop}" class="selectpicker" multiple required><br>
                             <option th:each="element : ${shops}"
-                                    th:value="${element.name}" th:text="${element.name}"></option>
+                                    th:value="${element.id}" th:text="${element.name}"></option>
                         </select></p>
-                        </div>
-                        <div class="form-group log-status">
-                            <p><select class="form-control" name="roles"><br>
-                                <option value="">Задать права</option>
-                                <option th:each="roles : ${T(md.support.support.models.Role).values()}"
-                                        th:value="${roles}" th:text="${roles}"></option>
-                            </select></p>
-                        </div>
-
-                        <label>Телефон</label>
-                        <input type="phone" class="form-control" placeholder="Телефон" name="phone"/><br/>
-
-                        <label>Email</label>
-                        <input type="email" class="form-control" placeholder="Почтовый адресс" name="email"/><br/>
-
-                        <button type="submit" class="btn btn-primary">Ввод</button>
                     </div>
+                    <div class="form-group log-status">
+                        <p><select th:field="*{roles}" class="chosen-select" multiple required><br>
+                            <option value="">Задать права</option>
+                            <option th:each="roles : ${T(md.support.support.models.Role).values()}"
+                                    th:value="${roles}" th:text="${roles}"></option>
+                        </select></p>
+                    </div>
+
+                    <label>Телефон</label>
+                    <input type="phone" class="form-control" placeholder="Телефон" th:field="*{phone}" required/><br/>
+
+                    <label>Email</label>
+                    <input type="email" class="form-control" placeholder="Почтовый адресс" th:field="*{email}"
+                           required/><br/>
+
+                    <button type="submit" class="btn btn-primary">Ввод</button>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>

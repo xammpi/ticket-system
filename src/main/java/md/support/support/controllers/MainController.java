@@ -51,7 +51,7 @@ public class MainController {
         }
         if (userRole.equals("[USER]")) {
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            model.addAttribute("shops", shopRepository.findByName(user.getShop()));
+            model.addAttribute("shops", shopRepository.findByName(user.getShop().toString()));
             model.addAttribute("problems", problemRepository.findAll());
             model.addAttribute("name",user.getName());
             model.addAttribute("phone",user.getPhone());

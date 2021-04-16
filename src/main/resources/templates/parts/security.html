@@ -10,13 +10,16 @@
             </tr>
             <tr>
                 <div sec:authorize="hasAuthority('ADMIN')">
-                    <th th:utext="${el.roles}"/>
+                    <th th:each="n:${el.roles}"
+                        th:text="*{n}"/>
+
                 </div>
                 <div sec:authorize="hasAuthority('SUPPORT')">
-                    <th th:utext="${el.roles}"/>
+                    <th th:each="n:${el.roles}"
+                        th:text="*{n}"/>
                 </div>
                 <div sec:authorize="hasAuthority('USER')">
-                    <th th:utext="${el.shop}"/>
+                    <th th:each="n : *{el.shop}" th:text="${n}"/>
                 </div>
             </tr>
             </tbody>

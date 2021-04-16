@@ -34,7 +34,7 @@
                 <p><select class="form-control" name="shop" ><br>
                     <option value="">Выберите магазин из списка</option>
                     <option th:each="el : ${shops}"
-                            th:value="${el.name}" th:text="${el.name}"></option>
+                            th:value="${el.id}" th:text="${el.name}"></option>
                 </select></p>
             </div>
 

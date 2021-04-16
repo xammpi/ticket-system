@@ -37,7 +37,7 @@ public class RegistrationController {
         user.setRoles(Collections.singleton(Role.USER));
         userRepository.save(user);
         Mail mail = new Mail();
-        mail.sendMailToUser(user.getEmail(), user.getName(), user.getShop(), user.getUsername(), user.getPassword());
+        mail.sendMailToUser(user.getEmail(), user.getName(), user.getShop().toString(), user.getUsername(), user.getPassword());
         return "redirect:/login";
     }
 
@@ -51,7 +51,7 @@ public class RegistrationController {
         user.setActive(true);
         userRepository.save(user);
         Mail mail = new Mail();
-        mail.sendMailToUser(user.getEmail(), user.getName(), user.getShop(), user.getUsername(), user.getPassword());
+        mail.sendMailToUser(user.getEmail(), user.getName(), user.getShop().toString(), user.getUsername(), user.getPassword());
         return "redirect:/user";
     }
 

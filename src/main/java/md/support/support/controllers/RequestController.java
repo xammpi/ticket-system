@@ -6,33 +6,27 @@ import md.support.support.models.Request;
 import md.support.support.models.User;
 import md.support.support.repo.RequestRepository;
 import md.support.support.repo.ShopRepository;
+import md.support.support.repo.WorkerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.Assert;
+
 import org.springframework.util.StringUtils;
-import org.springframework.validation.BindingResult;
+
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
 
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URLDecoder;
-import java.security.Principal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 @Controller
@@ -40,10 +34,13 @@ import java.util.List;
 public class RequestController {
 
     private final RequestRepository requestRepository;
+    private final WorkerRepository workerRepository;
 
-    public RequestController(RequestRepository requestRepository) {
+    public RequestController(RequestRepository requestRepository, WorkerRepository workerRepository) {
         this.requestRepository = requestRepository;
+        this.workerRepository = workerRepository;
     }
+
 
     @Autowired
     private ShopRepository shopRepository;
@@ -96,18 +93,20 @@ public class RequestController {
     @GetMapping("/requests")
     public String filter(@RequestParam(value = "shop", required = false) String shop,
                          @RequestParam(value = "trip-start", required = false) String dateSort,
-                         Model model, HttpServletRequest request) {
+                         @RequestParam(value = "worker", required = false) Long worker,
+                         Model model, HttpServletRequest request, @PageableDefault Pageable pageable) {
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("user", user);
+        model.addAttribute("worker", workerRepository.findAll());
         if (String.valueOf(user.getRoles()).contains("USER")) {
-            model.addAttribute("requestsCountByZero", requestRepository.findByCountRequestStateZeroAndShop(user.getShop()));
-            model.addAttribute("requestsCountByThree", requestRepository.findByCountRequestStateThreeAndShop(user.getShop()));
-            model.addAttribute("requestsCountByOne", requestRepository.findByCountRequestStateOne(user.getShop()));
-            model.addAttribute("requestsCountByTwo", requestRepository.findByCountRequestStateTowAndShop(user.getShop()));
-            model.addAttribute("requestsCountByFour", requestRepository.findByCountRequestStateFourAndShop(user.getShop()));
-            model.addAttribute("requestCountTotal", requestRepository.findByCountRequestTotalAndShop(user.getShop()));
-            model.addAttribute("shops", shopRepository.findByName(user.getShop()));
+            model.addAttribute("requestsCountByZero", requestRepository.findByCountRequestStateZeroAndShop(user.getShop().toString()));
+            model.addAttribute("requestsCountByThree", requestRepository.findByCountRequestStateThreeAndShop(user.getShop().toString()));
+            model.addAttribute("requestsCountByOne", requestRepository.findByCountRequestStateOne(user.getShop().toString()));
+            model.addAttribute("requestsCountByTwo", requestRepository.findByCountRequestStateTowAndShop(user.getShop().toString()));
+            model.addAttribute("requestsCountByFour", requestRepository.findByCountRequestStateFourAndShop(user.getShop().toString()));
+            model.addAttribute("requestCountTotal", requestRepository.findByCountRequestTotalAndShop(user.getShop().toString()));
+            model.addAttribute("shops", shopRepository.findByName(user.getShop().toString()));
         }
         if (String.valueOf(user.getRoles()).contains("ADMIN") || String.valueOf(user.getRoles()).contains("SUPPORT")) {
             model.addAttribute("requestsCountByZero", requestRepository.findByCountRequestStateZero());
@@ -119,19 +118,33 @@ public class RequestController {
             model.addAttribute("shops", shopRepository.findAll());
         }
         requestGetQueryString = request.getQueryString();
+        int p = 0; //default page number is 0 (yes it is weird)
+        int size = 10; //default page size is 10
+
+        if (request.getParameter("page") != null && !request.getParameter("page").isEmpty()) {
+            p = Integer.parseInt(request.getParameter("page")) - 1;
+        }
+        if (request.getParameter("size") != null && !request.getParameter("size").isEmpty()) {
+            size = Integer.parseInt(request.getParameter("size"));
+        }
+        model.addAttribute("shop", shop);
+        model.addAttribute("date", dateSort);
 
         if (StringUtils.isEmpty(dateSort)) {
-            List<Request> requests = requestRepository.findByShop(shop);
-            model.addAttribute("requests", requests);
+            Page<Request> page = requestRepository.findByShop(shop, PageRequest.of(p, size));
+            model.addAttribute("page", page);
             return "requests";
         }
         if (StringUtils.isEmpty(shop)) {
-            List<Request> requests = requestRepository.findByDateSort(dateSort);
-            model.addAttribute("requests", requests);
+            Page<Request> page = requestRepository.findByDateSortAndShop(dateSort, user.getShop().toString(), PageRequest.of(p, size));
+            model.addAttribute("page", page);
             return "requests";
         }
-        List<Request> requests = requestRepository.findByShopAndDateSort(shop, dateSort);
-        model.addAttribute("requests", requests);
+
+        Page<Request> page = requestRepository.findByShopAndDateSort(shop, dateSort,PageRequest.of(p, size));
+        model.addAttribute("page", page);
         return "requests";
     }
+
+
 }
