@@ -61,7 +61,7 @@
                         <table class="table table-sm">
                             <thead class="thead-dark">
                             <tr>
-                                <th scope="col">ID</th>
+                                <th scope="col">№</th>
                                 <th scope="col">Магазин</th>
                                 <th scope="col"></th>
                                 <th scope="col"></th>
@@ -71,7 +71,7 @@
                             <div th:each="el:${shops}">
                                 <tr>
                                     <td>
-                                        <a th:text="${el.id}"/>
+                                        <a th:text="${el.number}"/>
                                     </td>
 
                                     <td>

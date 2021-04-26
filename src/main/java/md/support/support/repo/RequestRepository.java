@@ -9,9 +9,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 
 public interface RequestRepository extends CrudRepository<Request, Long> {
@@ -24,19 +24,23 @@ public interface RequestRepository extends CrudRepository<Request, Long> {
 
     //View search
     @Query(value = "SELECT u FROM Request u WHERE u.shop = :shop and state=1 and date_created = :dateSort order by id desc")
-    Page<Request> findByShopAndDateSort(@Param("shop") String shop, @Param("dateSort") String dateSort,Pageable pageable);
+    Page<Request> findByShopAndDateSort(@Param("shop") String shop, @Param("dateSort") String dateSort, Pageable pageable);
 
     @Query(value = "SELECT u FROM Request u WHERE u.shop = :shop and state = 1 order by id desc")
-    Page<Request> findByShop(@Param("shop") String shop,Pageable pageable);
+    Page<Request> findByShop(@Param("shop") String shop, Pageable pageable);
 
     @Query(value = "SELECT u FROM Request u WHERE date_created = :dateSort and state = 1 order by id desc")
     List<Request> findByDateSort(@Param("dateSort") String dateSort);
 
-    @Query(value = "SELECT u FROM Request u WHERE worker = :worker and state = 1 order by id desc")
-    List<Request> findByWorker(@Param("worker") Optional<Worker> worker);
+    @Query(value = "SELECT u FROM Request u WHERE date_created = :dateSort and state = 1 order by id desc")
+    Page<Request> findByDateSort(@Param("dateSort") String dateSort, Pageable pageable);
 
-    @Query(value = "SELECT u FROM Request u WHERE date_created = :dateSort and shop= :shop and state = 1 order by id desc")
-    Page<Request> findByDateSortAndShop(@Param("dateSort") String dateSort, @Param("shop") String shop, Pageable pageable);
+    Page<Request> findByWorkerIdAndState(Long id, Integer state, Pageable pageable);
+
+    Page<Request> findByProblemAndState(String problem, Integer state, Pageable pageable);
+
+    @Query(value = "SELECT u FROM Request u WHERE (date_created = :dateSort and shop= :shop and state = 1) order by id desc")
+    Page<Request> findByDateSortAndShop(@Param("dateSort") String dateSort, String shop, Pageable pageable);
 
     //View to Admin and Support
     @Query("SELECT u FROM Request u WHERE state = 0 or state=3 or state=2 or state=4 order by id desc ")
@@ -57,7 +61,15 @@ public interface RequestRepository extends CrudRepository<Request, Long> {
     @Query("SELECT u FROM Request u WHERE state = 4 order by id desc ")
     List<Request> findByStateFour();
 
+
+    @Query(value = "SELECT u FROM Request u WHERE date_close = :currentDay and state = 1 order by id desc")
+    Page<Request> findByCurrentDay(@Param("currentDay") String currentDay, Pageable pageable);
+
     //View shop to user
+
+    @Query(value = "SELECT u FROM Request u WHERE (date_close = :currentDay and shop =:shop and state = 1) order by id desc")
+    Page<Request> findByCurrentDayAndShop(@Param("currentDay") String currentDay, String shop, Pageable pageable);
+
     @Query("SELECT u FROM Request u WHERE shop=:shop and ( state = 0 or state = 3 or state = 2 or state = 4 )order by id desc ")
     List<Request> findByStateAndShop(@Param("shop") String shop);
 
@@ -113,5 +125,6 @@ public interface RequestRepository extends CrudRepository<Request, Long> {
 
     @Query("SELECT Count(state) FROM Request")
     Integer findByCountRequestTotal();
+
 
 }

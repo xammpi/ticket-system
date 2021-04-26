@@ -40,10 +40,10 @@
                                                                          aria-hidden="true"></i>Выполненые
                     заявки</a>
 
-            <div sec:authorize="hasAuthority('ADMIN')">
+                <div sec:authorize="hasAuthority('ADMIN')">
                     <a class="list-group-item" href="/admin-panel"><i class="fa fa-cogs"
                                                                       aria-hidden="true"></i>Админка</a>
-              </div>
+                </div>
                 <form th:action="@{/logout}" method="post">
                     <a class="list-group-item with-badge active"><i class="fa fa-sign-out"
                                                                     aria-hidden="true"></i>
@@ -110,12 +110,10 @@
                             <div th:insert="parts/edit-application-modal :: edit-application-modal"></div>
                         </div>
                         <div class="flex-item">
-
                             <button type="button" class="btn btn-primary" data-toggle="modal"
                                     th:attr="data-target='#exampleModalCenter'+${el.id}">
-                                <i class="fa fa-commenting-o" aria-hidden="true"></i>
+                                    <i class="fa fa-commenting-o" aria-hidden="true"></i>
                             </button>
-
                             <div th:insert="parts/add-comment-modal:: add-comment-modal"></div>
 
                         </div>

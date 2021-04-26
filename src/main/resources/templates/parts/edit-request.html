@@ -19,10 +19,10 @@
                                     Выполненая заявка
                                 </div>
                                 <h6>
-                                <div th:text="'Дата подачи заявки: '+${el.dateCreated}"/>
-                                <div th:text="'Дата начала выполнения заявки: '+${el.execution}"/>
-                                <div th:text="'Дата завершения заявки: '+${el.dateEnd}"/>
-                                <div th:text="'Дата закрытия заявки: '+${el.dateClose}"/>
+                                    <div th:text="'Дата подачи заявки: '+${el.dateCreated}"/>
+                                    <div th:text="'Дата начала выполнения заявки: '+${el.execution}"/>
+                                    <div th:text="'Дата завершения заявки: '+${el.dateEnd}"/>
+                                    <div th:text="'Дата закрытия заявки: '+${el.dateClose}"/>
                                 </h6>
                             </div>
                             <div class="col-md -5">
@@ -30,12 +30,11 @@
                                     <label>Исполнитель</label>
                                     <p><select class="form-control" name="workerId" required><br>
                                         <th:block th:if="${el.worker.size != 0}">
-                                            <option th:text="*{el.worker}"></option>
+                                            <th:block th:each="n:*{el.worker}">
+                                                <option th:text="*{n}"></option>
+                                            </th:block>
+                                            <option th:each="n:*{el.worker}" th:text="${n}"></option>
                                         </th:block>
-                                        <option value="">Выберите исполнителя</option>
-                                        <option th:each="element:${workers}"
-                                                th:value="${element.name}"
-                                                th:text="${element.name}+'-'+${element.position}"></option>
                                     </select></p>
                                 </div>
                             </div>

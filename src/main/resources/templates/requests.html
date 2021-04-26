@@ -45,29 +45,59 @@
             <div class="col-lg-8">
 
                 <form th:action="@{/completed/requests}" method="get" accept-charset="UTF-8">
-                    <div class="form-row">
-                        <div class="col">
+                    <div class="row">
+                        <div class="col-md-4">
                             <p><select class="form-control" name="shop" id="shop"><br>
                                 <option value="">Выберите магазин</option>
                                 <option th:each="element : ${shops}"
                                         th:value="${element.name}" th:text="${element.name}"></option>
                             </select></p>
                         </div>
-                        <div class="col">
+                        <div class="col-md-4">
                             <input type="date" class="form-control" id="start" name="trip-start"
                                    min="2021-03-04" max="2030-12-31">
                         </div>
-                        <div class="col">
-                            <p><select class="form-control" name="worker" id="worker"><br>
+                        <div class="col-md-4">
+                            <button type="submit" class="btn btn-primary">Найти</button>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-md-4" sec:authorize="hasAuthority('ADMIN')">
+                            <p><select class="form-control" name="worker"><br>
                                 <option value="">Выберите исполнителя</option>
                                 <option th:each="el : ${worker}"
                                         th:value="${el.id}" th:text="${el.name}"></option>
                             </select></p>
                         </div>
-                        <div class="col">
-                            <button type="submit" class="btn btn-primary">Найти</button>
-                            <a href="/completed/requests" class="btn btn-primary">Сбросить фильтр</a>
+
+                        <div class="col-md-4" sec:authorize="hasAuthority('SUPPORT')">
+                            <p><select class="form-control" name="worker"><br>
+                                <option value="">Выберите исполнителя</option>
+                                <option th:each="el : ${worker}"
+                                        th:value="${el.id}" th:text="${el.name}"></option>
+                            </select></p>
                         </div>
+
+                        <div class="col-md-4" sec:authorize="hasAuthority('ADMIN')">
+                            <p><select class="form-control" name="problem" ><br>
+                                <option value="">Выберите проблему</option>
+                                <option th:each="el : ${problem}"
+                                        th:value="${el.name}" th:text="${el.name}"></option>
+                            </select></p>
+                        </div>
+
+                        <div class="col-md-4" sec:authorize="hasAuthority('SUPPORT')">
+                            <p><select class="form-control" name="problem" ><br>
+                                <option value="">Выберите проблему</option>
+                                <option th:each="el : ${problem}"
+                                        th:value="${el.name}" th:text="${el.name}"></option>
+                            </select></p>
+                        </div>
+
+<!--                        <div class="col-md-4">-->
+<!--                            <a href="/completed/requests" class="btn btn-primary">Сбросить</a>-->
+<!--                        </div>-->
                     </div>
                 </form>
 
@@ -87,18 +117,18 @@
                             <div class="flex-item">
                                 <input class="btn btn-primary" type="submit" th:value="Сохранить" th:name="action"/>
                             </div>
-<!--                            <div class="flex-item">-->
-<!--                                <div class="flex-chek">-->
-<!--                                    <span class="badge badge-primary badge-pill"><input type="checkbox"-->
-<!--                                                                                        id="check_all_uw"> Выбрать все</span>-->
-<!--                                </div>-->
-<!--                            </div>-->
+                            <!--                            <div class="flex-item">-->
+                            <!--                                <div class="flex-chek">-->
+                            <!--                                    <span class="badge badge-primary badge-pill"><input type="checkbox"-->
+                            <!--                                                                                        id="check_all_uw"> Выбрать все</span>-->
+                            <!--                                </div>-->
+                            <!--                            </div>-->
                         </div>
                     </div>
 
-<!--                            <input type="checkbox" th:value="*{el.id}" class="uw-checkbox" name="id"/>-->
+                    <!--                            <input type="checkbox" th:value="*{el.id}" class="uw-checkbox" name="id"/>-->
 
-                            <div th:insert="parts/completed-request :: completed-request"></div>
+                    <div th:insert="parts/completed-request :: completed-request"></div>
 
                 </form>
             </div>

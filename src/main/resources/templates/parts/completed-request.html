@@ -41,7 +41,7 @@
                         <div th:text="${el.problem}"/>
                     </td>
                     <td>
-                        <span th:text="${el.worker}"/>
+                        <span th:each="n:*{el.worker}" th:text="${n}"></span>
                     </td>
                     <td>
                         <button type="button" class="btn btn-primary" data-toggle="modal"
@@ -60,7 +60,7 @@
             <ul class="pagination justify-content-center font-weight-bold">
                 <li class="page-item" th:classappend="${page.number eq 0} ? 'disabled'">
                     <a class="page-link"
-                       th:href="@{'/completed/requests?shop='+${shop}+'&trip-start='+${date}+'&worker=&page={id}'(id=${page.number lt 2 ? 1 : page.number})}"
+                       th:href="@{'/completed/requests?shop='+${shop}+'&trip-start='+${date}+'&worker='+${work}+'&problem='+${prob}+'&page={id}'(id=${page.number lt 2 ? 1 : page.number})}"
                        aria-label="Previous" title="Previous Page" data-toggle="tooltip">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
@@ -68,13 +68,13 @@
                 <li class="page-item" th:classappend="${i eq page.number + 1} ? 'active'"
                     th:each="i : ${#numbers.sequence( 1, page.totalPages, 1)}">
                     <a class="page-link"
-                       th:href="@{'/completed/requests?shop='+${shop}+'&trip-start='+${date}+'&worker=&page={id}'(id=${i})}"
+                       th:href="@{'/completed/requests?shop='+${shop}+'&trip-start='+${date}+'&worker='+${work}+'&problem='+${prob}+'&page={id}'(id=${i})}"
                        th:text="${i}"
                        th:title="${'Page '+ i}" data-toggle="tooltip"></a>
                 </li>
                 <li class="page-item" th:classappend="${page.number + 1 eq page.totalPages} ? 'disabled'">
                     <a class="page-link"
-                       th:href="@{'/completed/requests?shop='+${shop}+'&trip-start='+${date}+'&worker=&page={id}'(id=${page.number + 2})}"
+                       th:href="@{'/completed/requests?shop='+${shop}+'&trip-start='+${date}+'&worker='+${work}+'&problem='+${prob}+'&page={id}'(id=${page.number + 2})}"
                        aria-label="Next" title="Next Page" data-toggle="tooltip">
                         <span aria-hidden="true">&raquo;</span>
                     </a>

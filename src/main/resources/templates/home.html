@@ -21,7 +21,8 @@
                 </select></p>
 
                 <div class="input-group">
-                    <input type="text" th:field="*{name}" placeholder="Укажите Фамилию и Имя" pattern="^[a-zA-Z ]+$" class="form-control"
+                    <input type="text" th:field="*{name}" placeholder="Укажите Фамилию и Имя" pattern="^[a-zA-Z ]+$"
+                           class="form-control"
                            id="validationCustom03" aria-describedby="inputGroupPrepend" required><br>
                     <div class="invalid-feedback">
                         Укажите Фамилию и Имя
@@ -49,9 +50,6 @@
                         Описание проблемы
                     </div>
                 </div>
-<!--                <div class="input-group">-->
-<!--                    <input type="file" accept="image/*">-->
-<!--                </div>-->
                 <button type="submit" id="sendMail" class="btn btn-primary">Отправить</button>
                 <a href="/current-applications" class="btn btn-primary">Заявки</a>
                 </form>
@@ -61,10 +59,16 @@
             </div>
         </div>
     </div>
-
 </div>
 <script th:src="@{/js/jquery-1.10.2.min.js}"></script>
 <script th:src="@{/js/bootstrap.min.js}"></script>
 <script th:src="@{/js/validation.js}"></script>
+<script th:src="@{/js/jquery.maskedinput.min.js}"></script>
+<script th:src="@{/js/validation.js}"></script>
+<!--<script>-->
+<!--$(function(){-->
+<!--  $("#phone").mask("0(99) 99-99-99");-->
+<!--});-->
+<!--</script>-->
 </body>
 </html>

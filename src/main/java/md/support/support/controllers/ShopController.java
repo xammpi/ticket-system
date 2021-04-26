@@ -5,6 +5,7 @@ import md.support.support.models.Shop;
 import md.support.support.models.User;
 import md.support.support.repo.RequestRepository;
 import md.support.support.repo.ShopRepository;
+import net.bytebuddy.build.HashCodeAndEqualsPlugin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -26,7 +27,7 @@ public class ShopController {
     public String shopList(Model model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("user", user);
-        model.addAttribute("shops", shopRepository.findAll());
+        model.addAttribute("shops", shopRepository.findAllByOrderByNumber());
         return "shop-list";
     }
 
@@ -37,8 +38,10 @@ public class ShopController {
     }
 
     @PostMapping("/edit-shop")
-    public String editShopModal(@RequestParam("id") Shop shop, @RequestParam("name") String name) {
+    public String editShopModal(@RequestParam("id") Shop shop, @RequestParam("name") String name
+            , @RequestParam("number") int number) {
         shop.setName(name);
+        shop.setNumber(number);
         shopRepository.save(shop);
         return "redirect:/shop";
     }

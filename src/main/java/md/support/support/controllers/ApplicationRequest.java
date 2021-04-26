@@ -57,18 +57,19 @@ public class ApplicationRequest {
             return "current-applications";
         }
         if (String.valueOf(user.getRoles()).contains("USER")) {
-            model.addAttribute("requestsCountByZero", requestRepository.findByCountRequestStateZeroAndShop(user.getShop().toString()));
-            model.addAttribute("requestsCountByThree", requestRepository.findByCountRequestStateThreeAndShop(user.getShop().toString()));
-            model.addAttribute("requestsCountByOne", requestRepository.findByCountRequestStateOne(user.getShop().toString()));
-            model.addAttribute("requestsCountByTwo", requestRepository.findByCountRequestStateTowAndShop(user.getShop().toString()));
-            model.addAttribute("requestsCountByFour", requestRepository.findByCountRequestStateFourAndShop(user.getShop().toString()));
-            model.addAttribute("requestCountTotal", requestRepository.findByCountRequestTotalAndShop(user.getShop().toString()));
-//            List<Request> requests = requestRepository.findByStateAndShop(user.getShop());
-            model.addAttribute("requests", requestRepository.findByStateAndShop(user.getShop().toString()));
-            model.addAttribute("shops", shopRepository.findByName(user.getShop().toString()));
-            model.addAttribute("name", user.getName());
-            model.addAttribute("phone", user.getPhone());
-            return "current-applications";
+            for (Shop p : user.getShop()) {
+                model.addAttribute("requestsCountByZero", requestRepository.findByCountRequestStateZeroAndShop(p.getName()));
+                model.addAttribute("requestsCountByThree", requestRepository.findByCountRequestStateThreeAndShop(p.getName()));
+                model.addAttribute("requestsCountByOne", requestRepository.findByCountRequestStateOne(p.getName()));
+                model.addAttribute("requestsCountByTwo", requestRepository.findByCountRequestStateTowAndShop(p.getName()));
+                model.addAttribute("requestsCountByFour", requestRepository.findByCountRequestStateFourAndShop(p.getName()));
+                model.addAttribute("requestCountTotal", requestRepository.findByCountRequestTotalAndShop(p.getName()));
+                model.addAttribute("requests", requestRepository.findByStateAndShop(p.getName()));
+                model.addAttribute("shops", shopRepository.findByName(p.getName()));
+                model.addAttribute("name", user.getName());
+                model.addAttribute("phone", user.getPhone());
+                return "current-applications";
+            }
         }
         return "current-applications";
     }
@@ -76,7 +77,7 @@ public class ApplicationRequest {
     @PostMapping(value = "/add-request")
     public String homeRequestAdd(@ModelAttribute @Valid Request request, Model model) {
 
-            requestRepository.save(request);
+        requestRepository.save(request);
 
         // Mail mail = new Mail();
         // mail.sendMail(request.getShop(), request.getMessage(), request.getProblem(), request.getPhone(), request.getName());
@@ -127,7 +128,7 @@ public class ApplicationRequest {
             return "redirect:" + referer.getHeader("referer");
         }
         if (String.valueOf(user.getRoles()).contains("USER")) {
-            if (request.getExecution() != null || request.getDateClose() != null) {
+            if (request.getExecution() != null && request.getDateEnd() != null) {
                 request.setState(1);
                 request.setDateClose(Calendar.getInstance().getTime());
                 requestRepository.save(request);

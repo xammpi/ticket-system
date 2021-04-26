@@ -35,6 +35,9 @@ public class MainController {
 
     @PostMapping(value = "/")
     public String homeRequestAdd(@ModelAttribute @Valid Request request, Model model) {
+        if (request.getPhone().startsWith("0")) {
+            request.setPhone(request.getPhone().substring(1, request.getPhone().length()));
+        }
         requestRepository.save(request);
         // Mail mail = new Mail();
         // mail.sendMail(request.getShop(), request.getMessage(), request.getProblem(), request.getPhone(), request.getName());
@@ -51,10 +54,10 @@ public class MainController {
         }
         if (userRole.equals("[USER]")) {
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            model.addAttribute("shops", shopRepository.findByName(user.getShop().toString()));
+            model.addAttribute("shops", shopRepository.findByName(user.getShop().get(0).getName()));
             model.addAttribute("problems", problemRepository.findAll());
-            model.addAttribute("name",user.getName());
-            model.addAttribute("phone",user.getPhone());
+            model.addAttribute("name", user.getName());
+            model.addAttribute("phone", user.getPhone());
             return "home";
         }
         model.addAttribute("shops", shopRepository.findAll());
