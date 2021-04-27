@@ -13,8 +13,15 @@
 
                 <div class="modal-body">
                     <div class="form-group">
-                        <label>Проблемы</label>
-                        <input type="text" class="form-control" placeholder="Название проблемы" name="name"/><br/>
+                        <label>Название проблемы</label>
+                        <input type="text" class="form-control" placeholder="Название проблемы"
+                               th:field="*{name}"/><br/>
+                        <label>Отдел</label>
+                        <p><select th:field="*{department}" class="form-control" required><br>
+                            <option value="">Выберите отдел</option>
+                            <option th:each="el:${departments}"
+                                    th:value="${el.id}" th:text="${el.name}"></option>
+                        </select></p>
                         <button type="submit" class="btn btn-primary">Ввод</button>
                     </div>
                 </div>

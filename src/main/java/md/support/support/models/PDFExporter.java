@@ -50,6 +50,8 @@ public class PDFExporter {
             document.add(newLineOne);
             Paragraph dateClose = new Paragraph("Дата закрытия заявки: " + String.valueOf(request.getDateClose()), fontBd);
             document.add(dateClose);
+            Paragraph dateCloseWorker = new Paragraph("Дата завершения заявки исполнителем: " + String.valueOf(request.getDateEnd()), fontBd);
+            document.add(dateCloseWorker);
             Paragraph worker = new Paragraph("Исполнитель: " + String.valueOf(request.getWorker().get(0)), fontBd);
             document.add(worker);
             Paragraph nameMessage = new Paragraph("Описание проблемы", font);
@@ -63,8 +65,11 @@ public class PDFExporter {
             document.add(newLineAfterNameMessage);
             document.add(newLineAfterNameMessage);
             document.add(newLineAfterNameMessage);
-            Paragraph completed = new Paragraph("Выполнил: " + request.getWorker().get(0) + "                                                              " + "Принял: "+request.getName(), font);
+            Paragraph completed = new Paragraph("Выполнил: " + request.getWorker().get(0), font);
             document.add(completed);
+            document.add(newLineOne);
+            Paragraph completed1 = new Paragraph("Принял: " + request.getName(), font);
+            document.add(completed1);
             document.newPage();
         }
         document.close();

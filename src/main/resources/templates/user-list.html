@@ -7,6 +7,7 @@
     <link rel="stylesheet" th:href="@{/css/detail.css}">
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{/css/multiselect.css}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
@@ -80,7 +81,12 @@
                                         <a th:text="${el.name}"/>
                                     </td>
                                     <td>
-                                        <p th:each="n:*{el.shop}" th:text="${n}"></p>
+                                        <div th:if="*{el.shop.size>1}">
+                                            <p>Все магазины</p>
+                                        </div>
+                                        <div th:if="*{el.shop.size==1}">
+                                            <p th:each="n:*{el.shop}" th:text="${n}"></p>
+                                        </div>
                                     </td>
 
                                     <td>
@@ -105,7 +111,6 @@
                         </table>
 
 
-
                     </div>
                 </div>
             </div>
@@ -116,5 +121,15 @@
 </div>
 <script th:src="@{/js/jquery-1.10.2.min.js}"></script>
 <script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/multiselect.min.js}"></script>
+<script>
+    $('#select2').multiselect({
+	includeSelectAllOption: true
+});
+
+
+
+</script>
+
 </body>
 </html>

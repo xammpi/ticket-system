@@ -56,6 +56,7 @@ public class ApplicationRequest {
             model.addAttribute("requests", requests);
             return "current-applications";
         }
+
         if (String.valueOf(user.getRoles()).contains("USER")) {
             for (Shop p : user.getShop()) {
                 model.addAttribute("requestsCountByZero", requestRepository.findByCountRequestStateZeroAndShop(p.getName()));

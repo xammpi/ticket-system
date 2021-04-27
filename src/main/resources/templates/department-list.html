@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Название проблемы</title>
+    <title> Отделы </title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" th:href="@{/css/detail.css}">
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
@@ -20,7 +21,7 @@
                     <div class="user-cover" th:style="'background-image: url('+@{/images/bg1.jpg}+');'">
                         <div class="info-label" th:insert="parts/security :: security"></div>
                         <div class="user-avatar">
-                            <img th:src="@{images/avatar.png}" alt="User"/></div>
+                            <img th:src="@{/images/avatar.png}" alt="User"/></div>
                     </div>
 
                     <div class="user-info">
@@ -29,10 +30,12 @@
                         </div>
                     </div>
 
+
                 </aside>
 
                 <nav class=" list-group">
-                    <a class="list-group-item" href="/admin-panel"><i class="fa fa-reply-all" aria-hidden="true"></i></i>Назад</a>
+                    <a class="list-group-item" href="/admin-panel"><i class="fa fa-reply-all"
+                                                                      aria-hidden="true"></i></i>Назад</a>
                     <form th:action="@{/logout}" method="post">
                         <a class="list-group-item with-badge active"><i class="fa fa-sign-out"
                                                                         aria-hidden="true"></i>
@@ -40,17 +43,17 @@
                     </form>
                 </nav>
             </div>
-            <!--            <div class="col-lg-8">-->
             <div class="col-lg-8">
 
                 <div class="form-row">
                     <div class="col">
                         <button type="button" class="btn btn-primary" data-toggle="modal"
                                 th:attr="data-target='#bd-example-modal-lg'">
-                            Добавить
+                            Добавить отдел
                         </button>
-                        <form th:object="${problem}" th:action="@{/problem}" th:method="post">
-                            <div th:insert="parts/add-problem-modal :: add-problem-modal"></div>
+                        <span th:utext="${message}"/>
+                        <form th:object="${department}" th:action="@{/department}" th:method="post">
+                            <div th:insert="parts/add-department-modal :: add-department-modal"></div>
                         </form>
                     </div>
                 </div>
@@ -61,37 +64,41 @@
                         <table class="table table-sm">
                             <thead class="thead-dark">
                             <tr>
+                                <th scope="col">ID</th>
                                 <th scope="col">Название</th>
-                                <th scope="col">Отдел</th>
-                                <th scope="col">Редактировать</th>
+                                <th scope="col">Радктировать</th>
                                 <th scope="col">Удалить</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <div th:each="el:${problems}">
+                            <div th:each="el:${departments}">
                                 <tr>
+                                    <td>
+                                        <span th:text="${el.id}"/>
+
+                                    </td>
                                     <td>
                                         <div th:text="${el.name}"/>
                                     </td>
-                                    <td>
-                                        <div th:each="element:${el.department}"
-                                        th:text="${element.name}"/>
-                                    </td>
+
                                     <td>
                                         <button type="button" class="btn btn-primary" data-toggle="modal"
                                                 th:attr="data-target='#bd-example-modal-lg'+${el.id}">
                                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                         </button>
-                                        <form th:action="@{/problem/edit-problem}" th:method="post">
-                                            <div th:insert="parts/edit-problem :: edit-problem"></div>
+
+                                        <form th:action="@{/department/edit}" th:method="post">
+                                            <input type="hidden" name="userId" th:value="*{el.id}"/>
+                                            <div th:insert="parts/edit-department-modal :: edit-department-modal"></div>
                                         </form>
                                     </td>
                                     <td>
-                                        <form th:action="@{/problem/remove}" th:method="post">
-                                            <input type="hidden" name="id" th:value="*{el.id}"/>
+                                        <form th:action="@{/department/remove}" th:method="post">
+                                            <input type="hidden" name="userId" th:value="*{el.id}"/>
                                             <button class="btn btn-primary" type="submit">
                                                 <i class="fa fa-times" aria-hidden="true"></i></button>
                                         </form>
+
                                     </td>
                                 </tr>
                             </div>

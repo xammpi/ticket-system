@@ -1,11 +1,10 @@
-<div th:fragment="edit-problem">
-
+<div th:fragment="edit-department-modal">
     <div class="modal fade bd-example-modal-lg" th:id="${'bd-example-modal-lg'+{el.id}}"
          tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle1">Редактировать название проблемы</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle1">Редактировать данные отдела</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -13,18 +12,14 @@
 
                 <div class="modal-body">
                     <div class="form-group">
-                        <input type="hidden" name="id" th:value="*{el.id}"/>
-                        <label>Название проблемы</label>
-                        <input type="text" name="name" th:value="*{el.name}" class="form-control"><br>
-                        <label>Отдел</label>
-                        <p><select name="department" class="custom-select" required><br>
-                            <option th:each="el:${departments}"
-                                    th:value="${el.id}" th:text="${el.name}"></option>
-                        </select></p>
+                        <input type="text" name="name" th:value="*{el.name}" class="form-control"
+                               required/><br/>
                         <button type="submit" class="btn btn-primary">Ввод</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+
 </div>

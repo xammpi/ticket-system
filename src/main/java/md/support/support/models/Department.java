@@ -1,11 +1,11 @@
 package md.support.support.models;
 
+
 import javax.persistence.*;
 
-
 @Entity
-@Table(name = "position")
-public class Position {
+@Table(name = "department")
+public class Department {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,18 +26,6 @@ public class Position {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Position(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public Position(String name) {
-        this.name = name;
-    }
-    public Position(){
-
     }
 
     @Override

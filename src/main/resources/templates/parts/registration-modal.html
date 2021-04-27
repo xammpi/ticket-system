@@ -26,11 +26,13 @@
                                required/><br/>
 
                         <label>Магазин</label>
-                        <p><select th:field="*{shop}" class="custom-select" required><br>
-                            <option value="">Выберите магазин</option>
+                        <div class="form-group log-status">
+                        <p><select th:field="*{shop}" class="custom-select" id="select2" multiple="multiple" required><br>
+<!--                            <option value="">Выберите магазин</option>-->
                             <option th:each="element : ${shops}"
                                     th:value="${element.id}" th:text="${element.name}"></option>
                         </select></p>
+                        </div>
                     </div>
                     <div class="form-group log-status">
                         <p><select th:field="*{roles}" class="custom-select" required><br>

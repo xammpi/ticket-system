@@ -143,7 +143,7 @@ public class ExecutionController {
                 shop.setCount(requestRepository.findByCountRequestStateOne(shop.getName()));
                 shopRepository.save(shop);
             }
-            model.addAttribute("shop", shopRepository.findAll());
+            model.addAttribute("shop", shopRepository.findAllByOrderByNumber());
             return "completed-request";
         }
         if (String.valueOf(user.getRoles()).contains("USER")) {

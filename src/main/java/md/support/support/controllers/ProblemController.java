@@ -1,7 +1,9 @@
 package md.support.support.controllers;
 
+import md.support.support.models.Department;
 import md.support.support.models.Problem;
 import md.support.support.models.User;
+import md.support.support.repo.DepartmentRepository;
 import md.support.support.repo.ProblemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,25 +18,33 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class ProblemController {
 
-    @Autowired
-    private ProblemRepository problemRepository;
+    private final ProblemRepository problemRepository;
+    private final DepartmentRepository departmentRepository;
+
+    public ProblemController(ProblemRepository problemRepository, DepartmentRepository departmentRepository) {
+        this.problemRepository = problemRepository;
+        this.departmentRepository = departmentRepository;
+    }
 
     @GetMapping()
     public String problemList(Model model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("user", user);
         model.addAttribute("problems", problemRepository.findAll());
+        model.addAttribute("departments", departmentRepository.findAll());
+        model.addAttribute("problem", new Problem());
         return "problem-list";
     }
 
-    @PostMapping("/add-problem")
+    @PostMapping()
     public String addNewProblemModal(Problem problem, Model model) {
         problemRepository.save(problem);
         return "redirect:/problem";
     }
 
     @PostMapping("/edit-problem")
-    public String editProblemModal(@RequestParam("id") Problem problem, @RequestParam("name") String name) {
+    public String editProblemModal(@RequestParam("id") Problem problem, @RequestParam("name") String name
+            , @RequestParam("department") Department department) {
         problem.setName(name);
         problemRepository.save(problem);
         return "redirect:/problem";
