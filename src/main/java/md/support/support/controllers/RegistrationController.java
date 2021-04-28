@@ -3,6 +3,7 @@ package md.support.support.controllers;
 import md.support.support.models.Mail;
 import md.support.support.models.Role;
 import md.support.support.models.User;
+import md.support.support.repo.DepartmentRepository;
 import md.support.support.repo.ShopRepository;
 import md.support.support.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,8 @@ public class RegistrationController {
     private UserRepository userRepository;
     @Autowired
     private ShopRepository shopRepository;
+    @Autowired
+    private DepartmentRepository departmentRepository;
 
     @GetMapping("/registration")
     public String registration(Model model) {

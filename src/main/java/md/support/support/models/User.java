@@ -31,6 +31,18 @@ public class User implements UserDetails {
             inverseJoinColumns = {@JoinColumn(name = "shop_id")})
     private List<Shop> shop = new ArrayList<>();
 
+    @OneToOne
+    @JoinColumn(name = "user_department_id")
+    private Department department;
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
     public Long getId() {
         return id;
     }
@@ -128,7 +140,9 @@ public class User implements UserDetails {
         this.active = active;
     }
 
-    public User(Long id, String username, String password, boolean active, String name, String phone, String email, Set<Role> roles, List<Shop> shop) {
+    public User(Long id, String username, String password, boolean active
+            , String name, String phone, String email, Set<Role> roles
+            , List<Shop> shop, Department department) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -138,6 +152,7 @@ public class User implements UserDetails {
         this.email = email;
         this.roles = roles;
         this.shop = shop;
+        this.department = department;
     }
 
     public User() {

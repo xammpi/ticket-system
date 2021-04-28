@@ -29,6 +29,14 @@
                                         th:value="${roles}" th:text="${roles}"></option>
                             </select></p>
 
+                            <label>Отдел</label>
+                            <p><select class="form-control" name="department" th:value="*{department}"><br>
+                                <option th:value="*{el.department.getId}" th:text="*{el.department.getName}"></option>
+                                <option th:each="element : ${departments}"
+                                        th:value="${element.id}" th:text="${element.name}"></option>
+                            </select></p>
+
+
                             <label>Имя</label>
                             <input type="text" name="name" th:value="*{el.name}" class="form-control"><br>
 

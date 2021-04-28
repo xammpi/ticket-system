@@ -64,7 +64,8 @@
                             <thead class="thead-dark">
                             <tr>
                                 <th scope="col">Пользователь</th>
-                                <th scope="col">Имя и Фамилия</th>
+                                <th scope="col">Ф. И.</th>
+                                <th scope="col">Отдел</th>
                                 <th scope="col">Магазин</th>
                                 <th scope="col"></th>
                                 <th scope="col"></th>
@@ -79,6 +80,9 @@
 
                                     <td>
                                         <a th:text="${el.name}"/>
+                                    </td>
+                                    <td>
+                                        <a th:text="${el.department.getName}"/>
                                     </td>
                                     <td>
                                         <div th:if="*{el.shop.size>1}">
@@ -126,6 +130,9 @@
     $('#select2').multiselect({
 	includeSelectAllOption: true
 });
+
+
+
 
 
 

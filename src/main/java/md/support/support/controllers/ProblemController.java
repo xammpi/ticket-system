@@ -46,6 +46,7 @@ public class ProblemController {
     public String editProblemModal(@RequestParam("id") Problem problem, @RequestParam("name") String name
             , @RequestParam("department") Department department) {
         problem.setName(name);
+        problem.setDepartment(department);
         problemRepository.save(problem);
         return "redirect:/problem";
     }

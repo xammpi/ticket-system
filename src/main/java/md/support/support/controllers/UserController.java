@@ -4,6 +4,7 @@ import md.support.support.models.Role;
 import md.support.support.models.Shop;
 import md.support.support.models.User;
 import md.support.support.models.Worker;
+import md.support.support.repo.DepartmentRepository;
 import md.support.support.repo.ShopRepository;
 import md.support.support.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +20,18 @@ import java.util.Set;
 @Controller
 @RequestMapping("/user")
 public class UserController {
+
+    private final UserRepository userRepository;
+    private final ShopRepository shopRepository;
+    private final DepartmentRepository departmentRepository;
+
     @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private ShopRepository shopRepository;
+    public UserController(UserRepository userRepository, ShopRepository shopRepository
+            , DepartmentRepository departmentRepository) {
+        this.userRepository = userRepository;
+        this.shopRepository = shopRepository;
+        this.departmentRepository = departmentRepository;
+    }
 
     @GetMapping
     public String userList(Model model) {
@@ -30,7 +39,9 @@ public class UserController {
         model.addAttribute("user", user);
         model.addAttribute("users", userRepository.findAll());
         model.addAttribute("shops", shopRepository.findAll());
+        model.addAttribute("departments", departmentRepository.findAll());
         model.addAttribute("user", new User());
+
         return "user-list";
     }
 
@@ -38,7 +49,8 @@ public class UserController {
     public String userEdit(@RequestParam("userId") User user, @RequestParam("username") String username
             , @RequestParam("password") String password, @RequestParam("name") String name
             , @RequestParam("shop") String shop, @RequestParam("roles") Set<Role> roles
-            , @RequestParam("phone") String phone, @RequestParam("email") String email, Model model) {
+            , @RequestParam("phone") String phone, @RequestParam("email") String email
+            , @RequestParam("department") Long departmentId, Model model) {
         user.setUsername(username);
         user.setPassword(password);
         user.setName(name);
@@ -46,6 +58,7 @@ public class UserController {
         user.getShop().add(shopRepository.findByName(shop));
         user.getRoles().clear();
         user.setRoles(roles);
+        user.setDepartment(departmentRepository.getOne(departmentId));
         user.setPhone(phone);
         user.setEmail(email);
         userRepository.save(user);

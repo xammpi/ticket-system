@@ -1,8 +1,6 @@
 package md.support.support.models;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "problem")
@@ -13,16 +11,15 @@ public class Problem {
     private Long id;
     private String name;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "problem_department", joinColumns = {@JoinColumn(name = "problem_id")}
-            , inverseJoinColumns = {@JoinColumn(name = "department_id")})
-    private List<Department> department = new ArrayList<>();
+    @OneToOne
+    @JoinColumn(name = "problem_department_id")
+    private Department department;
 
-    public List<Department> getDepartment() {
+    public Department getDepartment() {
         return department;
     }
 
-    public void setDepartment(List<Department> department) {
+    public void setDepartment(Department department) {
         this.department = department;
     }
 
