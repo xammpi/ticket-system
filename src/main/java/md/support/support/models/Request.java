@@ -53,6 +53,20 @@ public class Request {
             inverseJoinColumns = {@JoinColumn(name = "worker_id")})
     private List<Worker> worker;
 
+    @NotBlank(message = "Выберите магазин из списка")
+    private String shop;
+
+    @ManyToOne
+    @JoinColumn(name = "problem")
+    private Problem problem;
+
+    @Column(name = "problem_department_id")
+    private Long departmentId;
+
+    @Value("")
+    @JoinColumn(name = "comment")
+    private String comment;
+
     public Date getDateClose() {
         return dateClose;
     }
@@ -61,15 +75,13 @@ public class Request {
         this.dateClose = dateClose;
     }
 
-    @NotBlank(message = "Выберите магазин из списка")
-    private String shop;
+    public Long getDepartmentId() {
+        return departmentId;
+    }
 
-    @NotBlank(message = "Выберите проблему из списка")
-    private String problem;
-
-    @Value("")
-    @JoinColumn(name = "comment")
-    private String comment;
+    public void setDepartmentId(Long departmentId) {
+        this.departmentId = departmentId;
+    }
 
     public List<Worker> getWorker() {
         return worker;
@@ -128,11 +140,11 @@ public class Request {
         this.id = id;
     }
 
-    public String getProblem() {
+    public Problem getProblem() {
         return problem;
     }
 
-    public void setProblem(String problem) {
+    public void setProblem(Problem problem) {
         this.problem = problem;
     }
 
@@ -185,7 +197,8 @@ public class Request {
     }
 
     public Request(String name, String phone, String message, String shop
-            , String problem, Date date, Date execution, Date dateClose, Date dateEnd, String comment) {
+            , Problem problem, Date date, Date execution
+            , Date dateClose, Date dateEnd, String comment) {
         this.name = name;
         this.phone = phone;
         this.message = message;
@@ -195,7 +208,6 @@ public class Request {
         this.dateCreated = date;
         this.dateClose = dateClose;
         this.execution = execution;
-        this.dateClose = dateClose;
         this.comment = comment;
     }
 }

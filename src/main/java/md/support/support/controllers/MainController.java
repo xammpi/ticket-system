@@ -38,6 +38,7 @@ public class MainController {
         if (request.getPhone().startsWith("0")) {
             request.setPhone(request.getPhone().substring(1, request.getPhone().length()));
         }
+        request.setDepartmentId(request.getProblem().getDepartment().getId());
         requestRepository.save(request);
         // Mail mail = new Mail();
         // mail.sendMail(request.getShop(), request.getMessage(), request.getProblem(), request.getPhone(), request.getName());

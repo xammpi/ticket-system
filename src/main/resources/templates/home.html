@@ -40,7 +40,7 @@
                 <p><select th:field="*{problem}" class="custom-select" required><br>
                     <option value="">Выберите проблему из списка</option>
                     <option th:each="el : ${problems}"
-                            th:value="${el.name}" th:text="${el.name}"></option>
+                            th:value="${el.id}" th:text="${el.name}"></option>
                 </select></p>
 
                 <div class="input-group">

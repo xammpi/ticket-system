@@ -41,12 +41,20 @@ public class ExecutionController {
         model.addAttribute("workers", workerRepository.findAll());
 
 
-        if (String.valueOf(user.getRoles()).contains("ADMIN") || String.valueOf(user.getRoles()).contains("SUPPORT")) {
+        if (String.valueOf(user.getRoles()).contains("ADMIN")) {
             model.addAttribute("requestsCountByZero", requestRepository.findByCountRequestStateZero());
             List<Request> requests = requestRepository.findByStateZero();
             model.addAttribute("requests", requests);
             return "new-request";
         }
+
+        if (String.valueOf(user.getRoles()).contains("SUPPORT")) {
+            model.addAttribute("requestsCountByZero", requestRepository.findCountByStateZeroAndDepartmentId(user.getDepartment().getId()));
+            List<Request> requests = requestRepository.findByStateZeroAndDepartmentId(user.getDepartment().getId());
+            model.addAttribute("requests", requests);
+            return "new-request";
+        }
+
         if (String.valueOf(user.getRoles()).contains("USER")) {
             model.addAttribute("requestsCountByZero", requestRepository.findByCountRequestStateZeroAndShop(user.getShop().get(0).getName()));
             List<Request> requests = requestRepository.findByStateZeroAndShop(user.getShop().get(0).getName());
@@ -65,12 +73,21 @@ public class ExecutionController {
         model.addAttribute("workers", workerRepository.findAll());
 
 
-        if (String.valueOf(user.getRoles()).contains("ADMIN") || String.valueOf(user.getRoles()).contains("SUPPORT")) {
+        if (String.valueOf(user.getRoles()).contains("ADMIN")) {
             model.addAttribute("requestsCountByTwo", requestRepository.findByCountRequestStateTow());
             List<Request> requests = requestRepository.findByStateTwo();
             model.addAttribute("requests", requests);
             return "in-progress";
         }
+
+        if (String.valueOf(user.getRoles()).contains("SUPPORT")) {
+            model.addAttribute("requestsCountByTwo", requestRepository.findCountByStateTowAndDepartmentId(user.getDepartment().getId()));
+            List<Request> requests = requestRepository.findByStateTwoAndDepartmentId(user.getDepartment().getId());
+            model.addAttribute("requests", requests);
+            return "in-progress";
+        }
+
+
         if (String.valueOf(user.getRoles()).contains("USER")) {
             model.addAttribute("requestsCountByTwo", requestRepository.findByCountRequestStateTowAndShop(user.getShop().get(0).getName()));
             List<Request> requests = requestRepository.findByStateTwoAndShop(user.getShop().get(0).getName());
@@ -89,9 +106,16 @@ public class ExecutionController {
         model.addAttribute("workers", workerRepository.findAll());
 
 
-        if (String.valueOf(user.getRoles()).contains("ADMIN") || String.valueOf(user.getRoles()).contains("SUPPORT")) {
+        if (String.valueOf(user.getRoles()).contains("ADMIN")) {
             model.addAttribute("requestsCountByThree", requestRepository.findByCountRequestStateThree());
             List<Request> requests = requestRepository.findByStateThree();
+            model.addAttribute("requests", requests);
+            return "pending-request";
+        }
+
+        if (String.valueOf(user.getRoles()).contains("SUPPORT")) {
+            model.addAttribute("requestsCountByThree", requestRepository.findCountByStateThreeAndDepartmentId(user.getDepartment().getId()));
+            List<Request> requests = requestRepository.findByStateThreeAndDepartmentId(user.getDepartment().getId());
             model.addAttribute("requests", requests);
             return "pending-request";
         }
@@ -113,12 +137,20 @@ public class ExecutionController {
         model.addAttribute("workers", workerRepository.findAll());
 
 
-        if (String.valueOf(user.getRoles()).contains("ADMIN") || String.valueOf(user.getRoles()).contains("SUPPORT")) {
+        if (String.valueOf(user.getRoles()).contains("ADMIN")) {
             model.addAttribute("requestsCountByFour", requestRepository.findByCountRequestStateFour());
             List<Request> requests = requestRepository.findByStateFour();
             model.addAttribute("requests", requests);
             return "awaiting-confirmation";
         }
+
+        if (String.valueOf(user.getRoles()).contains("SUPPORT")) {
+            model.addAttribute("requestsCountByFour", requestRepository.findCountByStateFourAndDepartmentId(user.getDepartment().getId()));
+            List<Request> requests = requestRepository.findByStateFourAndDepartmentId(user.getDepartment().getId());
+            model.addAttribute("requests", requests);
+            return "awaiting-confirmation";
+        }
+
         if (String.valueOf(user.getRoles()).contains("USER")) {
             model.addAttribute("requestsCountByFour", requestRepository.findByCountRequestStateFourAndShop(user.getShop().toString()));
             List<Request> requests = requestRepository.findByStateFourAndShop(user.getShop().get(0).getName());
@@ -137,7 +169,7 @@ public class ExecutionController {
         model.addAttribute("workers", workerRepository.findAll());
 
 
-        if (String.valueOf(user.getRoles()).contains("ADMIN") || String.valueOf(user.getRoles()).contains("SUPPORT")) {
+        if (String.valueOf(user.getRoles()).contains("ADMIN")) {
             model.addAttribute("requestsCountByOne", requestRepository.findByCountRequestStateOne());
             for (Shop shop : shopRepository.findAll()) {
                 shop.setCount(requestRepository.findByCountRequestStateOne(shop.getName()));
@@ -146,6 +178,17 @@ public class ExecutionController {
             model.addAttribute("shop", shopRepository.findAllByOrderByNumber());
             return "completed-request";
         }
+
+        if (String.valueOf(user.getRoles()).contains("SUPPORT")) {
+            model.addAttribute("requestsCountByOne", requestRepository.findCountByStateOneAndDepartmentId(user.getDepartment().getId()));
+            for (Shop shop : shopRepository.findAll()) {
+                shop.setCount(requestRepository.findByCountRequestStateOne(shop.getName()));
+                shopRepository.save(shop);
+            }
+            model.addAttribute("shop", shopRepository.findAllByOrderByNumber());
+            return "completed-request";
+        }
+
         if (String.valueOf(user.getRoles()).contains("USER")) {
             Shop shop = shopRepository.findByName(user.getShop().get(0).getName());
             shop.setCount(requestRepository.findByCountRequestStateOne(user.getShop().get(0).getName()));

@@ -1,5 +1,6 @@
 package md.support.support.repo;
 
+import md.support.support.models.Problem;
 import md.support.support.models.Request;
 
 import md.support.support.models.Worker;
@@ -38,12 +39,25 @@ public interface RequestRepository extends CrudRepository<Request, Long> {
 
     Page<Request> findByWorkerIdAndState(Long id, Integer state, Pageable pageable);
 
-    Page<Request> findByProblemAndState(String problem, Integer state, Pageable pageable);
+    Page<Request> findByProblemNameAndState(String problem, Integer state, Pageable pageable);
 
     @Query(value = "SELECT u FROM Request u WHERE (date_created = :dateSort and shop= :shop and state = 1) order by id desc")
     Page<Request> findByDateSortAndShop(@Param("dateSort") String dateSort, String shop, Pageable pageable);
 
-    //View to Admin and Support
+    @Query(value = "SELECT u FROM Request u WHERE date_close = :currentDay and state = 1 order by id desc")
+    Page<Request> findByCurrentDay(@Param("currentDay") String currentDay, Pageable pageable);
+
+    //View search Support
+    @Query(value = "SELECT u FROM Request u WHERE (date_close = :currentDay and state = 1 and departmentId= :departmentId) order by id desc")
+    Page<Request> findByCurrentDayAndDepartmentId(@Param("currentDay") String currentDay, @Param("departmentId") Long departmentId, Pageable pageable);
+
+    @Query(value = "SELECT u FROM Request u WHERE (u.shop = :shop and state = 1 and departmentId= :departmentId) order by id desc")
+    Page<Request> findByShopAndDepartmentId(@Param("shop") String shop, @Param("departmentId") Long departmentId, Pageable pageable);
+
+    @Query(value = "SELECT u FROM Request u WHERE (date_created = :dateSort and state = 1 and departmentId= :departmentId) order by id desc")
+    Page<Request> findByDateSortAndDepartmentId(@Param("dateSort") String dateSort, @Param("departmentId") Long departmentId, Pageable pageable);
+
+    //View to Admin
     @Query("SELECT u FROM Request u WHERE state = 0 or state=3 or state=2 or state=4 order by id desc ")
     List<Request> findByState();
 
@@ -62,12 +76,27 @@ public interface RequestRepository extends CrudRepository<Request, Long> {
     @Query("SELECT u FROM Request u WHERE state = 4 order by id desc ")
     List<Request> findByStateFour();
 
+    //View to Support
+    @Query("SELECT u FROM Request u WHERE departmentId = :departmentId and (state = 0 or state=3 or state=2 or state=4) order by id desc ")
+    List<Request> findByDepartmentId(@Param("departmentId") Long departmentId);
 
-    @Query(value = "SELECT u FROM Request u WHERE date_close = :currentDay and state = 1 order by id desc")
-    Page<Request> findByCurrentDay(@Param("currentDay") String currentDay, Pageable pageable);
+    @Query("SELECT u FROM Request u WHERE state = 0 and departmentId = :departmentId order by id desc ")
+    List<Request> findByStateZeroAndDepartmentId(@Param("departmentId") Long departmentId);
+
+    @Query("SELECT u FROM Request u WHERE state = 1 and departmentId = :departmentId order by id desc ")
+    List<Request> findByStateOneAndDepartmentId(@Param("departmentId") Long departmentId);
+
+    @Query("SELECT u FROM Request u WHERE state = 2 and departmentId = :departmentId order by id desc ")
+    List<Request> findByStateTwoAndDepartmentId(@Param("departmentId") Long departmentId);
+
+    @Query("SELECT u FROM Request u WHERE state = 3 and departmentId = :departmentId order by id desc ")
+    List<Request> findByStateThreeAndDepartmentId(@Param("departmentId") Long departmentId);
+
+    @Query("SELECT u FROM Request u WHERE state = 4 and departmentId = :departmentId order by id desc ")
+    List<Request> findByStateFourAndDepartmentId(@Param("departmentId") Long departmentId);
+
 
     //View shop to user
-
     @Query(value = "SELECT u FROM Request u WHERE (date_close = :currentDay and shop =:shop and state = 1) order by id desc")
     Page<Request> findByCurrentDayAndShop(@Param("currentDay") String currentDay, String shop, Pageable pageable);
 
@@ -108,7 +137,7 @@ public interface RequestRepository extends CrudRepository<Request, Long> {
     @Query("SELECT Count(state) FROM Request where shop = :shop")
     Integer findByCountRequestTotalAndShop(@Param("shop") String shop);
 
-    //View count to Admin and Support
+    //View count to Admin
     @Query("SELECT Count(state) FROM Request u where state=0")
     Integer findByCountRequestStateZero();
 
@@ -126,6 +155,25 @@ public interface RequestRepository extends CrudRepository<Request, Long> {
 
     @Query("SELECT Count(state) FROM Request")
     Integer findByCountRequestTotal();
+
+    //View count to Support
+    @Query("SELECT Count(state) FROM Request u where departmentId = :departmentId and state=0")
+    Integer findCountByStateZeroAndDepartmentId(@Param("departmentId") Long departmentId);
+
+    @Query("SELECT Count(state) FROM Request u where state=3 and departmentId = :departmentId")
+    Integer findCountByStateThreeAndDepartmentId(@Param("departmentId") Long departmentId);
+
+    @Query("SELECT Count(state) FROM Request u where state=1 and departmentId = :departmentId")
+    Integer findCountByStateOneAndDepartmentId(@Param("departmentId") Long departmentId);
+
+    @Query("SELECT Count(state) FROM Request u where state=2 and departmentId = :departmentId")
+    Integer findCountByStateTowAndDepartmentId(@Param("departmentId") Long departmentId);
+
+    @Query("SELECT Count(state) FROM Request u where state=4 and departmentId = :departmentId")
+    Integer findCountByStateFourAndDepartmentId(@Param("departmentId") Long departmentId);
+
+    @Query("SELECT Count(state) FROM Request where departmentId = :departmentId ")
+    Integer findCountTotalByDepartmentId(@Param("departmentId") Long departmentId);
 
 
 }

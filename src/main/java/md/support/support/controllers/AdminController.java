@@ -21,16 +21,6 @@ public class AdminController {
     @GetMapping("/admin-panel")
     public String shopList(Model model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        int requestsCountByZero = requestRepository.findByCountRequestStateZeroAndShop(user.getShop().toString());
-//        int requestsCountByThree = requestRepository.findByCountRequestStateThreeAndShop(user.getShop().toString());
-//        int requestsCountByOne = requestRepository.findByCountRequestStateOne(user.getShop().toString());
-//        int requestCountTotal = requestRepository.findByCountRequestTotalAndShop(user.getShop().toString());
-//
-//
-//        model.addAttribute("requestsCountByZero", requestsCountByZero);
-//        model.addAttribute("requestsCountByThree", requestsCountByThree);
-//        model.addAttribute("requestsCountByOne", requestsCountByOne);
-//        model.addAttribute("requestCountTotal", requestCountTotal);
         model.addAttribute("user", user);
         return "admin-panel";
     }

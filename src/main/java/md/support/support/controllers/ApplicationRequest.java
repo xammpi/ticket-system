@@ -1,10 +1,7 @@
 package md.support.support.controllers;
 
-import md.support.support.models.Request;
+import md.support.support.models.*;
 
-import md.support.support.models.Shop;
-import md.support.support.models.User;
-import md.support.support.models.Worker;
 import md.support.support.repo.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +40,7 @@ public class ApplicationRequest {
         model.addAttribute("workers", workerRepository.findAll());
 
 
-        if (String.valueOf(user.getRoles()).contains("ADMIN") || String.valueOf(user.getRoles()).contains("SUPPORT")) {
+        if (String.valueOf(user.getRoles()).contains("ADMIN")) {
             model.addAttribute("requestsCountByZero", requestRepository.findByCountRequestStateZero());
             model.addAttribute("requestsCountByThree", requestRepository.findByCountRequestStateThree());
             model.addAttribute("requestsCountByOne", requestRepository.findByCountRequestStateOne());
@@ -57,6 +54,21 @@ public class ApplicationRequest {
             return "current-applications";
         }
 
+        if (String.valueOf(user.getRoles()).contains("SUPPORT")) {
+            model.addAttribute("requestsCountByZero", requestRepository.findCountByStateZeroAndDepartmentId(user.getDepartment().getId()));
+            model.addAttribute("requestsCountByThree", requestRepository.findCountByStateThreeAndDepartmentId(user.getDepartment().getId()));
+            model.addAttribute("requestsCountByOne", requestRepository.findCountByStateOneAndDepartmentId(user.getDepartment().getId()));
+            model.addAttribute("requestsCountByTwo", requestRepository.findCountByStateTowAndDepartmentId(user.getDepartment().getId()));
+            model.addAttribute("requestsCountByFour", requestRepository.findCountByStateFourAndDepartmentId(user.getDepartment().getId()));
+            model.addAttribute("requestCountTotal", requestRepository.findCountTotalByDepartmentId(user.getDepartment().getId()));
+            List<Request> requests = requestRepository.findByDepartmentId(user.getDepartment().getId());
+            model.addAttribute("name", user.getName());
+            model.addAttribute("phone", user.getPhone());
+            model.addAttribute("requests", requests);
+            return "current-applications";
+        }
+
+
         if (String.valueOf(user.getRoles()).contains("USER")) {
             for (Shop p : user.getShop()) {
                 model.addAttribute("requestsCountByZero", requestRepository.findByCountRequestStateZeroAndShop(p.getName()));
@@ -69,6 +81,7 @@ public class ApplicationRequest {
                 model.addAttribute("shops", shopRepository.findByName(p.getName()));
                 model.addAttribute("name", user.getName());
                 model.addAttribute("phone", user.getPhone());
+
                 return "current-applications";
             }
         }
@@ -77,7 +90,7 @@ public class ApplicationRequest {
 
     @PostMapping(value = "/add-request")
     public String homeRequestAdd(@ModelAttribute @Valid Request request, Model model) {
-
+        request.setDepartmentId(request.getProblem().getDepartment().getId());
         requestRepository.save(request);
 
         // Mail mail = new Mail();
@@ -88,7 +101,7 @@ public class ApplicationRequest {
 
     @PostMapping("/edit-request")
     public String editRequest(@RequestParam("id") Request request, @RequestParam String shop, @RequestParam String name,
-                              @RequestParam String phone, @RequestParam String problem, @RequestParam String message,
+                              @RequestParam String phone, @RequestParam Problem problem, @RequestParam String message,
                               @RequestParam String comment, @RequestParam("workerId") String workerId, HttpServletRequest referer) {
 
         request.setShop(shop);
@@ -97,6 +110,7 @@ public class ApplicationRequest {
         request.setProblem(problem);
         request.setMessage(message);
         request.setComment(comment);
+        request.setDepartmentId(problem.getDepartment().getId());
         request.getWorker().add(workerRepository.findByName(workerId));
         requestRepository.save(request);
         return "redirect:" + referer.getHeader("referer");
@@ -117,6 +131,7 @@ public class ApplicationRequest {
             , Model model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Request request = requestRepository.findById(id).orElseThrow();
+
         if (String.valueOf(user.getRoles()).contains("ADMIN")) {
             request.setState(1);
             request.setDateClose(Calendar.getInstance().getTime());

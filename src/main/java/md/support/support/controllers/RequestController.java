@@ -107,7 +107,8 @@ public class RequestController {
         model.addAttribute("shop", shop);
         model.addAttribute("date", dateSort);
         model.addAttribute("work", worker);
-        model.addAttribute("prob", problem);
+
+            model.addAttribute("prob", problem);
 
         int p = 0; //default page number is 0 (yes it is weird)
         int size = 10; //default page size is 10
@@ -148,7 +149,7 @@ public class RequestController {
             }
         }
 
-        if (String.valueOf(user.getRoles()).contains("ADMIN") || String.valueOf(user.getRoles()).contains("SUPPORT")) {
+        if (String.valueOf(user.getRoles()).contains("ADMIN")) {
             model.addAttribute("requestsCountByZero", requestRepository.findByCountRequestStateZero());
             model.addAttribute("requestsCountByThree", requestRepository.findByCountRequestStateThree());
             model.addAttribute("requestsCountByOne", requestRepository.findByCountRequestStateOne());
@@ -161,7 +162,7 @@ public class RequestController {
             model.addAttribute("page", page);
 
             if (!StringUtils.isEmpty(problem)) {
-                page = requestRepository.findByProblemAndState(problem, 1, PageRequest.of(p, size));
+                page = requestRepository.findByProblemNameAndState(problem, 1, PageRequest.of(p, size));
                 model.addAttribute("page", page);
                 return "requests";
             }
@@ -173,6 +174,42 @@ public class RequestController {
             }
             if (!StringUtils.isEmpty(dateSort)) {
                 page = requestRepository.findByDateSort(dateSort, PageRequest.of(p, size));
+                model.addAttribute("page", page);
+                return "requests";
+            }
+            if (!StringUtils.isEmpty(worker)) {
+                page = requestRepository.findByWorkerIdAndState(Long.parseLong(worker), 1, PageRequest.of(p, size));
+                model.addAttribute("page", page);
+                return "requests";
+            }
+        }
+        if (String.valueOf(user.getRoles()).contains("SUPPORT")) {
+            model.addAttribute("requestsCountByZero", requestRepository.findCountByStateZeroAndDepartmentId(user.getDepartment().getId()));
+            model.addAttribute("requestsCountByThree", requestRepository.findCountByStateThreeAndDepartmentId(user.getDepartment().getId()));
+            model.addAttribute("requestsCountByOne", requestRepository.findCountByStateOneAndDepartmentId(user.getDepartment().getId()));
+            model.addAttribute("requestsCountByTwo", requestRepository.findCountByStateTowAndDepartmentId(user.getDepartment().getId()));
+            model.addAttribute("requestsCountByFour", requestRepository.findCountByStateFourAndDepartmentId(user.getDepartment().getId()));
+            model.addAttribute("requestCountTotal", requestRepository.findCountTotalByDepartmentId(user.getDepartment().getId()));
+            model.addAttribute("shops", shopRepository.findAll());
+            model.addAttribute("problem", problemRepository.findAllByDepartmentId(user.getDepartment().getId()));
+
+            Page<Request> page = requestRepository.findByCurrentDayAndDepartmentId(new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime())
+                    , user.getDepartment().getId(), PageRequest.of(p, size));
+            model.addAttribute("page", page);
+
+            if (!StringUtils.isEmpty(problem)) {
+                page = requestRepository.findByProblemNameAndState(problem, 1, PageRequest.of(p, size));
+                model.addAttribute("page", page);
+                return "requests";
+            }
+
+            if (!StringUtils.isEmpty(shop)) {
+                page = requestRepository.findByShopAndDepartmentId(shop, user.getDepartment().getId(), PageRequest.of(p, size));
+                model.addAttribute("page", page);
+                return "requests";
+            }
+            if (!StringUtils.isEmpty(dateSort)) {
+                page = requestRepository.findByDateSortAndDepartmentId(dateSort, user.getDepartment().getId(), PageRequest.of(p, size));
                 model.addAttribute("page", page);
                 return "requests";
             }

@@ -54,7 +54,7 @@
                                 <div class="col-md-5">
                                     <div class="modal-body">
                                         <label>Исполнитель</label>
-                                        <p><select class="form-control" name="workerId" required><br>
+                                        <p><select class="form-control" name="workerId" ><br>
                                             <th:block th:if="${el.worker.size != 0}">
                                                 <option th:text="*{el.worker}"></option>
                                             </th:block>
@@ -80,9 +80,9 @@
                                 <div class="col-md-5">
                                     <label>Проблема</label>
                                     <p><select class="form-control" name="problem"><br>
-                                        <option th:value="*{el.problem}" th:text="*{el.problem}"></option>
+                                        <option th:value="*{el.problem.getId}" th:text="*{el.problem}"></option>
                                         <option th:each="el : ${problems}"
-                                                th:value="${el.name}" th:text="${el.name}"></option>
+                                                th:value="${el.id}" th:text="${el.name}"></option>
                                     </select></p>
                                 </div>
                             </div>
