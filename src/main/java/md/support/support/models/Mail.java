@@ -29,10 +29,10 @@ public class Mail {
             messages.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 
             // Set Subject: header field
-            messages.setSubject(shop + " (Заявка с сайта!)");
+            messages.setSubject(shop + " (Заявка с сайта!)","UTF-8");
 
             // Now set the actual message
-            messages.setText("Имя: " + name + "\n" + "Номер для связи: " + phone + "\n" + "Проблема: " + problem + "\n" + "Описание проблемы: " + message);
+            messages.setText("Имя: " + name + "\n" + "Номер для связи: " + phone + "\n" + "Проблема: " + problem + "\n" + "Описание проблемы: " + message,"UTF-8");
 
             // Send message
             Transport.send(messages);
@@ -58,14 +58,15 @@ public class Mail {
             messages.addRecipient(Message.RecipientType.TO, new InternetAddress(toUser));
 
             // Set Subject: header field
-            messages.setSubject("Успешная регистрация!!!");
+            messages.setSubject("Успешная регистрация!!!","UTF-8");
 
             // Now set the actual message
+
             messages.setText("Поздравляем с успешной регистрацией " + name + ", теперь вы можете перейте по сылке " +
-                    "http://support.web.md/login и войти в программу для учета технических заявок." + "\n" + "\n" +
+                    "http://support.web.md:8081/login и войти в программу для учета технических заявок." + "\n" + "\n" +
                     "Вы выбрали магазин : " + shop + " ."+"\n" +
                     "Ваши данные для входа в программу:" + "\n" + "Имя пользователя : " + username + "\n" + "Пароль : " + password + "\n" +
-                    "\n" + "Благодарим за регистрацию !!!");
+                    "\n" + "Благодарим за регистрацию !!!","UTF-8");
 
             // Send message
             Transport.send(messages);
