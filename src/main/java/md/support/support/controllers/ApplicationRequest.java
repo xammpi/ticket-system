@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -30,6 +29,9 @@ public class ApplicationRequest {
     private WorkerRepository workerRepository;
     @Autowired
     private PositionRepository positionRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping("/current-applications")
     public String applicationsMain(Model model) {
@@ -183,6 +185,12 @@ public class ApplicationRequest {
         if (request.getWorker().size() != 0) {
             request.setState(4);
             request.setDateEnd(Calendar.getInstance().getTime());
+            Mail mail = new Mail();
+            try {
+                mail.sendEmailToConfirmationRequest(request, userRepository.findUserByName(request.getName()).getEmail());
+            } catch (NullPointerException e) {
+                System.out.println(e);
+            }
             requestRepository.save(request);
             return "redirect:" + referer.getHeader("referer");
         }
