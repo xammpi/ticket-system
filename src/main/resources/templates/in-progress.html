@@ -2,8 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <head>
-    <title> Текущие заявки </title>
-    <meta http-equiv="refresh" content="60">
+    <title>В обработке </title>
+    <meta http-equiv="refresh" content="300">
     <div class="info-label" th:insert="parts/head :: head"></div>
 </head>
 <body>
@@ -72,7 +72,7 @@
 
                     <div th:text="'Проблема: '+${el.problem}"/>
                     <div class="twolines" th:text="'Описание проблемы: '+${el.message}"/>
-                    <div th:text="'Исполнитель: '+${el.worker}"/>
+                    <div th:text="'Исполнитель: '+${el.worker.get(0)}"/>
                     <div class="flex-container">
                         <div class="flex-item">
                             <form th:action="'/current-applications/'+${el.id}+'/state1'" method="post">

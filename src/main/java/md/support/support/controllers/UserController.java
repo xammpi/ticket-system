@@ -1,9 +1,7 @@
 package md.support.support.controllers;
 
 import md.support.support.models.Role;
-import md.support.support.models.Shop;
 import md.support.support.models.User;
-import md.support.support.models.Worker;
 import md.support.support.repo.DepartmentRepository;
 import md.support.support.repo.ShopRepository;
 import md.support.support.repo.UserRepository;
@@ -13,9 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/user")
@@ -41,7 +39,6 @@ public class UserController {
         model.addAttribute("shops", shopRepository.findAll());
         model.addAttribute("departments", departmentRepository.findAll());
         model.addAttribute("user", new User());
-
         return "user-list";
     }
 

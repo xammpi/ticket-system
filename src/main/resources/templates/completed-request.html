@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 
 <head>
-    <title> Текущие заявки </title>
-    <meta http-equiv="refresh" content="60">
+    <title> Выполненые заявки </title>
     <div class="info-label" th:insert="parts/head :: head"></div>
 </head>
 <body>
@@ -64,12 +63,12 @@
                         <div th:each="el:${shop}">
                             <tr>
                                 <td>
-                                   <span th:text="${el.name}"/>
+                                   <span th:text="${el.key}"/>
                                 </td>
 
                             <td>
                                     <span class="badge badge-primary-completed badge-pill"
-                                          th:text="${el.count}"/>
+                                          th:text="${el.value}"/>
                             </td>
                         </tr>
                         </div>

@@ -56,7 +56,7 @@
                                         <label>Исполнитель</label>
                                         <p><select class="form-control" name="workerId" ><br>
                                             <th:block th:if="${el.worker.size != 0}">
-                                                <option th:text="*{el.worker}"></option>
+                                                <option th:text="*{el.worker.get(0)}"></option>
                                             </th:block>
                                             <option value="">Выберите исполнителя</option>
                                             <option th:each="element:${workers}"

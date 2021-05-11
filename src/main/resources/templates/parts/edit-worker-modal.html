@@ -17,9 +17,16 @@
                                required/><br/>
 
                         <label>Должность</label>
-                        <p><select  name="position" class="custom-select" required><br>
-<!--                            <option th:value="*{el.positions}" th:text="*{el.positions}"></option>-->
+                        <p><select name="position" class="form-control" required><br>
+<!--                            <option th:value="${el.position.get(0).getId}" th:text="*{el.position.get(0).getName}"></option>-->
                             <option th:each="el:${positions}"
+                                    th:value="${el.id}" th:text="${el.name}"></option>
+                        </select></p>
+                        <label>Отдел</label>
+                        <p><select name="department" class="form-control" required><br>
+                            <!--                            <option th:value="*{el.positions}" th:text="*{el.positions}"></option>-->
+                            <option th:value="*{el.department.getId}" th:text="*{el.department.getName}"></option>
+                            <option th:each="el:${department}"
                                     th:value="${el.id}" th:text="${el.name}"></option>
                         </select></p>
                         <button type="submit" class="btn btn-primary">Ввод</button>

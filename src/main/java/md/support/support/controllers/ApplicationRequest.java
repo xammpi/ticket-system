@@ -64,6 +64,7 @@ public class ApplicationRequest {
             List<Request> requests = requestRepository.findByDepartmentId(user.getDepartment().getId());
             model.addAttribute("name", user.getName());
             model.addAttribute("phone", user.getPhone());
+            model.addAttribute("workers", workerRepository.findByDepartmentId(user.getDepartment().getId()));
             model.addAttribute("requests", requests);
             return "current-applications";
         }
@@ -159,7 +160,8 @@ public class ApplicationRequest {
                                       HttpServletRequest referer, Model model) {
         Request request = requestRepository.findById(id).orElseThrow();
         request.setState(2);
-        request.setWorker(workerRepository.findAllById(Collections.singleton(workerId)));
+        request.getWorker().clear();
+        request.setWorker(workerRepository.findWorkerById(workerId));
         request.setExecution(Calendar.getInstance().getTime());
         requestRepository.save(request);
         return "redirect:" + referer.getHeader("referer");

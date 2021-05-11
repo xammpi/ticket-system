@@ -41,7 +41,8 @@
                         <div th:text="${el.problem}"/>
                     </td>
                     <td>
-                        <span th:each="n:*{el.worker}" th:text="${n}"></span>
+                        <!--                        <span th:each="n:*{el.worker}" th:text="${n}"></span>-->
+                        <div th:text="${el.worker.get(0)}"/>
                     </td>
                     <td>
                         <button type="button" class="btn btn-primary" data-toggle="modal"

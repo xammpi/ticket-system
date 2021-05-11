@@ -52,7 +52,7 @@ public class PDFExporter {
             document.add(dateClose);
             Paragraph dateCloseWorker = new Paragraph("Дата завершения заявки исполнителем: " + String.valueOf(request.getDateEnd()), fontBd);
             document.add(dateCloseWorker);
-            Paragraph worker = new Paragraph("Исполнитель: " + String.valueOf(request.getWorker().get(0)), fontBd);
+            Paragraph worker = new Paragraph("Исполнитель: " + String.valueOf(request.getWorker()), fontBd);
             document.add(worker);
             Paragraph nameMessage = new Paragraph("Описание проблемы", font);
             nameMessage.setAlignment(Paragraph.ALIGN_CENTER);
@@ -65,7 +65,7 @@ public class PDFExporter {
             document.add(newLineAfterNameMessage);
             document.add(newLineAfterNameMessage);
             document.add(newLineAfterNameMessage);
-            Paragraph completed = new Paragraph("Выполнил: " + request.getWorker().get(0), font);
+            Paragraph completed = new Paragraph("Выполнил: " + request.getWorker(), font);
             document.add(completed);
             document.add(newLineOne);
             Paragraph completed1 = new Paragraph("Принял: " + request.getName(), font);

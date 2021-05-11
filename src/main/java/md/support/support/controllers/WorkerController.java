@@ -3,6 +3,7 @@ package md.support.support.controllers;
 import md.support.support.models.Position;
 import md.support.support.models.User;
 import md.support.support.models.Worker;
+import md.support.support.repo.DepartmentRepository;
 import md.support.support.repo.PositionRepository;
 import md.support.support.repo.WorkerRepository;
 import org.dom4j.rule.Mode;
@@ -24,12 +25,16 @@ public class WorkerController {
     @Autowired
     private PositionRepository positionRepository;
 
+    @Autowired
+    private DepartmentRepository departmentRepository;
+
     @GetMapping
     public String workerList(Model model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("user", user);
         model.addAttribute("workers", workerRepository.findAll());
         model.addAttribute("positions", positionRepository.findAll());
+        model.addAttribute("department", departmentRepository.findAll());
         model.addAttribute("worker", new Worker());
         return "worker-list";
     }
@@ -54,8 +59,10 @@ public class WorkerController {
 
     @PostMapping("/edit")
     public String workerEdit(@RequestParam(value = "userId", required = false) Worker worker, @RequestParam("name") String name,
-                             @RequestParam("position") Long position, Model model) {
+                             @RequestParam("position") Long position
+            , @RequestParam("department") Long department, Model model) {
         worker.setName(name);
+        worker.setDepartment(departmentRepository.findById(department).orElseThrow());
         worker.getPosition().clear();
         worker.getPosition().add(positionRepository.findById(position).orElseThrow());
         workerRepository.save(worker);

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title> Выпоненые заявки </title>
+    <title> Список пользователей </title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" th:href="@{/css/detail.css}">
@@ -56,7 +56,6 @@
                         </form>
                     </div>
                 </div>
-
                 <div class="comment">
                     <div class="comment-body">
 
@@ -67,6 +66,7 @@
                                 <th scope="col">Ф. И.</th>
                                 <th scope="col">Отдел</th>
                                 <th scope="col">Магазин</th>
+                                <th scope="col">Статус</th>
                                 <th scope="col"></th>
                                 <th scope="col"></th>
                             </tr>
@@ -92,6 +92,9 @@
                                             <p th:each="n:*{el.shop}" th:text="${n}"></p>
                                         </div>
                                     </td>
+                                    <td>
+                                        <a th:text="${el.isEnabled}"/>
+                                    </td>
 
                                     <td>
                                         <button type="button" class="btn btn-primary" data-toggle="modal"
@@ -113,8 +116,6 @@
                             </div>
                             </tbody>
                         </table>
-
-
                     </div>
                 </div>
             </div>
@@ -130,6 +131,7 @@
     $('#select2').multiselect({
 	includeSelectAllOption: true
 });
+
 
 
 

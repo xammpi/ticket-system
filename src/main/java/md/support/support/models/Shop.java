@@ -1,7 +1,5 @@
 package md.support.support.models;
 
-import org.springframework.beans.factory.annotation.Value;
-
 import javax.persistence.*;
 
 @Entity
@@ -14,20 +12,8 @@ public class Shop {
 
     private String name;
 
-    @Column(name = "count_request_completed")
-    @Value("0")
-    private int count;
-
     @Column(name = "shop_number")
     private int number;
-
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
-    }
 
     public Long getId() {
         return id;
@@ -60,7 +46,6 @@ public class Shop {
     public Shop(Long id, String name, int count, int number) {
         this.id = id;
         this.name = name;
-        this.count = count;
         this.number = number;
     }
 

@@ -20,6 +20,19 @@ public class Worker {
             inverseJoinColumns = { @JoinColumn(name = "position_id")})
     private Set<Position> position = new HashSet<>();
 
+
+    @OneToOne
+    @JoinColumn(name = "worker_department_id")
+    private Department department;
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
     public Set<Position> getPosition() {
         return position;
     }

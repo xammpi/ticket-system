@@ -23,7 +23,7 @@
         <div th:text="'Дата завершения заявки исполнителем: '+${el.dateEnd}"/>
     </th:block>
     <th:block th:if="${el.worker.size != 0}">
-        <div th:text="'Исполнитель: '+${el.worker}"/>
+        <div th:text="'Исполнитель: '+${el.worker.get(0)}"/>
     </th:block>
     </p>
 
