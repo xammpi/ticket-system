@@ -66,7 +66,6 @@
                                 <th scope="col">Ф. И.</th>
                                 <th scope="col">Отдел</th>
                                 <th scope="col">Магазин</th>
-                                <th scope="col">Статус</th>
                                 <th scope="col"></th>
                                 <th scope="col"></th>
                             </tr>
@@ -92,10 +91,6 @@
                                             <p th:each="n:*{el.shop}" th:text="${n}"></p>
                                         </div>
                                     </td>
-                                    <td>
-                                        <a th:text="${el.isEnabled}"/>
-                                    </td>
-
                                     <td>
                                         <button type="button" class="btn btn-primary" data-toggle="modal"
                                                 th:attr="data-target='#bd-example-modal-lg'+${el.id}">

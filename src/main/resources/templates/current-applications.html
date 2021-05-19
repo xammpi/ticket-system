@@ -54,7 +54,21 @@
         </div>
         <div class="col-lg-8">
             <div class="padding-top-2x mt-2 hidden-lg-up"></div>
-
+            <form th:action="@{/current-applications}" method="get" accept-charset="UTF-8"
+                  sec:authorize="hasAuthority('ADMIN')">
+                <div class="row">
+                    <div class="col-md-4">
+                        <p><select class="form-control" name="departmentId"><br>
+                            <option value="">Выберите отдел</option>
+                            <option th:each="el : ${department}"
+                                    th:value="${el.id}" th:text="${el.name}"></option>
+                        </select></p>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="submit" class="btn btn-primary">Найти</button>
+                    </div>
+                </div>
+            </form>
             <div th:each="el:${requests}" class="comment">
                 <div class="comment-body">
                     <p class="comment-text"></p>
@@ -112,18 +126,18 @@
                         <div class="flex-item">
                             <button type="button" class="btn btn-primary" data-toggle="modal"
                                     th:attr="data-target='#exampleModalCenter'+${el.id}">
-                                    <i class="fa fa-commenting-o" aria-hidden="true"></i>
+                                <i class="fa fa-commenting-o" aria-hidden="true"></i>
                             </button>
                             <div th:insert="parts/add-comment-modal:: add-comment-modal"></div>
 
                         </div>
-<!--                        <div class="flex-item">-->
-<!--                            <form th:action="@{/export/pdf}" method="post">-->
-<!--                                <input type="hidden" name="id" th:value="*{el.id}">-->
-<!--                                <button type="submit" class="btn btn-primary"><i class="fa fa-print"-->
-<!--                                                                                 aria-hidden="true"></i></button>-->
-<!--                            </form>-->
-<!--                        </div>-->
+                        <!--                        <div class="flex-item">-->
+                        <!--                            <form th:action="@{/export/pdf}" method="post">-->
+                        <!--                                <input type="hidden" name="id" th:value="*{el.id}">-->
+                        <!--                                <button type="submit" class="btn btn-primary"><i class="fa fa-print"-->
+                        <!--                                                                                 aria-hidden="true"></i></button>-->
+                        <!--                            </form>-->
+                        <!--                        </div>-->
                     </div>
 
                 </div>

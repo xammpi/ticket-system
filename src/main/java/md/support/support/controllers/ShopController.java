@@ -1,11 +1,10 @@
 package md.support.support.controllers;
 
-import md.support.support.models.Mail;
+
 import md.support.support.models.Shop;
 import md.support.support.models.User;
 import md.support.support.repo.RequestRepository;
 import md.support.support.repo.ShopRepository;
-import net.bytebuddy.build.HashCodeAndEqualsPlugin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;

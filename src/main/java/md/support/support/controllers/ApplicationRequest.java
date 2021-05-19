@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,10 +18,8 @@ import java.util.List;
 
 @Controller
 public class ApplicationRequest {
-
     @Autowired
     private RequestRepository requestRepository;
-
     @Autowired
     private ShopRepository shopRepository;
     @Autowired
@@ -29,18 +28,19 @@ public class ApplicationRequest {
     private WorkerRepository workerRepository;
     @Autowired
     private PositionRepository positionRepository;
-
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private DepartmentRepository departmentRepository;
 
     @GetMapping("/current-applications")
-    public String applicationsMain(Model model) {
+    public String applicationsMain(@RequestParam(value = "departmentId", required = false) Long departmentId
+            , Model model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("user", user);
         model.addAttribute("shops", shopRepository.findAll());
         model.addAttribute("problems", problemRepository.findAll());
         model.addAttribute("workers", workerRepository.findAll());
-
 
         if (String.valueOf(user.getRoles()).contains("ADMIN")) {
             model.addAttribute("requestsCountByZero", requestRepository.findByCountRequestStateZero());
@@ -49,10 +49,14 @@ public class ApplicationRequest {
             model.addAttribute("requestsCountByTwo", requestRepository.findByCountRequestStateTow());
             model.addAttribute("requestsCountByFour", requestRepository.findByCountRequestStateFour());
             model.addAttribute("requestCountTotal", requestRepository.findByCountRequestTotal());
-            List<Request> requests = requestRepository.findByState();
             model.addAttribute("name", user.getName());
             model.addAttribute("phone", user.getPhone());
-            model.addAttribute("requests", requests);
+            model.addAttribute("department", departmentRepository.findAll());
+            if (!StringUtils.isEmpty(departmentId)) {
+                model.addAttribute("requests", requestRepository.findByDepartmentId(departmentId));
+                return "current-applications";
+            }
+            model.addAttribute("requests", requestRepository.findByState());
             return "current-applications";
         }
 
@@ -180,21 +184,23 @@ public class ApplicationRequest {
 
     @PostMapping("/current-applications/{id}/state4")
     public String applicationStateFour(@PathVariable(value = "id") long id
-            , HttpServletRequest referer, Model model) {
+            , HttpServletRequest referer) throws InterruptedException {
         Request request = requestRepository.findById(id).orElseThrow();
         if (request.getWorker().size() != 0) {
             request.setState(4);
             request.setDateEnd(Calendar.getInstance().getTime());
-            Mail mail = new Mail();
-            try {
-                mail.sendEmailToConfirmationRequest(request, userRepository.findUserByName(request.getName()).getEmail());
-            } catch (NullPointerException e) {
-                System.out.println(e);
-            }
             requestRepository.save(request);
-            return "redirect:" + referer.getHeader("referer");
+            try {
+                Mail mail = new Mail();
+                List<User> user = userRepository.findUserByName(request.getName());
+                if (user.size() != 0) {
+                    mail.sendEmailToConfirmationRequest(request, user.get(0).getEmail());
+                }
+            } catch (NullPointerException e) {
+
+            }
         }
-        return "redirect:" + referer.getHeader("referer");
+        return "redirect:/current-applications";
     }
 
 }

@@ -1,7 +1,6 @@
 package md.support.support.models;
 
 import md.support.support.repo.UserRepository;
-import md.support.support.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.mail.Message;
@@ -13,9 +12,6 @@ import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
 public class Mail {
-
-    @Autowired
-    private UserRepository userRepository;
 
     String to = "support-it@nr1.md";
     String from = "site@nr1.md";
@@ -85,6 +81,7 @@ public class Mail {
     }
 
     public void sendEmailToConfirmationRequest(Request request, String userEmail) {
+        System.getProperties().clear();
         Properties properties = System.getProperties();
         properties.setProperty("mail.smtp.host", host);
         Session session = Session.getDefaultInstance(properties);
@@ -93,7 +90,7 @@ public class Mail {
             messages.setFrom(new InternetAddress(from));
             messages.addRecipient(Message.RecipientType.TO, new InternetAddress(userEmail));
             messages.setSubject("Ваша завявка успешно выполнена !!!", "UTF-8");
-            messages.setText("Ваша заявка под №: " + request.getId() + "\n"
+            messages.setText("Заявка №: " + request.getId() + "\n"
                             + "Магазин: " + request.getShop() + "\n"
                             + "Проблема: " + request.getProblem() + "\n"
                             + "Описинаие проблемы: " + request.getMessage() + "\n" + "\n"

@@ -44,7 +44,7 @@ public interface RequestRepository extends CrudRepository<Request, Long> {
     @Query(value = "SELECT u FROM Request u WHERE (date_created = :dateSort and shop= :shop and state = 1) order by id desc")
     Page<Request> findByDateSortAndShop(@Param("dateSort") String dateSort, String shop, Pageable pageable);
 
-    @Query(value = "SELECT u FROM Request u WHERE date_close = :currentDay and state = 1 order by id desc")
+    @Query(value = "SELECT u FROM Request u WHERE (date_close = :currentDay and state = 1) order by id desc")
     Page<Request> findByCurrentDay(@Param("currentDay") String currentDay, Pageable pageable);
 
     //View search Support

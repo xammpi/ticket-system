@@ -23,6 +23,8 @@ public class RegistrationController {
     @Autowired
     private DepartmentRepository departmentRepository;
 
+
+
     @GetMapping("/registration")
     public String registration(Model model) {
         model.addAttribute("shops", shopRepository.findAll());

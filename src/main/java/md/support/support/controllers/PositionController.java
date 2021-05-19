@@ -2,7 +2,6 @@ package md.support.support.controllers;
 
 import md.support.support.models.Position;
 import md.support.support.models.User;
-import md.support.support.models.Worker;
 import md.support.support.repo.PositionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;

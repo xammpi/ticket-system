@@ -42,7 +42,12 @@
                     </td>
                     <td>
                         <!--                        <span th:each="n:*{el.worker}" th:text="${n}"></span>-->
-                        <div th:text="${el.worker.get(0)}"/>
+                        <th:block th:if="${el.worker.size> 2}">
+                            <div th:text="${el.worker.get(0)}"/>
+                        </th:block>
+                        <th:block th:if="${el.worker.size== 1}">
+                            <div th:each="n:*{el.worker}" th:text="${n}"/>
+                        </th:block>
                     </td>
                     <td>
                         <button type="button" class="btn btn-primary" data-toggle="modal"

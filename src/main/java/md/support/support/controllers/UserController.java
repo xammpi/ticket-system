@@ -6,17 +6,28 @@ import md.support.support.repo.DepartmentRepository;
 import md.support.support.repo.ShopRepository;
 import md.support.support.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
 
+    /*
+        @Autowired
+        @Qualifier("sessionRegistry")
+        private SessionRegistry sessionRegistry;
+
+
+     */
     private final UserRepository userRepository;
     private final ShopRepository shopRepository;
     private final DepartmentRepository departmentRepository;
@@ -33,9 +44,20 @@ public class UserController {
     public String userList(Model model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("user", user);
-        model.addAttribute("users", userRepository.findAll());
+        model.addAttribute("users", userRepository.findAllByOrderByDepartment());
+        /*
+        List<Object> allPrincipals = sessionRegistry.getAllPrincipals();
+        List<User> onlineUser = new ArrayList<>();
+        for (Object principal : allPrincipals) {
+            if (principal instanceof User) {
+                User online = (User) principal;
+                onlineUser.add(online);
+            }
+        }
+         */
         model.addAttribute("shops", shopRepository.findAll());
         model.addAttribute("departments", departmentRepository.findAll());
+
         model.addAttribute("user", new User());
         return "user-list";
     }

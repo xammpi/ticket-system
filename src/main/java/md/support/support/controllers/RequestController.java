@@ -6,6 +6,7 @@ import md.support.support.repo.ProblemRepository;
 import md.support.support.repo.RequestRepository;
 import md.support.support.repo.ShopRepository;
 import md.support.support.repo.WorkerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -13,7 +14,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
-import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -39,6 +39,7 @@ public class RequestController {
     private final ProblemRepository problemRepository;
     private final ShopRepository shopRepository;
 
+    @Autowired
     public RequestController(RequestRepository requestRepository
             , WorkerRepository workerRepository
             , ProblemRepository problemRepository
@@ -108,7 +109,7 @@ public class RequestController {
         model.addAttribute("date", dateSort);
         model.addAttribute("work", worker);
 
-            model.addAttribute("prob", problem);
+        model.addAttribute("prob", problem);
 
         int p = 0; //default page number is 0 (yes it is weird)
         int size = 10; //default page size is 10

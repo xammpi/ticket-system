@@ -1,32 +1,32 @@
 package md.support.support.controllers;
 
-import md.support.support.models.Position;
 import md.support.support.models.User;
 import md.support.support.models.Worker;
 import md.support.support.repo.DepartmentRepository;
 import md.support.support.repo.PositionRepository;
 import md.support.support.repo.WorkerRepository;
-import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
-
 @Controller
 @RequestMapping("/worker")
 public class WorkerController {
 
-    @Autowired
-    private WorkerRepository workerRepository;
+    private final WorkerRepository workerRepository;
+    private final PositionRepository positionRepository;
+    private final DepartmentRepository departmentRepository;
 
     @Autowired
-    private PositionRepository positionRepository;
-
-    @Autowired
-    private DepartmentRepository departmentRepository;
+    public WorkerController(WorkerRepository workerRepository
+            , PositionRepository positionRepository
+            , DepartmentRepository departmentRepository) {
+        this.workerRepository = workerRepository;
+        this.positionRepository = positionRepository;
+        this.departmentRepository = departmentRepository;
+    }
 
     @GetMapping
     public String workerList(Model model) {

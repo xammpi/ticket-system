@@ -21,6 +21,7 @@ public class ProblemController {
     private final ProblemRepository problemRepository;
     private final DepartmentRepository departmentRepository;
 
+    @Autowired
     public ProblemController(ProblemRepository problemRepository, DepartmentRepository departmentRepository) {
         this.problemRepository = problemRepository;
         this.departmentRepository = departmentRepository;
