@@ -20,6 +20,7 @@ public class AdminController {
     public String shopList(Model model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("user", user);
+        System.out.println("Test");
         return "admin-panel";
     }
 }

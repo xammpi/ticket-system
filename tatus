@@ -1,0 +1,191 @@
+[33mcommit c1e9fd3bb0754f597185c9a4e020c335c41a9ac2[m[33m ([m[1;36mHEAD -> [m[1;32m03maven[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmaster[m[33m)[m
+Author: xammpi <rekatun@mail.ru>
+Date:   Wed Jun 9 15:53:50 2021 +0300
+
+    prod2
+
+[33mcommit c051c70db331f5a0ff9a9b1dc4e8764767c94ab4[m
+Author: xammpi <rekatun@mail.ru>
+Date:   Wed Jun 9 15:19:23 2021 +0300
+
+    prod
+
+[33mcommit 020200cf91c1e3d30b33d7706512d5616dde9512[m
+Author: xammpi <rekatun@mail.ru>
+Date:   Wed May 19 17:22:13 2021 +0300
+
+    add email notifications
+
+[33mcommit de55a191c4e5a0480b8f94c84a9cf284b3fae76f[m
+Author: xammpi <rekatun@mail.ru>
+Date:   Tue May 11 16:06:36 2021 +0300
+
+    send mail completedRequest
+
+[33mcommit 62e15dc0ecadc69428faeba53b592de99352ab63[m
+Author: xammpi <rekatun@mail.ru>
+Date:   Tue May 11 10:21:14 2021 +0300
+
+    full completed
+
+[33mcommit dd06fe35e1bf55a950bb77c9747dc636e583aaad[m
+Author: xammpi <rekatun@mail.ru>
+Date:   Wed May 5 14:27:53 2021 +0300
+
+    deploy
+
+[33mcommit 5cef996515cc9ec7d17988bd68248c4ddedee45a[m
+Author: xammpi <rekatun@mail.ru>
+Date:   Tue May 4 15:24:36 2021 +0300
+
+    find by problem
+
+[33mcommit 264deccb5a7547ba2284b5a349d83dc4376601b1[m
+Author: xammpi <rekatun@mail.ru>
+Date:   Wed Apr 28 11:44:19 2021 +0300
+
+    problem department
+
+[33mcommit 6065e9ca7b292c18dfeb375bcb93c65e30355c8f[m
+Author: xammpi <rekatun@mail.ru>
+Date:   Tue Apr 27 11:04:34 2021 +0300
+
+    Department problem
+
+[33mcommit 793cfdf965949a4db6b8d618f7877d5ed35d45aa[m
+Author: xammpi <rekatun@mail.ru>
+Date:   Mon Apr 26 09:48:39 2021 +0300
+
+    new features
+
+[33mcommit a67bbd1c328d930f0e1926a3896ff368d08b50ef[m
+Author: xammpi <rekatun@mail.ru>
+Date:   Fri Apr 16 20:48:03 2021 +0300
+
+    user add shop
+
+[33mcommit 4aad6423e44cc3bef8f8712482b3d53e6f95d78b[m
+Author: xammpi <rekatun@mail.ru>
+Date:   Thu Apr 15 15:36:06 2021 +0300
+
+    request count
+
+[33mcommit f2001ec1d1921322a13f0e7e034e74ff8c8f1b2c[m
+Author: xammpi <rekatun@mail.ru>
+Date:   Mon Apr 12 01:35:23 2021 +0300
+
+    add
+
+[33mcommit ba82d64fb54db30fc5271a30e4dc94880e18a683[m
+Author: xammpi <rekatun@mail.ru>
+Date:   Fri Apr 9 17:53:39 2021 +0300
+
+    new features
+
+[33mcommit d47e462bdb6568271e9ded9517352909915e4d2f[m
+Author: xammpi <rekatun@mail.ru>
+Date:   Fri Apr 2 12:19:38 2021 +0300
+
+    add new feature
+
+[33mcommit 57c69bbcebb501be3b4d3a9140f7557a114ff6c1[m
+Author: xammpi <rekatun@mail.ru>
+Date:   Wed Mar 31 10:48:33 2021 +0300
+
+    add fix
+
+[33mcommit 5ea08d2ecd4c01456f11225d95d737e73dbce447[m
+Author: xammpi <rekatun@mail.ru>
+Date:   Wed Mar 17 16:43:47 2021 +0200
+
+    bug gix
+
+[33mcommit ca388cc92ddef4ba38d32902ae6dc89f5f85b47e[m
+Author: xammpi <rekatun@mail.ru>
+Date:   Wed Mar 17 16:23:06 2021 +0200
+
+    "pdf"
+
+[33mcommit 2b561338f9906fe20e3c2b3983f5b6c42f9cbe49[m
+Author: xammpi <rekatun@mail.ru>
+Date:   Wed Mar 17 15:48:55 2021 +0200
+
+    add pdf
+
+[33mcommit 762bd18478f9a5e312a337c74969dcf9e285f8d1[m
+Author: xammpi <rekatun@mail.ru>
+Date:   Mon Mar 15 09:17:38 2021 +0200
+
+    bug fix
+
+[33mcommit 4fcb5bc61a0dcc1b9beb0bf409a72f27504ec540[m
+Author: xammpi <rekatun@mail.ru>
+Date:   Sun Mar 14 02:06:05 2021 +0200
+
+    modal window
+
+[33mcommit acb04b447c09443e5f6135cd2d67cb8e095e2857[m
+Author: xammpi <rekatun@mail.ru>
+Date:   Sat Mar 13 11:28:34 2021 +0200
+
+    new interface
+
+[33mcommit 5a876219e46d17363039a9b125ee93f741d38eb6[m
+Author: xammpi <rekatun@mail.ru>
+Date:   Wed Mar 10 22:39:07 2021 +0200
+
+    add output button, fix bug
+
+[33mcommit dd87cfd6a3a4e287dc5aab4cbb33df9cc80c0d87[m
+Author: xammpi <rekatun@mail.ru>
+Date:   Wed Mar 10 16:22:31 2021 +0200
+
+    edit-applications button
+
+[33mcommit 31b6c6c6ed3040c98c7d8d55e0d01b2cc0adbb78[m
+Author: xammpi <rekatun@mail.ru>
+Date:   Wed Mar 10 14:24:50 2021 +0200
+
+    rename login.html
+
+[33mcommit d28dc930c777f580f8eb3edbc4b856320509a59f[m
+Author: xammpi <rekatun@mail.ru>
+Date:   Wed Mar 10 14:20:41 2021 +0200
+
+    delete rename-request
+
+[33mcommit 7c544ce4211efacea3206971e5c42043200e9be1[m
+Author: xammpi <rekatun@mail.ru>
+Date:   Wed Mar 10 13:57:24 2021 +0200
+
+    delete request.html
+
+[33mcommit e4d7c3290c4638323c24540cc4ef5dd14c968f19[m
+Author: xammpi <rekatun@mail.ru>
+Date:   Wed Mar 10 13:53:46 2021 +0200
+
+    rename html files
+
+[33mcommit 8391fc62ec990dd8b2e2572123290cf2182783f3[m
+Author: xammpi <rekatun@mail.ru>
+Date:   Wed Mar 10 13:33:32 2021 +0200
+
+    Name edit-request
+
+[33mcommit c8d4654b06d6bdb7d8261ca9c93b0a95c6a8aa62[m
+Author: xampp <mk@nr1.md>
+Date:   Wed Mar 10 12:46:23 2021 +0200
+
+    ignore folder /src/test/
+
+[33mcommit 7e145816ce91aa655c9299b6865a1dca2c8ec705[m
+Author: xampp <mk@nr1.md>
+Date:   Wed Mar 10 12:42:00 2021 +0200
+
+    delete folder jdbc
+
+[33mcommit 114e70ed7cb1a39b60e02d1285515eee2593a12d[m
+Author: xampp <mk@nr1.md>
+Date:   Wed Mar 10 12:39:45 2021 +0200
+
+    first commit
